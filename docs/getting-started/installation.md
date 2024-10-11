@@ -1,82 +1,99 @@
-# Getting started with Hexalith
+# Getting Started with Hexalith
 
-In this article, we are going to see how easy it is to create micro-services applications using the NuGet packages provided by Hexalith.
+Hexalith is a powerful framework for building microservices applications. This guide will walk you through the process of setting up your environment and creating your first Hexalith module repository.
+
+## Introduction
+
+Hexalith simplifies the development of microservices applications by providing a set of NuGet packages and tools. It leverages technologies like Docker and Dapr to create a robust and scalable architecture for your applications.
 
 ## Prerequisites
 
-### Install Docker Desktop
+Before you begin, ensure you have the following tools installed on your system:
 
-Docker Desktop is an easy-to-install application for your Mac or Windows environment that enables you to build and share containerized applications and microservices. Docker Desktop includes Docker Engine, Docker CLI client, Docker Compose, Notary, Kubernetes, and Credential Helper.
-Get the latest version of Docker Desktop from the [Docker Web Site](https://www.docker.com/products/docker-desktop/).
+### 1. Docker Desktop
 
-### Install DAPR
+Docker Desktop is essential for running containerized applications and microservices.
 
-To run Hexalith applications, you need to have DAPR installed on your machine. You can find the CLI installation instructions [here](https://docs.dapr.io/getting-started/install-dapr-cli/).
+1. Visit the [Docker Web Site](https://www.docker.com/products/docker-desktop/)
+2. Download and install the latest version for your operating system (Mac or Windows)
 
-#### Install CLI from Command Prompt
-Install the latest windows Dapr cli to $Env:SystemDrive\dapr and add this directory to the User PATH environment variable:
-```powershell 
+Docker Desktop includes:
+- Docker Engine
+- Docker CLI client
+- Docker Compose
+- Kubernetes
+- And more
+
+### 2. Dapr (Distributed Application Runtime)
+
+Dapr is a portable, event-driven runtime that makes it easy to build resilient, stateless, and stateful applications.
+
+#### Install Dapr CLI
+
+For Windows, run the following command in PowerShell:
+
+```powershell
 powershell -Command "iwr -useb https://raw.githubusercontent.com/dapr/cli/master/install/install.ps1 | iex"
 ```
 
-Note: Updates to PATH might not be visible until you restart your terminal application
+This command installs the latest Dapr CLI to `$Env:SystemDrive\dapr` and adds this directory to the User PATH environment variable.
 
-#### Initialize Dapr in your local environment with Docker
-Dapr runs as a sidecar alongside your application. In self-hosted mode, this means it is a process on your local machine. By initializing Dapr, you:
+Note: You may need to restart your terminal for PATH changes to take effect.
 
-- Fetch and install the Dapr sidecar binaries locally.
-- Create a development environment that streamlines application development with Dapr.
+#### Initialize Dapr
 
-Dapr initialization includes:
+After installing the CLI, initialize Dapr in your local environment:
 
-- Running a **Redis container instance** to be used as a local state store and message broker.
-- Running a **Zipkin container instance** for observability.
-- Creating a **default components folder** with component definitions for the above.
-- Running a **Dapr placement service container instance** for local actor support.
-- Running a **Dapr scheduler service container instance** for job scheduling.
-
-``` 
+```
 dapr init
 ```
 
-For more information on DAPR setup, see [Dapr initialization](https://docs.dapr.io/getting-started/install-dapr-selfhost/).
+This command sets up your development environment by:
+- Installing Dapr sidecar binaries
+- Setting up a Redis container for state store and message broker
+- Setting up a Zipkin container for observability
+- Creating a default components folder
+- Setting up containers for Dapr placement service and scheduler service
 
-## Create an Hexalith module repository
+For more detailed information on Dapr setup, refer to the [Dapr initialization documentation](https://docs.dapr.io/getting-started/install-dapr-selfhost/).
 
-Create an empty repository on GitHub. Ex: `MyTodo`.
+## Creating a Hexalith Module Repository
 
-Clone the repository on your local machine.
+Follow these steps to set up your Hexalith module repository:
 
-```
-git clone https://github.com/{Organization}/MyTodo.git
-cd MyTodo
-git checkout main
-```
+1. Create an empty repository on GitHub (e.g., `MyTodo`)
 
-Add Hexalith submodule to your repository.
+2. Clone the repository to your local machine:
+   ```
+   git clone https://github.com/{Organization}/MyTodo.git
+   cd MyTodo
+   git checkout main
+   ```
 
-```
-git submodule add https://github.com/Hexalith/Hexalith.git
-cd Hexalith
-git checkout main
-cd ..
-```
+3. Add the Hexalith submodule to your repository:
+   ```
+   git submodule add https://github.com/Hexalith/Hexalith.git
+   cd Hexalith
+   git checkout main
+   cd ..
+   ```
 
-Add Hexalith client/server application submodule to your repository.
+4. Add the Hexalith client/server application submodule:
+   ```
+   git submodule add https://github.com/Hexalith/HexalithApp.git
+   cd HexalithApp
+   git checkout main
+   cd ..
+   ```
 
-```
-git submodule add https://github.com/Hexalith/HexalithApp.git
-cd HexalithApp
-git checkout main
-cd ..
-```
+5. (Optional) If you're using Azure Container App integrated authentication, add the Hexalith.EasyAuthentication submodule:
+   ```
+   git submodule add https://github.com/Hexalith/Hexalith.EasyAuthentication.git
+   cd Hexalith.EasyAuthentication
+   git checkout main
+   cd ..
+   ```
 
-If you use Azure Container App integrated authentication, add Hexalith.EasyAuthentication submodule to your repository.
+## Next Steps
 
-```
-git submodule add https://github.com/Hexalith/Hexalith.EasyAutehtication.git
-cd Hexalith.EasyAuthentication
-git checkout main
-cd ..
-```
-
+Now that you have set up your environment and created a Hexalith module repository, you're ready to start building your microservices application. Refer to the other documentation sections for guidance on how to develop, test, and deploy your Hexalith-based application.
