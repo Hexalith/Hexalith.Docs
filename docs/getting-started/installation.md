@@ -35,7 +35,7 @@ Dapr initialization includes:
 - Running a **Dapr placement service container instance** for local actor support.
 - Running a **Dapr scheduler service container instance** for job scheduling.
 
-```powershell 
+``` 
 dapr init
 ```
 
@@ -47,7 +47,7 @@ Create an empty repository on GitHub. Ex: `MyTodo`.
 
 Clone the repository on your local machine.
 
-```powershell
+```
 git clone https://github.com/{Organization}/MyTodo.git
 cd MyTodo
 git checkout main
@@ -55,28 +55,28 @@ git checkout main
 
 Add Hexalith submodule to your repository.
 
-```powershell
+```
 git submodule add https://github.com/Hexalith/Hexalith.git
 cd Hexalith
 git checkout main
 cd ..
-````
+```
 
 Add Hexalith client/server application submodule to your repository.
 
-```powershell
+```
 git submodule add https://github.com/Hexalith/HexalithApp.git
 cd HexalithApp
 git checkout main
 cd ..
-````
+```
 
 If you use Azure Container App integrated authentication, add Hexalith.EasyAuthentication submodule to your repository.
 
-```powershell
+```
 git submodule add https://github.com/Hexalith/Hexalith.EasyAutehtication.git
 cd Hexalith.EasyAuthentication
 git checkout main
 cd ..
-````
+```
 
