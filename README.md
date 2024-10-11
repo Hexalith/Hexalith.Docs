@@ -1,0 +1,2 @@
+# Hexalith.Docs
+Hexalith documentation
