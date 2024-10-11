@@ -2,7 +2,7 @@
 
 ## Empowering Cloud-Native Development
 
-[Hexalith](https://github.com/Hexalith/Hexalith) is a cutting-edge, lightweight SDK that revolutionizes cloud-native application development. Built on the foundation of the Microsoft Dapr SDK, Hexalith offers developers a simple, powerful, and consistent programming model to create robust, scalable applications.
+[Hexalith](https://github.com/Hexalith/Hexalith) is a cutting-edge, lightweight SDK that simplifies cloud-native application development. Built on the foundation of the Microsoft Dapr SDK, Hexalith offers developers a simple, powerful, and consistent programming model to create robust, scalable applications.
 
 ### What is Hexalith?
 
