@@ -1,4 +1,4 @@
-# Welcome to Hexalith
+# Welcome to Hexalith Documentation
 
 ## Empowering Cloud-Native Development
 
@@ -14,6 +14,12 @@ Hexalith is an innovative toolkit designed to streamline the development of clou
 2. **Dapr-Based**: Leverages the power and flexibility of Microsoft's Dapr (Distributed Application Runtime).
 3. **Consistent Programming Model**: Provides a unified approach to building distributed systems.
 4. **Cloud Design Patterns**: Incorporates best practices for cloud-native application development.
+5. **Modular Structure**: Easily extendable and customizable to fit your project needs.
+6. **Cross-Platform Compatibility**: Supports multiple platforms including web, mobile, and desktop.
+
+### Microsoft Fluent UI Blazor Integration
+
+Hexalith leverages the power and flexibility of [Microsoft Fluent UI Blazor components](https://github.com/microsoft/fluentui-blazor) to provide a modern, responsive, and accessible user interface. This integration allows developers to create visually appealing and consistent user experiences across their applications with ease.
 
 ### Benefits
 
@@ -21,15 +27,24 @@ Hexalith is an innovative toolkit designed to streamline the development of clou
 - **Increased Productivity**: Spend less time on infrastructure and more on business logic.
 - **Scalability**: Easily build applications that can grow with your needs.
 - **Portability**: Develop once, deploy anywhere with cloud-agnostic design.
+- **Modern UI**: Create beautiful, responsive interfaces with Microsoft Fluent UI Blazor components.
+- **Microservices Support**: Facilitates the development of microservices-based applications.
 
 ### Getting Started
 
-Ready to supercharge your cloud-native development? Check out our [Quick Start Guide](getting-started/quick-start.md) to begin your journey with Hexalith.
+Ready to supercharge your cloud-native development? Here's how to begin:
 
-For a more detailed setup, visit our [Installation Guide](getting-started/installation.md).
+1. **Quick Start**: Check out our [Quick Start Guide](getting-started/quick-start.md) to get up and running quickly.
+2. **Installation**: For a more detailed setup, visit our [Installation Guide](getting-started/installation.md).
+3. **Explore Features**: Dive deeper into Hexalith's capabilities in our [Features Overview](features/overview.md).
+4. **API Reference**: For detailed API information, consult our [API Documentation](api/index.md).
 
 ### Join the Hexalith Community
 
-We welcome contributions and feedback! Visit our [GitHub repository](https://github.com/Hexalith/Hexalith) to get involved, report issues, or suggest improvements.
+We welcome contributions and feedback! Here's how you can get involved:
+
+- **GitHub**: Visit our [GitHub repository](https://github.com/Hexalith/Hexalith) to explore the code, report issues, or suggest improvements.
+- **Contribute**: Read our [Contribution Guidelines](https://github.com/Hexalith/Hexalith/blob/main/CODE-OF-CONDUCT.md) to learn how you can contribute to the project.
+- **Support**: For questions or help, open an issue on our GitHub repository or join our community forums.
 
 Empower your next project with Hexalith - where simplicity meets cloud-native power!

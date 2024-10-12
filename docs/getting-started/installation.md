@@ -1,51 +1,32 @@
-# Getting Started with Hexalith
+# Installing Hexalith
 
-Hexalith is a powerful framework for building microservices applications. This guide will walk you through the process of setting up your environment and creating your first Hexalith module repository.
-
-## Introduction
-
-Hexalith simplifies the development of microservices applications by providing a set of NuGet packages and tools. It leverages technologies like Docker and Dapr to create a robust and scalable architecture for your applications.
+This guide provides detailed instructions for setting up your development environment and installing Hexalith. For a quicker start, you may refer to our [Quick Start Guide](quick-start.md).
 
 ## Prerequisites
 
-Before you begin, ensure you have the following tools installed on your system:
+Before installing Hexalith, ensure you have the following tools and software installed on your system:
 
-### 1. Docker Desktop
+1. **.NET 8.0 SDK or later**
+   - Download and install from [.NET Download Page](https://dotnet.microsoft.com/download/dotnet/8.0)
 
-Docker Desktop is essential for running containerized applications and microservices.
+2. **Docker Desktop**
+   - Visit the [Docker Website](https://www.docker.com/products/docker-desktop/)
+   - Download and install the latest version for your operating system (Windows, macOS, or Linux)
 
-1. Visit the [Docker Web Site](https://www.docker.com/products/docker-desktop/)
-2. Download and install the latest version for your operating system (Mac or Windows)
+3. **Dapr CLI**
+   - For Windows, run the following command in PowerShell:
 
-Docker Desktop includes:
+     ```powershell
+     powershell -Command "iwr -useb https://raw.githubusercontent.com/dapr/cli/master/install/install.ps1 | iex"
+     ```
 
-- Docker Engine
-- Docker CLI client
-- Docker Compose
-- Kubernetes
-- And more
+   - For other operating systems, follow the instructions in the [Dapr documentation](https://docs.dapr.io/getting-started/install-dapr-cli/)
 
-### 2. Dapr (Distributed Application Runtime)
+## Step 1: Initialize Dapr
 
-Dapr is a portable, event-driven runtime that makes it easy to build resilient, stateless, and stateful applications.
+After installing the Dapr CLI, initialize Dapr in your local environment:
 
-#### Install Dapr CLI
-
-For Windows, run the following command in PowerShell:
-
-```powershell
-powershell -Command "iwr -useb https://raw.githubusercontent.com/dapr/cli/master/install/install.ps1 | iex"
-```
-
-This command installs the latest Dapr CLI to `$Env:SystemDrive\dapr` and adds this directory to the User PATH environment variable.
-
-Note: You may need to restart your terminal for PATH changes to take effect.
-
-#### Initialize Dapr
-
-After installing the CLI, initialize Dapr in your local environment:
-
-```powershell
+```bash
 dapr init
 ```
 
@@ -55,51 +36,64 @@ This command sets up your development environment by:
 - Setting up a Redis container for state store and message broker
 - Setting up a Zipkin container for observability
 - Creating a default components folder
-- Setting up containers for Dapr placement service and scheduler service
 
-For more detailed information on Dapr setup, refer to the [Dapr initialization documentation](https://docs.dapr.io/getting-started/install-dapr-selfhost/).
+## Step 2: Install Hexalith Templates
 
-## Creating a Hexalith Module Repository
+Install the Hexalith project templates using the .NET CLI:
 
-Follow these steps to set up your Hexalith module repository:
+```bash
+dotnet new --install Hexalith.Templates
+```
 
-1. Create an empty repository on GitHub (e.g., `MyTodo`)
+## Step 3: Create a Hexalith Project
 
-2. Clone the repository to your local machine:
+1. Create a new directory for your project and navigate to it:
 
-   ```powershell
-   git clone https://github.com/{Organization}/MyTodo.git
-   cd MyTodo
-   git checkout main
+   ```bash
+   mkdir MyHexalithProject
+   cd MyHexalithProject
    ```
 
-3. Add the Hexalith submodule to your repository:
+2. Create a new Hexalith project using the template:
 
-   ```powershell
-   git submodule add https://github.com/Hexalith/Hexalith.git
-   cd Hexalith
-   git checkout main
-   cd ..
+   ```bash
+   dotnet new hexalith
    ```
 
-4. Add the Hexalith client/server application submodule:
+## Step 4: Explore the Project Structure
 
-   ```powershell
-   git submodule add https://github.com/Hexalith/HexalithApp.git
-   cd HexalithApp
-   git checkout main
-   cd ..
+After creating your project, take some time to explore its structure:
+
+- `src/`: Contains the main application code
+- `tests/`: Contains unit and integration tests
+- `Dockerfile`: For containerizing your application
+- Various configuration files for Dapr, Docker, and .NET
+
+## Step 5: Build and Run the Project
+
+1. Build the project:
+
+   ```bash
+   dotnet build
    ```
 
-5. (Optional) If you're using Azure Container App integrated authentication, add the Hexalith.EasyAuthentication submodule:
+2. Run the application:
 
-   ```powershell
-   git submodule add https://github.com/Hexalith/Hexalith.EasyAuthentication.git
-   cd Hexalith.EasyAuthentication
-   git checkout main
-   cd ..
+   ```bash
+   dotnet run --project src/YourProjectName.Api
    ```
+
+3. Open a web browser and navigate to `https://localhost:5001` to see your Hexalith application running.
 
 ## Next Steps
 
-Now that you have set up your environment and created a Hexalith module repository, you're ready to start building your microservices application. Refer to the other documentation sections for guidance on how to develop, test, and deploy your Hexalith-based application.
+Now that you have Hexalith installed and a basic project set up, you can:
+
+1. Explore the [Hexalith documentation](../index.md) to learn more about its features and capabilities.
+2. Check out our [tutorials](../tutorials/index.md) for step-by-step guides on building applications with Hexalith.
+3. Learn about Hexalith's [core concepts](../concepts/index.md) and [architecture](../architecture/overview.md).
+4. Join the Hexalith community on [GitHub](https://github.com/Hexalith/Hexalith) to get support and contribute to the project.
+
+If you encounter any issues during installation or have questions, please refer to our [troubleshooting guide](../troubleshooting.md) or open an issue on our GitHub repository.
+
+Happy developing with Hexalith!
