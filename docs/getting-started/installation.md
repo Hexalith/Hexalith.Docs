@@ -18,6 +18,7 @@ Docker Desktop is essential for running containerized applications and microserv
 2. Download and install the latest version for your operating system (Mac or Windows)
 
 Docker Desktop includes:
+
 - Docker Engine
 - Docker CLI client
 - Docker Compose
@@ -44,11 +45,12 @@ Note: You may need to restart your terminal for PATH changes to take effect.
 
 After installing the CLI, initialize Dapr in your local environment:
 
-```
+```powershell
 dapr init
 ```
 
 This command sets up your development environment by:
+
 - Installing Dapr sidecar binaries
 - Setting up a Redis container for state store and message broker
 - Setting up a Zipkin container for observability
@@ -64,14 +66,16 @@ Follow these steps to set up your Hexalith module repository:
 1. Create an empty repository on GitHub (e.g., `MyTodo`)
 
 2. Clone the repository to your local machine:
-   ```
+
+   ```powershell
    git clone https://github.com/{Organization}/MyTodo.git
    cd MyTodo
    git checkout main
    ```
 
 3. Add the Hexalith submodule to your repository:
-   ```
+
+   ```powershell
    git submodule add https://github.com/Hexalith/Hexalith.git
    cd Hexalith
    git checkout main
@@ -79,7 +83,8 @@ Follow these steps to set up your Hexalith module repository:
    ```
 
 4. Add the Hexalith client/server application submodule:
-   ```
+
+   ```powershell
    git submodule add https://github.com/Hexalith/HexalithApp.git
    cd HexalithApp
    git checkout main
@@ -87,7 +92,8 @@ Follow these steps to set up your Hexalith module repository:
    ```
 
 5. (Optional) If you're using Azure Container App integrated authentication, add the Hexalith.EasyAuthentication submodule:
-   ```
+
+   ```powershell
    git submodule add https://github.com/Hexalith/Hexalith.EasyAuthentication.git
    cd Hexalith.EasyAuthentication
    git checkout main
