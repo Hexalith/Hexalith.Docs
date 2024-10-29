@@ -154,24 +154,20 @@ function Rename-ItemIfNeeded {
     if ($Item.Name -like "*$OldValue*") {
         $newName = $Item.Name -replace "(?i)$([regex]::Escape($OldValue))", $NewValue
         
-        # Construct new path
-        if ($Item.PSIsContainer) {
-            # For directories
-            $parentPath = Split-Path -Path $Item.FullName -Parent
-            $newPath = [System.IO.Path]::Combine($parentPath, $newName)
-        } else {
-            # For files
-            $newPath = [System.IO.Path]::Combine($Item.DirectoryName, $newName)
+        # Only proceed if the new name is different from the current name
+        if ($newName -ne $Item.Name) {
+            try {
+                Rename-Item -Path $Item.FullName -NewName $newName -Force -ErrorAction Stop
+                Write-Verbose "Renamed: $($Item.FullName) to $newName"
+                $script:renamedCount++
+            }
+            catch {
+                Write-Error "Failed to rename $($Item.FullName): $_"
+                $script:errorCount++
+            }
         }
-        
-        try {
-            Rename-Item -Path $Item.FullName -NewName $newPath -Force -ErrorAction Stop
-            Write-Verbose "Renamed: $($Item.FullName) to $newPath"
-            $script:renamedCount++
-        }
-        catch {
-            Write-Error "Failed to rename $($Item.FullName): $_"
-            $script:errorCount++
+        else {
+            Write-Verbose "Skipping rename for $($Item.FullName) as new name would be identical"
         }
     }
 }
@@ -184,7 +180,7 @@ Write-Verbose "Found $($allItems.Count) items in total."
 # Rename files first
 $allItems | Where-Object { -not $_.PSIsContainer } | ForEach-Object { Rename-ItemIfNeeded -Item $_ }
 
-# Rename directories from the bottom up
+# Rename directories from the bottom up (deepest first)
 $allDirs = $allItems | Where-Object { $_.PSIsContainer } | Sort-Object -Property FullName -Descending
 $allDirs | ForEach-Object { Rename-ItemIfNeeded -Item $_ }
 
