@@ -47,21 +47,31 @@ param (
     [string]$DestinationDir
 )
 
+# Ensure source directory path ends with a backslash for consistent path handling
+$SourceDir = $SourceDir.TrimEnd('\') + '\'
+$DestinationDir = $DestinationDir.TrimEnd('\') + '\'
+
 # Define paths to exclude from copying
 $excludedPaths = @(
-    "$SourceDir\.git",
-    "$SourceDir\.vs",
-    "$SourceDir\.gitmodules"
+    "$SourceDir.git",
+    "$SourceDir.vs",
+    "$SourceDir.gitmodules"
 )
 
 # Copy files while respecting exclusions
 Get-ChildItem -Path $SourceDir -Recurse -Force |
     Where-Object { 
         $item = $_
-        $isExcludedHexalith = $item.PSIsContainer -and 
-                             $item.FullName.Substring($SourceDir.Length).TrimStart('\').StartsWith('Hexalith')
-        -not ($excludedPaths | Where-Object { $item.FullName -like $_ }) -and
-        -not $isExcludedHexalith
+        $relativePath = $item.FullName.Substring($SourceDir.Length)
+        $parentPath = Split-Path -Path $relativePath -Parent
+        
+        # Only exclude Hexalith directories at the root level
+        $isRootHexalith = ($parentPath -eq "") -and $item.PSIsContainer -and $item.Name.StartsWith('Hexalith')
+        
+        # Check if the item is in excluded paths
+        $isExcluded = $excludedPaths | Where-Object { $item.FullName.StartsWith($_) }
+        
+        -not $isExcluded -and -not $isRootHexalith
     } |
     ForEach-Object {
         $destinationPath = $_.FullName.Replace($SourceDir, $DestinationDir)
