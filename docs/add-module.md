@@ -34,7 +34,7 @@ This approach involves copying and customizing an existing module that has simil
    Use the provided PowerShell script to copy the source module files while excluding unnecessary directories:
 
    ```powershell
-   ./copy_module_sources.ps1 -SourceDir "Hexalith.Contacts" -DestinationDir "Hexalith.{YourModuleName}"
+   ./copy_module_sources.ps1 -SourceDir "D:\Hexalith.Contacts" -DestinationDir "D:\Hexalith.{YourModuleName}"
    ```
 
 ### Source Copy Script
