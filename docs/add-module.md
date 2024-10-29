@@ -58,20 +58,24 @@ $excludedPaths = @(
     "$SourceDir.gitmodules"
 )
 
+# Get root Hexalith directories
+$rootHexalithDirs = Get-ChildItem -Path $SourceDir -Directory | 
+    Where-Object { $_.Name.StartsWith('Hexalith') } |
+    ForEach-Object { $_.FullName }
+
+# Add root Hexalith directories to excluded paths
+$allExcludedPaths = $excludedPaths + $rootHexalithDirs
+
+Write-Host "Excluded paths:"
+$allExcludedPaths | ForEach-Object { Write-Host "- $_" }
+
 # Copy files while respecting exclusions
 Get-ChildItem -Path $SourceDir -Recurse -Force |
     Where-Object { 
         $item = $_
-        $relativePath = $item.FullName.Substring($SourceDir.Length)
-        $parentPath = Split-Path -Path $relativePath -Parent
-        
-        # Only exclude Hexalith directories at the root level
-        $isRootHexalith = ($parentPath -eq "") -and $item.PSIsContainer -and $item.Name.StartsWith('Hexalith')
-        
-        # Check if the item is in excluded paths
-        $isExcluded = $excludedPaths | Where-Object { $item.FullName.StartsWith($_) }
-        
-        -not $isExcluded -and -not $isRootHexalith
+        -not ($allExcludedPaths | Where-Object { 
+            ($item.FullName + '\').StartsWith($_ + '\')
+        })
     } |
     ForEach-Object {
         $destinationPath = $_.FullName.Replace($SourceDir, $DestinationDir)
