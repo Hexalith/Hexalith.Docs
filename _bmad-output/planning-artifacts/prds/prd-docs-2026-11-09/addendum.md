@@ -76,22 +76,18 @@ Hexalith.CiCd's contract is in `references/Hexalith.CiCd/_bmad-output/specs/spec
   - A marked CI/CD block in the agent entry points (`AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`). Agents following the documentation rules must not edit this block.
 
   Module agents' tokens can't push workflow changes.
-- **When CI runs.** Module CI runs only on pushes to `main`. Agents push directly to `main`. Hexalith.CiCd is reducing required-status-check rulesets to rules that block only deletion and force-push.
+- **When CI runs.** The delivered pilot CI workflows run for pushes and pull requests targeting `main` and support manual dispatch. CiCd owns their configuration.
 - **Enforcement.** A red `main` blocks that module's nightly release ("main is red, nothing released").
 - **Product gate.** Hexalith.CiCd's gate classification allows only product gates. Hexalith.CiCd accepted the docs check as a product gate on 2026-11-11, because the README is the package page.
 - **Placement and local run.** See §B.2.
-- **Releases.** Version selection precedes publication. Dispatch alone on the pilots’ v6.3.1 pin leaves a docs-only range without a release.
-  - Builds releases on every commit type except `docs`, `test`, and `style`.
-  - Module releases skip `build(cicd)` and `build(deps)`. A `fix(deps)` commit forces one.
-  - The 20 November correction selects a module-only `docs(readme)` patch rule. CiCd must deliver a compatible Builds release before a pilot maintainer dispatches a republish.
+- **Releases.** Both pilots pin Builds v6.4.4 (`fe68718b`). The module-only `docs(readme)` patch selector landed later, in `aaf27a2c`. Builds must release it and CiCd must deliver that version to the pilots before maintainers can use a README-only change to republish. [Builds change](https://github.com/Hexalith/Hexalith.Builds/commit/aaf27a2c)
 - **Commit scopes.** Commit lint runs inside Hexalith.CiCd's guard. That's where to ban story, epic, and FR scopes (FR-14).
 
 ### B.2 Docs check (FR-5, FR-13, FR-41, FR-42, FR-45, FR-46, FR-64)
 
-- **Existing configs.** Hexalith.EventStore has markdownlint-cli2 and lychee configs, and a `docs/page-template.md`, all reusable.
-- **Registry reads.** The registry is machine-readable. From it, the docs check reads each repository's expected one-sentence description, badge sources, package IDs, SonarQube Cloud key, and quickstart blocks.
-- **Placement.** The docs check is a stage in the shared CI, placed early because it's cheap. Each module's setup file in Hexalith.CiCd sets the module's docs check mode, for example `"docs": "warn" | "fail"`.
-- **Local run.** Hexalith.CiCd's CAP-3 local pre-push command should include the docs check (FR-64).
+- **Placement.** Builds invokes `check_documentation` during CI preparation. It checks that READMEs are readable UTF-8 files, flags those longer than 150 lines and checks same-repository workflow badge targets. FR-41 defines the full rule set. Once a compatible version is delivered, CiCd renders `docs: warn` and can promote a pilot to `docs: fail` after maintainer review. [CiCd setup](https://github.com/Hexalith/Hexalith.CiCd/blob/3422bc15/setup/README.md)
+- **Local run.** The shared local pre-push check invokes the same `check_documentation` function. [CI preparation](https://github.com/Hexalith/Hexalith.Builds/blob/2c33b2d7/Github/lib/ci_pipeline.py) · [Local check](https://github.com/Hexalith/Hexalith.Builds/blob/2c33b2d7/Github/lib/local_check.py)
+- **Remaining rule coverage.** FR-41 also requires checks against each repository’s registered description, badge sources, package IDs, SonarQube Cloud key and quickstart blocks. EventStore provides reusable markdownlint-cli2 and lychee configurations and a page template.
 - **Skeleton.** The markdownlint rule MD043 (`required-headings`) supports `*` and `?` wildcards, so the title can vary by repository.
 - **lychee-action v2:**
   - Set `failIfEmpty: false`, because the default is `true`.
@@ -118,14 +114,11 @@ Hexalith.CiCd's contract is in `references/Hexalith.CiCd/_bmad-output/specs/spec
   The Codespaces badge's image URL isn't allowed, so use a text link instead.
 - **Rendering.** The nuget.org site renders CommonMark through Markdig. It doesn't render raw HTML, relative links, or relative images.
 - **Package description.** `Hexalith.Builds/Hexalith.Package.props` configures packing of the root README. The `Description` can be set per project or centrally. Hexalith.Commons projects that have their own README keep their own descriptions.
-- **Verifying the republish.** Check that each package's latest version on nuget.org shows the expected README content. Then check that the number of republished packages matches the registry's package count. Record the result in the launch ledger.
+- **Verifying the republish.** Run `python3 scripts/verify_published_readmes.py --module <pilot> --version <release>` from Docs. It compares each ID’s latest listed stable archive and nuspec-declared README with its mapped source. Inspect rendering and links on the corresponding NuGet pages, then enter the release version and verified count in the ledger.
 
-### B.4 Compiled "Use the package" samples (FR-19)
+### B.4 Executable “Use the package” samples (FR-19)
 
-- **Option 1.** Samples live in a compiled sample or test project and are injected into the README, as MarkdownSnippets does for Marten.
-- **Option 2.** CI extracts the fenced C# blocks and compiles them.
-- **Either way.** Compile against the package packed from the same commit and served from a local feed, so an API break fails the build in the same change.
-- **Later, for "Run it".** Dapr's mechanical-markdown, once the brief's decision 10C is revisited.
+The pilot after-unit-tests hooks pack the current revision, check each archive’s selected README, and run the displayed code in a fresh consumer. Commons covers the repository and core-package examples. PolymorphicSerializations runs the two displayed fences and checks the documented result. These hooks provide the hosted evidence for FR-19. The docs checker in §B.2 has its own delivery and acceptance criteria. [Commons hook](https://github.com/Hexalith/Hexalith.Commons/blob/258f9d20/.github/actions/after-unit-tests/action.yml) · [Serialization hook](https://github.com/Hexalith/Hexalith.PolymorphicSerializations/blob/c6d0dfce/.github/actions/after-unit-tests/action.yml)
 
 ### B.5 Dev container and agents (FR-5, FR-6, FR-63, Open Questions 13 and 15)
 
@@ -139,12 +132,8 @@ Hexalith.CiCd's contract is in `references/Hexalith.CiCd/_bmad-output/specs/spec
   - The shared baseline exempts quickstart runs from its rule to "stop and report the missing baseline as a blocker".
   - The dev container's post-create step initializes the root submodules.
   - The quickstart AI prompt tells the agent it's running a quickstart, not contributing.
-- **Platform's dev container.** It must reproduce today's setup:
-  - Submodules at their pinned commits.
-  - .NET SDK 10.0.403 or later.
-  - Aspire CLI 13.6.4.
-  - An isolated Dapr home with CLI 1.18.2 and runtime 1.18.7.
-- **Action for the Platform migration.** The Platform README tells readers to export `HEXALITH_DAPR_HOME` with version 1.18.2 in its path, but the setup script creates a 1.18.7 home. Fix the README.
+- **Platform’s dev container.** Read the SDK and Aspire pins from the tested Platform revision. At `a74abe17`, Platform selects SDK 11.0.100 with `latestPatch`, the ASP.NET Core 10 runtime and Aspire CLI 17.0.0. Keep dependencies at the revisions selected by that checkout. [Platform setup](https://github.com/Hexalith/Hexalith.Platform/blob/a74abe17/README.md)
+- **Dapr setup.** Platform now uses a single absolute `HEXALITH_DAPR_HOME` for installation and execution. Resolve the CLI and runtime independently from the selected Builds catalog. Platform’s pinned Builds revision `dc225a69` selects 1.19.1 for both. The sibling Builds checkout at `2c33b2d7` selects CLI 1.19.1 and runtime 1.19.2. Record the catalog used for each timed trial. [Platform’s pinned catalog](https://github.com/Hexalith/Hexalith.Builds/blob/dc225a69/Props/Directory.Packages.props) · [Sibling catalog](https://github.com/Hexalith/Hexalith.Builds/blob/2c33b2d7/Props/Directory.Packages.props)
 
 ### B.6 SonarQube Cloud (FR-40)
 

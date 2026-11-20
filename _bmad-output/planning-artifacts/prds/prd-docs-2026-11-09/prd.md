@@ -7,13 +7,16 @@ inputs:
   - _bmad-output/planning-artifacts/briefs/brief-docs-2026-11-09/brief.md
   - _bmad-output/planning-artifacts/briefs/brief-docs-2026-11-09/addendum.md
   - _bmad-output/planning-artifacts/briefs/brief-docs-2026-11-09/.memlog.md
+  - _bmad-output/planning-artifacts/sprint-change-proposal-2026-11-20.md
+  - _bmad-output/implementation-artifacts/launch-ledger.md
+  - docs/stranger-test.md
 ---
 
 # PRD: Hexalith Documentation Standard
 
 ## 0. Document purpose
 
-This PRD turns the final brief and its addendum (`_bmad-output/planning-artifacts/briefs/brief-docs-2026-11-09/`) into testable requirements. Its next reader is the epics-and-stories workflow. AI agents will carry out most of the resulting stories across 21 repositories. So each functional requirement (FR) names one capability, with consequences that can be verified per repository.
+This PRD turns the final brief and its addendum (`_bmad-output/planning-artifacts/briefs/brief-docs-2026-11-09/`) into testable requirements. The backlog assigns the work across 21 repositories. Maintainers and agents use the requirements below to implement stories and decide when each repository qualifies. So each functional requirement (FR) names one capability, with consequences that can be verified per repository.
 
 How to read it:
 
@@ -51,7 +54,7 @@ AI agents write most of Hexalith's documentation. So the standard lives where ag
 
 **Why now.** Nobody outside the team uses Hexalith yet. The code is public and the packages are on nuget.org, but the documentation stands between the project and a public launch targeted for the end of 2026. If the date and a working "Try it" conflict, the date moves.
 
-**Launch at a glance.** Launch targets the end of 2026. It happens only when all ten launch gate conditions hold (§8.3). Go/no-go decisions fall on 2026-12-01 and 2026-12-15 (§8.4). The one blocking dependency is D-2: Platform stories 3.2 to 3.8, which run all seven MVP modules locally with agent access through Hexalith.McpCli. Five of those stories haven't started (R-1).
+**Launch at a glance.** Launch targets the end of 2026. It happens only when all ten launch gate conditions hold (§8.3). Go/no-go decisions fall on 2026-12-01 and 2026-12-15 (§8.4). The critical dependency for “Try it” is D-2. Platform must run all seven modules together, and McpCli must let the newcomer create a project and list it in the same tenant. Five Platform stories remain in the backlog, and the approved Projects operations in McpCli are read-only (R-1).
 
 **Later.** Hexalith will deploy with one command to Azure, AWS, and Scaleway too. A documentation website, a hosted demo, and prebuilt images each come later, once their revisit triggers in §8.2 are met.
 
@@ -82,12 +85,12 @@ AI agents write most of Hexalith's documentation. So the standard lives where ag
   2. The Platform README lists every prerequisite up front, including what the dev container will do on her machine. Hexalith needs no LLM provider key, because her agent brings its own model.
   3. She pastes the AI prompt into her coding agent. The agent opens the dev container and runs the setup command.
   4. The agent waits for services to be healthy, then connects to Hexalith's MCP server.
-  5. The agent creates a project in Hexalith and lists it back to her.
+  5. The agent creates a project and shows Lena that same project in the list for her tenant.
   6. It's 20 minutes or less since she opened the front door, and nobody helped. The front door tells her the chat interface is coming.
 
   **Edge case:** Docker isn't running. The prompt's prerequisite check tells her before anything is installed.
 
-- **UJ-2. Karim uses a package from nuget.org.** Karim is a .NET developer searching nuget.org for polymorphic JSON serialization. The package page shows a one-sentence description, a few honest badges, and a "Use the package" block. He runs `dotnet add package`, pastes the code sample, and gets a working call within 5 minutes. **Edge case:** the sample might not compile against the latest version. CI prevents that, because it compiles the sample against the package built from the same commit.
+- **UJ-2. Karim uses a package from nuget.org.** Karim is a .NET developer searching nuget.org for polymorphic JSON serialization. The package page shows a one-sentence description, a few honest badges, and a "Use the package" block. He runs `dotnet add package`, pastes the code sample, and gets a working call within 5 minutes. **Edge case:** a published example might fail even when the library tests pass. CI runs the displayed code against the package built from the same commit and checks the result Karim should see.
 - **UJ-3. Sofia runs a module.** Sofia is evaluating Hexalith.Tenants for a multi-tenant product. She opens the repository in Codespaces, runs `aspire run`, and makes the first call shown in the README. She has a first result within 15 minutes.
 - **UJ-4. Tomás opens a first pull request.** Tomás wants to fix a bug in Hexalith.Parties. The README's Contributing section takes him to the organization CONTRIBUTING and to the repository's development guide. He builds and runs the tests green, then opens a pull request using the organization template.
 - **UJ-5. An agent migrates a repository to Level 1.** A maintainer gives an AI agent the migration prompt and Hexalith.Works.
@@ -145,7 +148,7 @@ AI agents write most of Hexalith's documentation. So the standard lives where ag
   - "Use the package": a working sample call.
   - "Run it": a first successful call.
   - "Use the tool": the expected output of a first command.
-  - "Try it": the newcomer's AI agent runs the block's first Hexalith operation through Hexalith.McpCli and shows its result. On the command path, one Hexalith.McpCli command returns the same result.
+  - "Try it": the newcomer's agent creates a project through Hexalith.McpCli and finds it in the same tenant’s list. The documented command path demonstrates the same result.
 
 ### Timing and testing
 
@@ -270,7 +273,7 @@ A maintainer can add a dev container to a runnable repository by copying the tem
 - The template pins exact versions of the .NET SDK, Aspire CLI, Dapr CLI and runtime, and Docker-in-Docker.
 - It opens in VS Code (Dev Containers) and in GitHub Codespaces.
 - After the container starts, `aspire run` succeeds with no further installation in a repository that has an Aspire AppHost.
-- A Platform variant also provides what the Platform README needs today: submodules at their pinned commits and an isolated Dapr home with matching versions.
+- A Platform variant also provides what the Platform README needs today: submodules at their pinned commits and one isolated Dapr home for setup and execution, using the CLI and runtime versions from Platform’s selected Builds catalog.
 - A docs check rule verifies that each dev container's .NET SDK pin matches the repository's `global.json`.
 - Hexalith.FrontComposer's existing dev container is aligned with the template [ASSUMPTION].
 
@@ -293,7 +296,7 @@ A maintainer or agent can write an AI prompt from a pattern in the standard, wit
   2. Run `aspire run`.
   3. Wait until services report healthy.
   4. Connect to Hexalith's MCP server through Hexalith.McpCli.
-  5. Run the block's first Hexalith operation and show its result.
+  5. Create a project and show that same project in the current tenant’s list.
 - **"Use the tool":** install the tool, run the first command, and compare its output with the documented output.
 - When a secret is needed, the prompt tells the agent to wait while the reader enters it in an environment file that Git excludes and replies "done". The agent never asks for the secret in chat.
 - The standard states the rule: "If a prompt needs more than 10 lines, fix the command, not the prompt."
@@ -433,8 +436,8 @@ Once a repository's migration lands, every package it publishes gets a new versi
 **Consequences (testable):**
 
 - `[HUMAN]` A maintainer starts one release per repository, through the release path Hexalith.CiCd provides (Open Question 11). The republish happens before Platform's stabilization window starts [ASSUMPTION: the window starts on 2026-12-10].
-- A script checks the latest version of every package on nuget.org. It confirms that the version shows the migrated README, with the one-sentence description and the Quickstart section, and that the number of packages matches the module registry.
-- The launch ledger records the result for each repository.
+- For each package ID in the registry, verify that the latest listed stable version is the intended release. The README declared by its published nuspec must match the approved source for that ID, including a project-specific README where assigned (FR-16).
+- A reviewer checks the rendered NuGet page and its links for each ID. The ledger records the release version and verified count against the registry total.
 
 #### FR-16: Per-package READMEs
 
@@ -444,7 +447,7 @@ Any repository may keep or add per-package READMEs. Hexalith.Commons already has
 
 - Each per-package README is NuGet-safe (FR-12), contains no internal planning content (FR-13), and links to the repository README.
 - Per-package READMEs don't have to follow the README skeleton.
-- The module registry records which repositories have them.
+- The module registry identifies which package IDs use a project-specific README. Other IDs use the repository README.
 
 #### FR-60: LICENSE file
 
@@ -488,7 +491,7 @@ A developer can add a package and make a working call. Realizes UJ-2.
 **Consequences (testable):**
 
 - The block gives a `dotnet add package` command and a code sample that makes a working call.
-- CI compiles the sample against the package built from the same commit. Hexalith.Builds and Hexalith.CiCd choose how, before the first package repository's migration (`addendum.md` §B.4).
+- CI installs the package built from the same commit in a fresh consumer, runs the code displayed in the README, and checks its documented result. A broken example fails the check even if the library tests pass.
 - First success: the sample call runs and returns the documented result.
 - The time target is 5 minutes, verified at Level 2 (FR-58).
 
@@ -500,7 +503,7 @@ A developer can run a module and make a first call. Realizes UJ-3.
 
 - The repository ships a dev container copied from the template (FR-5).
 - The block says: open the dev container (VS Code or Codespaces), run `aspire run`, and make the first call the block shows.
-- The block starts from whatever composition the architecture work chooses for each business module: a module AppHost, or a Platform composition scoped to the module (Open Question 14).
+- For a business module, the block names the Platform-owned composition that runs it and the first call a reader can make (Open Question 14).
 - First success: the first call returns the documented result.
 - The time target is 15 minutes. The block appears only once it meets that target (FR-58).
 
@@ -531,9 +534,9 @@ A newcomer can go from the front door to a first Hexalith operation, run by thei
 
 - The front door's "Try it" link opens the Platform README's "Run it" block.
 - One setup command (`aspire run` in the Platform dev container) starts all seven MVP modules, with a generated local sign-in realm and a ready-made tenant. This depends on Platform stories 3.2 to 3.8 (§11, D-2).
-- The block connects the newcomer's agent to Hexalith's MCP server through Hexalith.McpCli, and names one first operation with its expected result [ASSUMPTION: create a project, then list it] (Open Question 20).
+- With all seven modules healthy, the newcomer uses Hexalith.McpCli to create a project and retrieve the project list in the same run-scoped tenant. The list must include the project just created.
 - The block lists every prerequisite (FR-18), including a supported agent tool for the AI prompt path (Open Question 1). Hexalith itself needs no LLM provider key. The time spent getting any prerequisite counts toward the 20 minutes.
-- First success: the agent shows the first operation's result. On the command path, one Hexalith.McpCli command returns it.
+- First success occurs when the newcomer sees the created project in that list. Both the agent prompt and the documented command path must demonstrate this outcome.
 - "Try it" passes the agent stranger test (FR-53), and then the human stranger test (FR-55).
 
 #### FR-66: "Try it" upgrades to chat
@@ -582,7 +585,7 @@ The front door never promises what the product doesn't do.
 
 **Consequences (testable):**
 
-- The "Try it" link appears only after "Try it" passes the agent stranger test. The link isn't the announcement. The human stranger test needs it in place.
+- The “Try it” link appears once Platform has qualified its “Run it” block (FR-58) and “Try it” has passed its own agent stranger test (FR-53). The link isn't the announcement. The human stranger test needs it in place.
 - Hexalith isn't announced until "Try it" passes the human stranger test.
 - Until the link appears, no page claims that Hexalith deploys in minutes.
 
@@ -639,7 +642,7 @@ The repository is already public, so the check is immediate. It isn't a launch-t
 
 **Consequences (testable):**
 
-- `[HUMAN]` Starting immediately, the 106 `.claude.json` files under `skills/reports/` are reviewed for credentials, tokens, personal data, and private paths.
+- `[HUMAN]` Review the 53 original state files and 53 backups under `skills/reports/` at BmadSkills revision `c0b2171aa205`. Reconcile later changes before closing the review. The security maintainer records each disposition privately. [Exposure inventory](../../../implementation-artifacts/exposure-review.md)
 - `[HUMAN]` Sensitive data found is removed, exposed credentials are revoked, and the result is recorded. Whether removal also requires rewriting Git history is a maintainer decision (Open Question 8).
 
 #### FR-65: Planning-folder exposure review
@@ -649,7 +652,7 @@ Public planning folders expose no credentials or sensitive operational detail.
 **Consequences (testable):**
 
 - `[HUMAN]` Secret scanning, with push protection, is turned on for all 21 in-scope repositories and for `Hexalith/.github`.
-- `[HUMAN]` A maintainer reviews every in-scope repository's `_bmad-output/` and `_bmad/`. The review looks for credentials and sensitive operational detail, such as staging addresses, identity-provider configuration, and registry policy. It starts now, because these folders are already public.
+- `[HUMAN]` A maintainer reviews every in-scope repository's `_bmad-output/` and `_bmad/`. Record the revision and review status for each repository. Review already-public content immediately and complete the Docs review before its visibility changes. Keep item-level findings about credentials or sensitive operational details in the private review record.
 - `[HUMAN]` Sensitive material moves to a private repository, and the result is recorded per repository.
 - Stranger test records identify testers by role, not by name.
 
@@ -745,7 +748,7 @@ Every badge reads a live source about its own repository.
 **Consequences (testable):**
 
 - The docs check verifies each badge's parameters against the module registry:
-  - the CI workflow exists on the default branch and runs there
+  - the badge targets the correct workflow file in the checked revision, and that workflow runs on the default branch
   - the SonarQube Cloud key is the repository's own
   - the NuGet package ID is one the repository packs
   - the License badge reads the repository's own LICENSE file
@@ -764,7 +767,7 @@ Every in-scope repository that has .NET code gets a quality gate and coverage fr
 
 ### 4.7 Docs check
 
-**Description.** One docs check, a job in the shared CI, checks documentation against the standard in every in-scope repository. For managed modules, Hexalith.CiCd turns it on and sets its mode. Other repositories call it from their own CI. It starts in warn mode and switches to fail mode at each migration. Every repository is in fail mode by launch. A failing check turns `main` red, and the nightly release then skips the repository, so enforcement uses what Hexalith.CiCd already has. Findings are precise enough for an agent to fix them without reading the standard. Realizes UJ-5, UJ-6.
+**Description.** One docs check, a job in the shared CI, checks documentation against the standard in every in-scope repository. For managed modules, Hexalith.CiCd turns it on and sets its mode. Other repositories call it from their own CI. The maintainer reviews warning findings before the migrated repository switches to fail mode. Every repository is in fail mode by launch. A failing check turns `main` red, and the nightly release then skips the repository, so enforcement uses what Hexalith.CiCd already has. Findings are precise enough for an agent to fix them without reading the standard. Realizes UJ-5, UJ-6.
 
 #### FR-41: Docs check job
 
@@ -795,7 +798,7 @@ Each repository's docs check mode can be seen and changed in one place.
 
 - For a managed module, the mode is set through Hexalith.CiCd, and only Hexalith.CiCd agents change it (`addendum.md` §B.2). Other repositories set it in their own caller workflow or CI.
 - Every in-scope repository runs the docs check in warn mode before its migration starts.
-- Each repository switches to fail mode once its migration lands.
+- The maintainer reviews the outstanding warning findings before switching a migrated repository to fail mode. Record a successful hosted run in fail mode at the accepted revision.
 - At launch, all 21 in-scope repositories run in fail mode.
 - Fail mode works as the Glossary's "Warn mode / fail mode" entry describes.
 
@@ -935,7 +938,7 @@ The time targets are checked against real measurements before Level 2 work start
 - In November 2026, Platform's dev container cold start and cold build of its full dependency graph are measured, ahead of the R-3 decision.
 - Each run records the minutes, the outcome, and a friction log.
 - `[HUMAN]` Before Level 2 work starts, a maintainer records whether each calibratable target stays or changes. Any change goes into the standard.
-- `[HUMAN]` If the cold build, or getting the prerequisites alone, would break the 20 minutes, a maintainer makes a scope decision by the R-3 deadline (§10): prebuilt images, or a "Try it" that needs no key.
+- `[HUMAN]` If the cold build or prerequisite acquisition alone exceeds 20 minutes, the maintainer records the bottleneck and the scope decision by the R-3 deadline (§10). A measured build bottleneck triggers the decision on prebuilt images.
 
 #### FR-61: Stranger-test kit
 
@@ -996,10 +999,10 @@ Maintainers and agents can see each in-scope repository's progress and evidence 
 - For each in-scope repository, the launch ledger records:
   - Level 1 date and reviewer
   - readability checklist result (FR-62)
-  - docs check mode
-  - republish status, with the package count
-- It records every stranger test result: date, quickstart, duration, outcome, friction log, and, for agent stranger tests, the model and tool.
-- It lives in Hexalith.Docs under `_bmad-output/`. It is public, never linked, and identifies testers by role [ASSUMPTION].
+  - hosted docs check mode, accepted revision and run link
+  - intended release, number of verified public package pages and expected package count (FR-15). Keep source-built package results in a separate field.
+- For each trial record the revision, date, tester role, clean environment, starting page, elapsed time, outcome and friction. For an agent trial, record the model, tool version and public prompt. Label partial engineering timings by the steps they cover.
+- It lives in Hexalith.Docs under `_bmad-output/`. It identifies testers by role. Once the maintainer completes exposure review and opens Docs (FR-31, FR-65), the ledger is visible with the repository. Public guides must omit links to it (FR-13).
 
 ### 4.10 Rollout levels
 
@@ -1018,7 +1021,7 @@ An in-scope repository reaches Level 1 "Clean" when every item below holds.
   - SonarQube Cloud (FR-40) is in place, where the module registry lists it.
 - **Rules that hold:** FR-9 to FR-14, FR-16, FR-17, FR-18, FR-22, FR-28, FR-34, FR-36 to FR-39, FR-48, FR-60, and FR-63.
 - **Quickstart blocks work but aren't timed:**
-  - Every "Use the package" sample compiles in CI.
+  - Every displayed “Use the package” sample runs in CI against the same-revision package and returns the documented result (FR-19).
   - One agent run completes each published block.
   - For Platform, the Quickstart section links to its development guide until "Try it" passes the agent stranger test.
 - **Accuracy:** every checked `docs/` page is accurate: its commands run as written, and every path, package, and type it names exists on the default branch.
@@ -1056,7 +1059,7 @@ Agents prepare these steps but don't take them. Each needs admin rights or a hum
 - **Start each republish release** (FR-15).
 - **Authorize the `references/Hexalith.AI.Tools` pointer update** (FR-48).
 - **Sensitive-data reviews and credential revocation** (FR-32, FR-65).
-- **Calibration, and scope decisions on prebuilt images or a "Try it" that needs no key** (FR-52).
+- **Calibrate the targets and decide how to address a measured build or prerequisite bottleneck** (FR-52).
 - **Recruit and confirm the outside tester and a backup** (FR-55).
 - **Go or no-go decisions** (§8.4).
 
@@ -1128,14 +1131,22 @@ Launch happens only when all of these hold:
 
 ### 8.4 Rollout sequence and decision points
 
+**Evidence on 20 November 2026.** The ledger records 0 of 21 repositories accepted at Level 1. The source check validates all 21 registry rows, covering 101 package IDs. Docs remains private pending the exposure review and maintainer sign-off. [Launch ledger](../../../implementation-artifacts/launch-ledger.md) · [Module registry](../../../../docs/module-registry.json)
+
+| Evidence | Verified on 20 November | Still needed for acceptance |
+| --- | --- | --- |
+| Pilot packages | Commons and PolymorphicSerializations passed their hosted package-example hooks, including checks of all 12 and 2 source-built READMEs respectively. [Commons CI](https://github.com/Hexalith/Hexalith.Commons/actions/runs/44724104335) · [Serialization CI](https://github.com/Hexalith/Hexalith.PolymorphicSerializations/actions/runs/44728585114) | Both pilots pin Builds v6.4.4. They need the later docs checker and README release rule delivered through CiCd. Local warn-mode runs found six README length findings in Commons and one in serialization. Maintainers must review them and record a passing hosted fail-mode run. |
+| Published READMEs | On the latest listed stable versions, 2 of 12 Commons archives (3.0.1) and 0 of 2 serialization archives (2.0.0) match their intended README. | Maintainer-triggered releases, matching published content for every ID and rendered-page review (FR-15). |
+| Timed “Try it” | An engineering run restored seven projects with empty NuGet caches in 10.60 seconds at Platform `b0159ad`. | The full cold start, build, seven-module readiness and same-tenant create/list remain unmeasured. Two of three independent agent runs must pass in 20 minutes before the outside test. |
+
 [ASSUMPTION: the dates are proposed and depend on Open Question 6, review capacity. The holiday weeks are treated as low-capacity.]
 
-| When | Work |
+| Target date | Planned milestone |
 | --- | --- |
 | Now | The Hexalith.BmadSkills check and the planning-folder exposure review start (FR-32, FR-65). |
 | By 2026-11-20 | Foundations (FR-1 to FR-8, FR-61, FR-62). Documentation rules merged (FR-47). The docs check is in the shared CI in warn mode, with its patterns tuned (FR-41, FR-42). The baseline is taken, including Platform's cold build (FR-52). The dev container spike is done (Open Question 15). Platform confirms that stories 3.2 to 3.8 are on track for mid-December (D-2 target). Hexalith.Docs and `Hexalith/.github` are public (FR-31, FR-59). |
 | By 2026-11-27 | Pilot migrations of Hexalith.Commons and Hexalith.PolymorphicSerializations, the first repositories Hexalith.CiCd adopts. Their packages are republished. |
-| **2026-12-01: go/no-go 1** | `[HUMAN]` Are the pilots done? Is the review rate measured (Open Question 6)? Are Platform stories 3.2 to 3.8 on track for mid-December (D-2)? If any answer is no, the launch moves to January 2027, with the same "Try it". |
+| **2026-12-01: go/no-go 1** | `[HUMAN]` Are the pilots done? Is the review rate measured (Open Question 6)? Are Platform stories 3.2 to 3.8 and the Projects create/list path through McpCli on track for mid-December (D-2)? If any answer is no, the launch moves to January 2027, with the same "Try it". |
 | December | Level 1 waves, following Hexalith.CiCd's adoption order. Each repository switches to fail mode and republishes. |
 | Mid-December | Platform runs all seven MVP modules locally, with agent access through Hexalith.McpCli (D-2). Agent stranger test iterations run on "Try it". |
 | **2026-12-15: go/no-go 2** | `[HUMAN]` Does "Try it" pass the agent stranger test? If not, launch moves to January 2027. |
@@ -1145,7 +1156,7 @@ Launch happens only when all of these hold:
 
 1. The Platform README's Quickstart section links to its development guide (FR-17).
 2. "Try it" passes the agent stranger test, starting from the Platform README (FR-53).
-3. The Platform README shows its "Run it" block, the front door's "Try it" link goes live, and later agent stranger tests start from the front door (FR-17, FR-26, FR-53).
+3. Publish Platform’s “Run it” block once it also passes its own 15-minute test (FR-58). With both agent tests passed, publish the front door’s “Try it” link and start subsequent “Try it” runs there (FR-17, FR-26, FR-53).
 4. The human stranger test runs (FR-55). If it fails, the issues are fixed, "Try it" passes the agent stranger test again, and the backup tester runs the test.
 5. Launch follows once every launch gate condition holds (§8.3).
 
@@ -1167,7 +1178,7 @@ Launch happens only when all of these hold:
 ### Secondary
 
 - **SM-4. Quickstarts on target.** Every published quickstart block passes its latest agent stranger test within its time target. Validates FR-19 to FR-21, FR-51, FR-58.
-- **SM-5. Package pages.** The latest version of every package shows the one-sentence description and the Quickstart section on nuget.org. Validates FR-15.
+- **SM-5. Package pages.** Every registry package ID has a verified README on its latest listed stable NuGet page. Track verified IDs against the registry total, using the approved README for each ID (FR-16). Validates FR-15.
 - **SM-6. Badge honesty.** Every badge reads a live source about its own repository. Validates FR-38 to FR-40.
 - **SM-7. A clean organization page.** The front door and the pinned set show only in-scope repositories. Every other public repository has been archived, made private, or transferred. Every in-scope repository shows the community files. Validates FR-25, FR-29, FR-30, FR-33 to FR-35.
 - **SM-10. "Run it" coverage.** This counts, without a target, how many registry rows listed with "Run it" have a published block at launch. It is informational. Validates FR-58.
@@ -1194,10 +1205,10 @@ Launch happens only when all of these hold:
 
 | ID | Risk | Mitigation |
 | --- | --- | --- |
-| R-1 | **Platform's agent-access stories may not land by mid-December.** Platform's Epic 2 is still open after about six weeks. In Epic 3, only story 3.1 is done, stories 3.2 and 3.3 are in progress, and stories 3.4 to 3.8 haven't started (GitHub `main`, 2026-11-11). The chat ending is further away: ChatBot isn't in Platform's MVP, its chat interface is its Epic 13, and only its Epic 1 is in progress. | D-2, with its target and hard deadline. If D-2 slips, the launch moves to January 2027 with the same "Try it". The chat ending is a later upgrade (FR-66), not a launch condition. |
+| R-1 | **Platform's agent-access stories may not land by mid-December.** At `a74abe17`, story 3.1 is done, 3.2–3.3 are in progress, and 3.4–3.8 are in the backlog. McpCli’s approved Projects inventory contains four queries. Project creation through McpCli is still missing. ChatBot’s UI remains in the Epic 13 backlog. [Platform sprint status](https://github.com/Hexalith/Hexalith.Platform/blob/a74abe17/_bmad-output/implementation-artifacts/sprint-status.yaml) · [Projects operations](https://github.com/Hexalith/Hexalith.McpCli/blob/6993abfe/tools/inventory-coverage/v1/projects-approved.json) | D-2, with its target and hard deadline. If D-2 slips, the launch moves to January 2027 with the same "Try it". The chat ending is a later upgrade (FR-66), not a launch condition. |
 | R-2 | **Only one human stranger test, and its tester's eligibility is uncertain.** Each person can be a newcomer only once, and the tester the brief names is an organization owner. | Define the outside tester by never having run Hexalith, not by their GitHub rights. Confirm eligibility and name a backup before the first run (FR-55). Use agent stranger tests for every iteration. |
-| R-3 | **Build time.** Building Platform from source pulls in 17 repositories and may exceed 20 minutes. | Measure the cold build and dev container start in November (FR-52). `[HUMAN]` Make the prebuilt-images decision by 2026-11-30 if needed [ASSUMPTION]. That work isn't in this plan. |
-| R-4 | **Review capacity.** One maintainer reviews 21 migrations and republishes about 100 packages in about 7 weeks that include the holidays. | Run pilots first and measure the review rate. Use go/no-go dates (§8.4). The docs check removes mechanical review, and the migration prompt lists the decisions it leaves open. |
+| R-3 | **Build time.** Platform declares 18 direct submodules. The time to start the selected composition from a clean machine may exceed 20 minutes. | Measure the cold build and dev container start in November (FR-52). `[HUMAN]` Make the prebuilt-images decision by 2026-11-30 if needed [ASSUMPTION]. That work isn't in this plan. |
+| R-4 | **Review capacity.** One maintainer reviews 21 migrations and republishes 101 registered package IDs in about 7 weeks that include the holidays. | Run pilots first and measure the review rate. Use go/no-go dates (§8.4). The docs check removes mechanical review, and the migration prompt lists the decisions it leaves open. |
 | R-5 | **The docs check turns `main` red for the wrong reasons.** | Tune the patterns in warn mode first, keep a fixture per rule, never let external links turn `main` red, and allow the commit-SHA suppression. |
 | R-6 | **Agent results vary.** In one benchmark, agents set up a repository from a bare environment only 39–57% of the time. | Three runs with a 2-of-3 threshold, the stranger-test kit, a recorded model, and prompts of 10 lines or fewer. |
 | R-7 | **Getting prerequisites takes too long.** The AI prompt path needs a supported agent tool. A newcomer who doesn't have one may run out of time. | The command path needs no agent tool, and Hexalith needs no LLM provider key. Prerequisite time counts toward the timer by decision. `[HUMAN]` If it alone breaks the target, make a scope decision (FR-52). |
@@ -1205,18 +1216,18 @@ Launch happens only when all of these hold:
 | R-9 | **Copies drift from templates.** | The docs check enforces the standard, including dev container pins (NFR-5, FR-5). |
 | R-10 | **Public planning folders expose sensitive detail.** These folders are already public in 20 repositories. | Start the exposure review now (FR-65), with secret scanning and push protection. |
 | R-11 | **The republish creates package versions** that consumers notice. | One patch release per repository, outside Platform's stabilization window (FR-15). |
-| R-12 | **Hexalith.CiCd's adoption pace limits Level 1.** A managed module can't run the docs check until Hexalith.CiCd adopts it. Platform and Timesheets are adopted last. | Follow Hexalith.CiCd's adoption order. Confirm its timeline at go/no-go 1 (D-1). |
+| R-12 | **Hexalith.CiCd's adoption pace limits Level 1.** A managed module can't run the docs check until Hexalith.CiCd adopts it. Six of 17 intended modules have CiCd setup entries, including both pilots. Platform and Timesheets still await adoption. | Follow Hexalith.CiCd's adoption order. Confirm its timeline at go/no-go 1 (D-1). |
 | R-13 | **`docs/` folders hold far more planning content than the plan assumed.** About 430 of 970 pages match the patterns, and Platform has about 2,600 evidence files. | Judge checked pages only, and report on the rest. Cleanup happens after launch. The migration prompt moves content and never deletes it in bulk. |
 | R-14 | **Agent entry points stop a newcomer's agent.** In 16 repositories, the agent entry points tell an agent to stop when the `references/Hexalith.AI.Tools` submodule is missing, as it is in a fresh clone. | FR-63, and Open Question 13. |
 
 ## 11. Dependencies
 
-- **D-1. Hexalith.CiCd.** It adopts all 17 managed modules before launch. It also:
+- **D-1. Hexalith.CiCd.** Its target is all 17 managed modules before launch. On 20 November its setup inventory includes AI.Tools, Commons, Conversations, McpCli, PolymorphicSerializations and Works. [CiCd setup inventory](https://github.com/Hexalith/Hexalith.CiCd/tree/3422bc15/setup)
   - delivers the docs check job and sets its modes
   - provides the republish release path and the commit-lint rule for scopes
   - keeps its CI/CD block in the agent entry points
   - may guard dev container files
-- **D-2. Platform stories 3.2 to 3.8.** One command starts all seven MVP modules locally, with a generated local realm, a ready-made tenant, and agent access through Hexalith.McpCli. This is the blocking dependency for "Try it" (R-1).
+- **D-2. Platform stories 3.2 to 3.8 and Projects access through McpCli.** Platform must provide one command that starts all seven MVP modules locally, with a generated local realm, a ready-made tenant, and agent access through Hexalith.McpCli. Platform owns the running composition. Projects must supply an approved create operation and McpCli must expose it with tenant-scoped authorization. The three owners must demonstrate creation and retrieval of the same project through the running stack (FR-23, R-1).
   - **Target:** Platform confirms by 2026-11-20 that the stories are on track for mid-December.
   - **Hard deadline:** go/no-go 1, on 2026-12-01. If they aren't on track by then, the launch moves to January 2027.
 - **D-3. Platform Kubernetes support** for the how-to (FR-24).
@@ -1241,17 +1252,17 @@ Launch happens only when all of these hold:
 | 7 | Is 5 minutes right for "Use the tool"? | Maintainer | FR-21, FR-51 | Calibration |
 | 8 | Does the Hexalith.BmadSkills cleanup require rewriting Git history? | Maintainer | FR-32 | When its review ends |
 | 9 | When does ChatBot's chat join Platform's plan? | Platform and ChatBot maintainer | FR-66 | After launch |
-| 10 | Where does the docs check sit in the shared CI pipeline? Hexalith.CiCd has accepted it as a product gate (2026-11-11). | Hexalith.CiCd maintainer, in architecture | FR-41 to FR-43 | Before the docs check is built |
+| 10 | Placement resolved. Builds runs the checker during CI preparation and invokes it in the local check. Which intended rules are covered by the released version delivered to each pilot? | Builds and CiCd maintainers | FR-41 to FR-43, FR-64 | Before accepting a hosted docs check |
 | 11 | The pilot release design gives module `docs(readme)` changes a patch version. When will the compatible Builds release reach each pilot, and will commit lint ban story, epic, and FR scopes? | Hexalith.CiCd maintainer | FR-14, FR-15 | Before the pilots |
 | 12 | Does the named tester qualify as an outside tester, and who is the backup? | Maintainer | FR-55 | Before mid-December |
 | 13 | How do agent entry points let a newcomer's agent run a quickstart in a fresh clone? | Hexalith.AI.Tools maintainer | FR-63 | Before the first block is published |
-| 14 | Where does "Run it" start for business modules, given the rule that domain modules ship no AppHost? | Architecture | FR-20, FR-58 | Before the first "Run it" block |
+| 14 | Which Platform-owned composition and first call should each business module’s “Run it” block use? | Architecture | FR-20, FR-58 | Before the first "Run it" block |
 | 15 | How does a supported agent tool open the dev container from a clean host, and which tools are supported? | Maintainer (spike) | FR-6, FR-23, FR-53 | 2026-11-20 |
 | 16 | Should BMAD's `project_knowledge` setting stop pointing at `docs/`, so planning content isn't written back there? | Maintainer | FR-13 durability | Before the waves |
 | 17 | What is the support channel (GitHub Discussions, issues, other)? | Maintainer | FR-33 | Before `Hexalith/.github` is published |
 | 18 | Are the legacy SonarQube Cloud projects reused or deleted? | Maintainer | FR-40 | Before the pilots |
 | 19 | Can Hexalith.CiCd's guard protect dev container files and agent entry points from unreviewed changes? | Hexalith.CiCd maintainer | NFR-9 | Before the first block is published |
-| 20 | Which first operation does "Try it" run, on which module? | Platform maintainer | FR-23 | Before the "Try it" block is written |
+| 20 | Which Projects create operation will the owners approve for McpCli, and which commands will demonstrate creation and listing in the same tenant (FR-23)? | Projects, McpCli and Platform maintainers | FR-23, D-2 | First feasibility decision on 2026-12-01 |
 
 ## 13. Assumptions index
 
@@ -1274,7 +1285,6 @@ Launch happens only when all of these hold:
 - FR-15: republishing happens before 2026-12-10.
 - FR-17: Hexalith.Docs and Hexalith.CiCd have no quickstart block.
 - FR-21, FR-51: the "Use the tool" target is 5 minutes.
-- FR-23: the first "Try it" operation is creating a project, then listing it.
 - FR-24: the Kubernetes how-to uses a local cluster and locally built images.
 - FR-25: the front door is 60 lines or fewer.
 - FR-28: the category topic names.
@@ -1303,9 +1313,9 @@ Launch happens only when all of these hold:
 - the 21 in-scope repositories
 - prerequisite time counts toward the timer
 - the republish
-- compiled samples
+- the displayed package sample runs in CI against the same-revision package and returns the documented result
 - the plan rebuilt on Hexalith.CiCd's ownership of CI/CD
-- "Try it" ends with the newcomer's agent running a first Hexalith operation through Hexalith.McpCli, and the chat comes as a later upgrade (FR-66)
+- “Try it” succeeds when the newcomer creates a project through McpCli and finds it in the same tenant’s list. Chat follows after launch (FR-66).
 - the outside tester definition
 - the immediate Hexalith.BmadSkills check
 - Level 1 without timing
