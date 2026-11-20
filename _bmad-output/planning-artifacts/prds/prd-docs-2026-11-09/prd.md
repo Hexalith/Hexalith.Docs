@@ -2,7 +2,7 @@
 title: "PRD: Hexalith Documentation Standard"
 status: final
 created: 2026-11-09
-updated: 2026-11-11
+updated: 2026-11-20
 inputs:
   - _bmad-output/planning-artifacts/briefs/brief-docs-2026-11-09/brief.md
   - _bmad-output/planning-artifacts/briefs/brief-docs-2026-11-09/addendum.md
@@ -34,6 +34,8 @@ How to read it:
 | Organization action | FR-26, FR-29 to FR-33, FR-35, FR-65 | Mostly `[HUMAN]` steps |
 | Test and gate | FR-23, FR-51 to FR-58 | Test runs and definitions of done |
 | Realized within another FR | FR-44 and FR-46 (within FR-41), FR-49 and FR-50 (within FR-47) | No separate story |
+
+The [Docs backlog](../../epics.md) assigns the work to repository owners. The [20 November course correction](../../sprint-change-proposal-2026-11-20.md) records the pilot changes and their verification gates.
 
 Each repository's Level 1 work (FR-57) splits into three parts: the agent's content change, the maintainer's settings and review, and the republish with its verification.
 
@@ -227,7 +229,7 @@ The front door, the About descriptions, the docs check, and the migration prompt
 
 **Consequences (testable):**
 
-- The registry has one row per in-scope repository, 21 rows in total, in a format the docs check can read [ASSUMPTION: YAML next to the standard].
+- The registry has one row per in-scope repository, 21 rows in total. Docs stores it in `docs/module-registry.json` alongside the standard. Tools can read it with the Python standard library.
 - Each row records:
   - name, category, and one-sentence description
   - quickstart blocks in display order, or "none"
@@ -1240,7 +1242,7 @@ Launch happens only when all of these hold:
 | 8 | Does the Hexalith.BmadSkills cleanup require rewriting Git history? | Maintainer | FR-32 | When its review ends |
 | 9 | When does ChatBot's chat join Platform's plan? | Platform and ChatBot maintainer | FR-66 | After launch |
 | 10 | Where does the docs check sit in the shared CI pipeline? Hexalith.CiCd has accepted it as a product gate (2026-11-11). | Hexalith.CiCd maintainer, in architecture | FR-41 to FR-43 | Before the docs check is built |
-| 11 | How does a README-only change become releasable for the republish, and will commit lint ban story, epic, and FR scopes? | Hexalith.CiCd maintainer | FR-14, FR-15 | Before the pilots |
+| 11 | The pilot release design gives module `docs(readme)` changes a patch version. When will the compatible Builds release reach each pilot, and will commit lint ban story, epic, and FR scopes? | Hexalith.CiCd maintainer | FR-14, FR-15 | Before the pilots |
 | 12 | Does the named tester qualify as an outside tester, and who is the backup? | Maintainer | FR-55 | Before mid-December |
 | 13 | How do agent entry points let a newcomer's agent run a quickstart in a fresh clone? | Hexalith.AI.Tools maintainer | FR-63 | Before the first block is published |
 | 14 | Where does "Run it" start for business modules, given the rule that domain modules ship no AppHost? | Architecture | FR-20, FR-58 | Before the first "Run it" block |
@@ -1255,7 +1257,7 @@ Launch happens only when all of these hold:
 
 - §2.3: the user journeys are inferred from the brief's audiences, with illustrative protagonists.
 - FR-1: the standard's file name, `docs/documentation-standard.md`.
-- FR-2: the registry is YAML next to the standard.
+- FR-2 format decision (20 November 2026). The registry is JSON next to the standard. Category and description confirmation remains a maintainer step.
 - FR-3: templates and prompts live in `templates/` and `.github/prompts/`.
 - FR-5: Hexalith.FrontComposer's dev container is aligned with the template.
 - FR-7:

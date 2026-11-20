@@ -24,8 +24,9 @@ Two invariants make it trustworthy:
      The one time the file is read is on resume, and the caller reads it itself, not
      via this script.
 
-Atomicity: every write goes to a temp file, is flushed and fsync'd, then atomically
-renamed over the target, so a crash never leaves a half-written entry.
+Writers lock the sibling .lock file before reading the log. Leave that file in
+place so waiting and new writers use the same lock. Each update is flushed,
+fsynced and atomically replaced before success is reported.
 
 The file shape (.memlog.md):
 
@@ -58,6 +59,7 @@ import os
 import sys
 from datetime import datetime
 from pathlib import Path
+from uuid import uuid4
 
 ENTRY_TYPES = ("decision", "direction", "assumption", "gap", "note", "event")
 
@@ -98,14 +100,43 @@ def touch(meta: dict) -> None:
     meta["updated"] = now()
 
 
+def lock_writers(lock_file) -> None:
+    """The kernel releases the lock when the descriptor closes or the process exits."""
+    if os.name == "nt":
+        import errno
+        import msvcrt
+        import time
+
+        # Windows permits a one-byte range beyond EOF on an empty lock file.
+        lock_file.seek(0)
+        while True:
+            try:
+                msvcrt.locking(lock_file.fileno(), msvcrt.LK_NBLCK, 1)
+                return
+            except OSError as error:
+                if error.errno != errno.EACCES:
+                    raise
+                time.sleep(0.05)
+    else:
+        import fcntl
+
+        fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
+
+
 def write_atomic(path: Path, text: str) -> None:
-    """Temp + flush + fsync + atomic rename, so a crash never half-writes an entry."""
-    tmp = path.with_suffix(path.suffix + ".tmp")
-    with open(tmp, "w", encoding="utf-8") as f:
-        f.write(text)
-        f.flush()
-        os.fsync(f.fileno())
-    os.replace(tmp, path)
+    """Replace the log only after a complete write on the same filesystem."""
+    tmp = path.with_name(f"{path.name}.{uuid4().hex}.tmp")
+    stream = tmp.open("x", encoding="utf-8")
+    try:
+        with stream:
+            if path.exists():
+                os.chmod(tmp, path.stat().st_mode & 0o777)
+            stream.write(text)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(tmp, path)
+    finally:
+        tmp.unlink(missing_ok=True)
 
 
 def entry_count(body: str) -> int:
@@ -125,12 +156,10 @@ def ack(path: Path, meta: dict, body: str, entry_type: str = "") -> None:
     print(json.dumps(out))
 
 
-def cmd_init(args) -> int:
-    path = Path(args.path)
+def cmd_init(args, path: Path) -> int:
     if path.exists():
         print(f"error: {path} already exists; use append/set-complete to update it", file=sys.stderr)
         return 2
-    path.parent.mkdir(parents=True, exist_ok=True)
     meta: dict[str, str] = {}
     for pair in args.field or []:
         if "=" not in pair:
@@ -141,12 +170,11 @@ def cmd_init(args) -> int:
     meta.setdefault("status", "active")
     touch(meta)
     write_atomic(path, render(meta, ""))
-    ack(path, meta, "")
+    ack(Path(args.path), meta, "")
     return 0
 
 
-def cmd_append(args) -> int:
-    path = Path(args.path)
+def cmd_append(args, path: Path) -> int:
     if args.type not in ENTRY_TYPES:
         print(f"error: --type must be one of {', '.join(ENTRY_TYPES)}; got {args.type!r}", file=sys.stderr)
         return 2
@@ -156,17 +184,16 @@ def cmd_append(args) -> int:
     body = (body.rstrip("\n") + "\n" + entry) if body.strip() else entry  # always at the end
     touch(meta)
     write_atomic(path, render(meta, body))
-    ack(path, meta, body, args.type)
+    ack(Path(args.path), meta, body, args.type)
     return 0
 
 
-def cmd_set_complete(args) -> int:
-    path = Path(args.path)
+def cmd_set_complete(args, path: Path) -> int:
     meta, body = split(path.read_text(encoding="utf-8"))
     meta["status"] = "complete"
     touch(meta)
     write_atomic(path, render(meta, body))
-    ack(path, meta, body)
+    ack(Path(args.path), meta, body)
     return 0
 
 
@@ -190,7 +217,12 @@ def main(argv: list[str] | None = None) -> int:
     pc.set_defaults(func=cmd_set_complete)
 
     args = p.parse_args(argv)
-    return args.func(args)
+    target = Path(args.path).resolve()
+    if args.cmd == "init":
+        target.parent.mkdir(parents=True, exist_ok=True)
+    with target.with_name(target.name + ".lock").open("a+b") as lock_file:
+        lock_writers(lock_file)
+        return args.func(args, target)
 
 
 if __name__ == "__main__":

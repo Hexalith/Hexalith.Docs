@@ -1,7 +1,7 @@
 ---
 title: "Addendum: Hexalith Documentation Standard PRD"
 created: 2026-11-10
-updated: 2026-11-11
+updated: 2026-11-20
 ---
 
 # Addendum: Hexalith Documentation Standard PRD
@@ -13,6 +13,8 @@ This addendum supports `prd.md` and adds no requirements. It holds three things:
 - Stranger-test notes for story writing (§C).
 
 ## A. Proposed module registry (unconfirmed)
+
+The following table records the planning baseline. The working inventory is now `docs/module-registry.json` in Hexalith.Docs. Use its source and confirmation fields for current migration work.
 
 This table proposes values for four of the registry's fields: category, quickstart blocks, packages, and CI owner. FR-2 lists the rest. Two things are still open: every category not marked confirmed (Open Question 3) and the quickstart blocks for Hexalith.Builds, Hexalith.AI.Tools, and Hexalith.BmadSkills (Open Question 5).
 
@@ -78,10 +80,10 @@ Hexalith.CiCd's contract is in `references/Hexalith.CiCd/_bmad-output/specs/spec
 - **Enforcement.** A red `main` blocks that module's nightly release ("main is red, nothing released").
 - **Product gate.** Hexalith.CiCd's gate classification allows only product gates. Hexalith.CiCd accepted the docs check as a product gate on 2026-11-11, because the README is the package page.
 - **Placement and local run.** See §B.2.
-- **Releases.** A README-only change needs a release rule that covers it, or a dispatched release. Don't relabel docs changes as `fix:`.
+- **Releases.** Version selection precedes publication. Dispatch alone on the pilots’ v6.3.1 pin leaves a docs-only range without a release.
   - Builds releases on every commit type except `docs`, `test`, and `style`.
   - Module releases skip `build(cicd)` and `build(deps)`. A `fix(deps)` commit forces one.
-  - The options are a `docs(readme)` patch rule in the shared release config, or a one-time release that a maintainer dispatches for each repository.
+  - The 20 November correction selects a module-only `docs(readme)` patch rule. CiCd must deliver a compatible Builds release before a pilot maintainer dispatches a republish.
 - **Commit scopes.** Commit lint runs inside Hexalith.CiCd's guard. That's where to ban story, epic, and FR scopes (FR-14).
 
 ### B.2 Docs check (FR-5, FR-13, FR-41, FR-42, FR-45, FR-46, FR-64)

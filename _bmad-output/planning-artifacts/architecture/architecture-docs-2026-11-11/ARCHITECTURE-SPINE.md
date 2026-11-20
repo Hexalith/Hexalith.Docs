@@ -1,79 +1,80 @@
 ---
-name: '{name}'
+name: Hexalith documentation standard
 type: architecture-spine
-purpose: build-substrate    # build-substrate (default) · discussion · report · deck
-altitude: feature           # initiative (keeps features) · feature (keeps epics) · epic (keeps stories)
-paradigm: '{named design pattern, e.g. hexagonal, layered, pipes-and-filters, actor}'
-scope: '{what this spine governs}'
-status: draft               # draft · final
-created: '{date}'
-updated: '{date}'
-binds: []                   # capability / unit IDs governed (from the driving spec; at epic altitude, also the inherited parent AD ids)
-sources: []
-companions: []
+purpose: build-substrate
+altitude: initiative
+paradigm: distributed ownership with a shared validation pipeline
+scope: documentation authoring, package distribution, first-run evidence and publication
+status: draft
+created: 2026-11-11
+updated: 2026-11-20
+binds: [hub, migration, package, first-run, publication]
+sources:
+  - ../../prds/prd-docs-2026-11-09/prd.md
+  - ../../epics.md
 ---
 
-# Architecture Spine — {name}
+# Hexalith documentation architecture
 
-<!-- TEMPLATE GUIDE — act on these comments, then delete them; never emit a comment in the finished spine. This is a shape, not a script: keep only the sections this spine needs and cut the rest (no empty headers). A small intent may be just paradigm + a few ADs + conventions; a platform earns more. An inherited epic spine is usually mostly Inherited Invariants + a thin Deferred. Decisions, not rationale (rationale lives in the memlog). Carry shape in diagrams; prose only where it must. -->
+Docs owns the standard and module registry. Each module owns the README its users see. Builds owns the reusable checker and packaging mechanics. CiCd owns the managed configurations and their delivery. The agent baseline belongs to AI.Tools. Platform owns local composition and McpCli owns the operator interface.
 
-## Design Paradigm
+## Invariants and rules
 
-<!-- Name the pattern (a known one loads a whole model for free) and map its layers to namespaces/directories. The smallest, most durable thing here. -->
+### AD-1 — One standard and one module registry
 
-## Inherited Invariants
+- **Binds** the guide hub, agent rules, organization profile and migration tooling.
+- **Prevents** an unconfirmed module description or package count from becoming a public claim.
+- **Rule** Record rule IDs in the standard and module facts in one JSON registry. JSON can be read with the Python standard library. Distinguish unknown, proposed and human-confirmed values. Verify all 21 repositories are represented. A workspace checkout may omit BmadSkills while its inventory and ownership review are pending.
 
-<!-- Only when this spine inherits a higher-altitude parent. The parent's ADs/conventions/paradigm that bind here, by their ORIGINAL ids — read-only, never renumbered, not re-derived. A local decision that contradicts one is a conflict to surface, not an override. Cut this section otherwise. -->
+### AD-2 — CI validates the checked-out revision
 
-| Inherited | From parent | Binds here |
-| --- | --- | --- |
-| {AD-id / convention} | {parent spine} | {what it constrains in this scope} |
+- **Binds** local runs, hosted checks and management of shared CI config.
+- **Prevents** an edit on another repository's default branch from changing yesterday's result.
+- **Rule** Enroll modules through CiCd against a released Builds contract. Resolve files and same-repository badge workflow paths against the checked revision. Use the same rules and findings locally. Enroll in warning mode first. Promote each pilot to fail mode after the maintainer reviews the outstanding findings. Put external network checks in a separate scheduled run.
 
-## Invariants & Rules
+### AD-3 — Test the material a reader receives
 
-<!-- The durable heart: calls a future builder can't read off compliant code. One block per decision: stable ascending id (never reused/renumbered), Binds, Prevents (the divergence), Rule (enforceable). Tag [ADOPTED] when the user or existing reality settled it. Include a dependency-direction diagram (who may depend on whom) — it IS a rule; author it as valid mermaid, never an empty graph. -->
+- **Binds** the package example, packing, release selection and verification.
+- **Prevents** green library tests from concealing an unusable README or an old package page.
+- **Rule** A fresh consumer must run the displayed code against packages built from that revision. For every pilot package, verify the nuspec README entry against its intended source, including project-specific documentation. Module documentation migrations use the narrowly scoped README release rule. Record the released version, package count and verified public README before claiming a successful republish.
 
-### AD-1 — {decision}
+### AD-4 — Platform owns the timed local journey
 
-- **Binds:** {capability / unit ids / fr/nfr's, areas, or `all`}
-- **Prevents:** {the divergence this stops}
-- **Rule:** {the constraint downstream must follow}
+- **Binds** the cold-host kit, Platform setup and the user-facing Try it link.
+- **Prevents** a warm developer checkout or partial topology from certifying the 20-minute target.
+- **Rule** Obtain SDK and Aspire pins from Platform's own configuration. Use one Dapr home for install and run. Measure from the prescribed entry page through readiness and an observed create/list operation with the same tenant. Record the actual prerequisites, tester role, duration, tool version and friction, keeping tokens out of the log.
 
-## Consistency Conventions
+### AD-5 — Publication requires human evidence
 
-<!-- Defaults that bind where independent builders would drift. Cut rows that don't apply; add rows the project needs. -->
+- **Binds** the launch ledger, repository visibility and exposure review.
+- **Prevents** private findings, credentials or unsupported readiness claims appearing in public guides.
+- **Rule** The maintainer keeps item-level findings and remediation in a private review record. The ledger records reviewed revisions, counts, role and status. Changing visibility, enabling safeguards, starting a package release, accepting an outside test and deciding launch require the corresponding owner.
 
-| Concern | Convention |
-| --- | --- |
-| Naming (entities, files, interfaces, events) | |
-| Data & formats (ids, dates, error shapes, envelopes) | |
-| State & cross-cutting (mutation, errors, logging, config, auth) | |
+## Flow of changes and evidence
 
-## Stack
-
-<!-- SEED — verified current at authoring; the code owns this once it exists. Name + version only; the why lives in the memlog. One row per language, framework, key dependency, platform, or chain that's pinned. -->
-
-| Name | Version |
-| --- | --- |
-| {language / framework / key dep / platform / chain} | {pinned version} |
-
-## Structural Seed
-
-<!-- The shapes worth fixing at cold-start — not a fixed list. Include only what's non-obvious at this altitude, and use as many diagrams as convey it, each as VALID mermaid (never a placeholder or empty graph). Candidates: system/container/context view; DEPLOYMENT & ENVIRONMENTS and external provider/infra topology (cover the operational envelope here when this altitude owns it — don't let it fall through); core-entity ERD (names + relationships only; an attribute that's itself an invariant is an AD, not a diagram); a minimal source tree. The code owns the detail — this is scaffold, not a mirror to maintain. -->
-
-```text
-{root}/
-  {dir}/   # {what lives here}
+```mermaid
+flowchart LR
+    Docs[Docs standard and registry] --> Module[Module README and sample]
+    CiCd[CiCd configuration] --> Builds[Versioned Builds checks]
+    Module --> Builds
+    Builds --> Package[NuGet package]
+    Package --> Verify[Compare published README]
+    Verify --> Ledger[Launch ledger]
+    Platform[Platform and McpCli] --> Trial[Timed first operation]
+    Trial --> Ledger
+    Review[Maintainer exposure review] --> Ledger
 ```
 
-## Capability → Architecture Map
+## Delivery boundaries
 
-<!-- Present when a spec drove this run. Bridges the spec's capabilities to where they live + what governs them; the consistency auditor's checklist. Cut otherwise. -->
-
-| Capability / Area | Lives in | Governed by |
+| Result | Required evidence | Responsible owner |
 | --- | --- | --- |
-| {CAP-id / area} | {component / module} | {AD-id, convention, paradigm} |
+| Guide ready for public access | Confirmed registry values, exposure disposition, links work signed out | Docs and security maintainers |
+| Pilot ready for adoption | Displayed sample runs, badge resolves, package contents match, warning baseline reviewed | Module owners |
+| Hosted checks enabled | Versioned shared contract delivered and hosted run recorded | Builds and CiCd |
+| Package page current | Latest stable version and rendered README verified per package ID | Release maintainer |
+| First operation ready | Two of three agent runs within 20 minutes, followed by outside-tester evidence | Platform and launch maintainer |
 
-## Deferred
+## Deferred decisions
 
-<!-- Decisions intentionally pushed down, each with the reason it can wait — including whole dimensions this altitude doesn't own yet. The half of the contract that keeps the spine lean. -->
+The December decision points use the ledger and measured review capacity. A measured cold-start bottleneck triggers the PRD's prebuilt-image decision. Chat qualification waits for ChatBot in Platform. Registry descriptions, supported agent versions and repository visibility still need maintainer confirmation.

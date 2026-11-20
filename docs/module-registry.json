@@ -1,0 +1,739 @@
+{
+  "schemaVersion": 1,
+  "modules": [
+    {
+      "name": "Hexalith.AI.Tools",
+      "checkout": "direct",
+      "category": "technical",
+      "categoryStatus": "proposed",
+      "description": "Shared instructions and workflows guide AI coding agents working on Hexalith repositories.",
+      "descriptionStatus": "proposed",
+      "quickstarts": [
+        "Use the tool"
+      ],
+      "packages": {
+        "ids": [],
+        "count": 0,
+        "primary": null,
+        "inventorySource": null,
+        "projectReadmes": []
+      },
+      "appHost": null,
+      "development": null,
+      "operations": null,
+      "devContainer": null,
+      "ciOwnerTarget": "CiCd",
+      "badges": {
+        "workflow": "ci.yml",
+        "licenseFile": "LICENSE",
+        "sonarKey": null
+      }
+    },
+    {
+      "name": "Hexalith.Agents",
+      "checkout": "direct",
+      "category": null,
+      "categoryStatus": "unconfirmed",
+      "description": "Agents manages AI provider catalogs and tenant access to providers.",
+      "descriptionStatus": "proposed",
+      "quickstarts": [
+        "Use the package"
+      ],
+      "packages": {
+        "ids": [
+          "Hexalith.Agents",
+          "Hexalith.Agents.Client",
+          "Hexalith.Agents.Contracts",
+          "Hexalith.Agents.EventStore",
+          "Hexalith.Agents.Testing",
+          "Hexalith.Agents.UI"
+        ],
+        "count": 6,
+        "primary": "Hexalith.Agents",
+        "inventorySource": "eng/release-packages.json",
+        "projectReadmes": []
+      },
+      "appHost": null,
+      "development": null,
+      "operations": null,
+      "devContainer": null,
+      "ciOwnerTarget": "CiCd",
+      "badges": {
+        "workflow": "ci.yml",
+        "licenseFile": "LICENSE",
+        "sonarKey": null
+      }
+    },
+    {
+      "name": "Hexalith.BmadSkills",
+      "checkout": "external",
+      "category": "technical",
+      "categoryStatus": "proposed",
+      "description": "BmadSkills distributes authoring workflows for BMAD users.",
+      "descriptionStatus": "proposed",
+      "quickstarts": [
+        "Use the tool"
+      ],
+      "packages": {
+        "ids": [],
+        "count": 0,
+        "primary": null,
+        "inventorySource": null,
+        "projectReadmes": []
+      },
+      "appHost": null,
+      "development": null,
+      "operations": null,
+      "devContainer": null,
+      "ciOwnerTarget": "caller",
+      "badges": {
+        "workflow": null,
+        "licenseFile": "LICENSE",
+        "sonarKey": null
+      }
+    },
+    {
+      "name": "Hexalith.Builds",
+      "checkout": "direct",
+      "category": "technical",
+      "categoryStatus": "proposed",
+      "description": "Builds supplies shared build tools, package configuration and release workflows for Hexalith modules.",
+      "descriptionStatus": "proposed",
+      "quickstarts": [
+        "Use the tool"
+      ],
+      "packages": {
+        "ids": [
+          "Hexalith.Builds.Evidence.Cli",
+          "Hexalith.Builds.Module.Cli"
+        ],
+        "count": 2,
+        "primary": "Hexalith.Builds.Module.Cli",
+        "inventorySource": "https://github.com/Hexalith/Hexalith.Builds/releases/download/v6.3.1/hexalith-package-publication.v1.json",
+        "projectReadmes": []
+      },
+      "appHost": "src/hosts/Hexalith.Builds.Module.AppHost/Hexalith.Builds.Module.AppHost.csproj",
+      "development": null,
+      "operations": null,
+      "devContainer": null,
+      "ciOwnerTarget": "self",
+      "badges": {
+        "workflow": "builds-ci.yml",
+        "licenseFile": "LICENSE",
+        "sonarKey": null
+      }
+    },
+    {
+      "name": "Hexalith.ChatBot",
+      "checkout": "direct",
+      "category": null,
+      "categoryStatus": "unconfirmed",
+      "description": "ChatBot provides contracts and clients for conversational access to Hexalith.",
+      "descriptionStatus": "proposed",
+      "quickstarts": [
+        "Use the package",
+        "Run it"
+      ],
+      "packages": {
+        "ids": [
+          "Hexalith.ChatBot.Client",
+          "Hexalith.ChatBot.Contracts",
+          "Hexalith.ChatBot.Testing"
+        ],
+        "count": 3,
+        "primary": "Hexalith.ChatBot.Contracts",
+        "inventorySource": "src",
+        "projectReadmes": []
+      },
+      "appHost": "src/Hexalith.ChatBot.AppHost/Hexalith.ChatBot.AppHost.csproj",
+      "development": null,
+      "operations": null,
+      "devContainer": null,
+      "ciOwnerTarget": "CiCd",
+      "badges": {
+        "workflow": "ci.yml",
+        "licenseFile": "LICENSE",
+        "sonarKey": null
+      }
+    },
+    {
+      "name": "Hexalith.CiCd",
+      "checkout": "direct",
+      "category": "technical",
+      "categoryStatus": "confirmed",
+      "description": "CiCd delivers and maintains CI and release policy for participating Hexalith repositories.",
+      "descriptionStatus": "proposed",
+      "quickstarts": [],
+      "packages": {
+        "ids": [],
+        "count": 0,
+        "primary": null,
+        "inventorySource": null,
+        "projectReadmes": []
+      },
+      "appHost": null,
+      "development": null,
+      "operations": null,
+      "devContainer": null,
+      "ciOwnerTarget": "self",
+      "badges": {
+        "workflow": "deliver.yml",
+        "licenseFile": "LICENSE",
+        "sonarKey": null
+      }
+    },
+    {
+      "name": "Hexalith.Commons",
+      "checkout": "direct",
+      "category": "technical",
+      "categoryStatus": "proposed",
+      "description": "Commons provides reusable .NET utilities for strings, identifiers, configuration and other shared concerns.",
+      "descriptionStatus": "proposed",
+      "quickstarts": [
+        "Use the package"
+      ],
+      "packages": {
+        "ids": [
+          "Hexalith.Commons",
+          "Hexalith.Commons.Aspire",
+          "Hexalith.Commons.Configurations",
+          "Hexalith.Commons.Diagnostics",
+          "Hexalith.Commons.Http",
+          "Hexalith.Commons.Metadatas",
+          "Hexalith.Commons.Publication",
+          "Hexalith.Commons.Serialization",
+          "Hexalith.Commons.ServiceDefaults",
+          "Hexalith.Commons.StringEncoders",
+          "Hexalith.Commons.TenantAccess",
+          "Hexalith.Commons.UniqueIds"
+        ],
+        "count": 12,
+        "primary": "Hexalith.Commons",
+        "inventorySource": "src/libraries",
+        "projectReadmes": [
+          "src/libraries/Hexalith.Commons.Configurations/README.md",
+          "src/libraries/Hexalith.Commons.Http/README.md",
+          "src/libraries/Hexalith.Commons.Metadatas/README.md",
+          "src/libraries/Hexalith.Commons.StringEncoders/README.md",
+          "src/libraries/Hexalith.Commons.UniqueIds/README.md",
+          "src/libraries/Hexalith.Commons/README.md"
+        ]
+      },
+      "appHost": null,
+      "development": null,
+      "operations": null,
+      "devContainer": null,
+      "ciOwnerTarget": "CiCd",
+      "badges": {
+        "workflow": "ci.yml",
+        "licenseFile": "LICENSE",
+        "sonarKey": "Hexalith_Hexalith.Commons"
+      }
+    },
+    {
+      "name": "Hexalith.Conversations",
+      "checkout": "direct",
+      "category": null,
+      "categoryStatus": "unconfirmed",
+      "description": "Conversations provides contracts and services for managing conversations within a tenant.",
+      "descriptionStatus": "proposed",
+      "quickstarts": [
+        "Use the package",
+        "Run it"
+      ],
+      "packages": {
+        "ids": [
+          "Hexalith.Conversations",
+          "Hexalith.Conversations.Client",
+          "Hexalith.Conversations.Contracts",
+          "Hexalith.Conversations.EventStoreExtensions",
+          "Hexalith.Conversations.Testing"
+        ],
+        "count": 5,
+        "primary": "Hexalith.Conversations",
+        "inventorySource": "tools/release-packages.json",
+        "projectReadmes": [
+          "src/Hexalith.Conversations.Contracts/README.md"
+        ]
+      },
+      "appHost": "src/Hexalith.Conversations.AppHost/Hexalith.Conversations.AppHost.csproj",
+      "development": null,
+      "operations": null,
+      "devContainer": null,
+      "ciOwnerTarget": "CiCd",
+      "badges": {
+        "workflow": "ci.yml",
+        "licenseFile": "LICENSE",
+        "sonarKey": null
+      }
+    },
+    {
+      "name": "Hexalith.Docs",
+      "checkout": "self",
+      "category": "technical",
+      "categoryStatus": "confirmed",
+      "description": "Hexalith Docs explains how the modules fit together and how to write and check their documentation.",
+      "descriptionStatus": "proposed",
+      "quickstarts": [],
+      "packages": {
+        "ids": [],
+        "count": 0,
+        "primary": null,
+        "inventorySource": null,
+        "projectReadmes": []
+      },
+      "appHost": null,
+      "development": "docs/development.md",
+      "operations": null,
+      "devContainer": null,
+      "ciOwnerTarget": "caller",
+      "badges": {
+        "workflow": null,
+        "licenseFile": null,
+        "sonarKey": null
+      }
+    },
+    {
+      "name": "Hexalith.EventStore",
+      "checkout": "direct",
+      "category": "technical",
+      "categoryStatus": "proposed",
+      "description": "EventStore provides the event-sourced runtime and SDK used by Hexalith modules.",
+      "descriptionStatus": "proposed",
+      "quickstarts": [
+        "Use the package",
+        "Run it"
+      ],
+      "packages": {
+        "ids": [
+          "Hexalith.EventStore.Admin.Abstractions",
+          "Hexalith.EventStore.Admin.Cli",
+          "Hexalith.EventStore.Admin.Server",
+          "Hexalith.EventStore.Aspire",
+          "Hexalith.EventStore.Client",
+          "Hexalith.EventStore.Contracts",
+          "Hexalith.EventStore.DomainService",
+          "Hexalith.EventStore.Gateway",
+          "Hexalith.EventStore.RestApi.Generators",
+          "Hexalith.EventStore.Server",
+          "Hexalith.EventStore.ServiceDefaults",
+          "Hexalith.EventStore.SignalR",
+          "Hexalith.EventStore.Testing",
+          "Hexalith.EventStore.Testing.Integration"
+        ],
+        "count": 14,
+        "primary": "Hexalith.EventStore.Contracts",
+        "inventorySource": "tools/release-packages.json",
+        "projectReadmes": []
+      },
+      "appHost": "src/Hexalith.EventStore.AppHost/Hexalith.EventStore.AppHost.csproj",
+      "development": null,
+      "operations": null,
+      "devContainer": null,
+      "ciOwnerTarget": "CiCd",
+      "badges": {
+        "workflow": "ci.yml",
+        "licenseFile": "LICENSE",
+        "sonarKey": null
+      }
+    },
+    {
+      "name": "Hexalith.Folders",
+      "checkout": "direct",
+      "category": null,
+      "categoryStatus": "unconfirmed",
+      "description": "Folders organizes tenant content into a hierarchy of folders.",
+      "descriptionStatus": "proposed",
+      "quickstarts": [
+        "Use the package",
+        "Run it"
+      ],
+      "packages": {
+        "ids": [
+          "Hexalith.Folders",
+          "Hexalith.Folders.Aspire",
+          "Hexalith.Folders.Client",
+          "Hexalith.Folders.Contracts",
+          "Hexalith.Folders.Testing"
+        ],
+        "count": 5,
+        "primary": "Hexalith.Folders",
+        "inventorySource": "tools/release-packages.json",
+        "projectReadmes": []
+      },
+      "appHost": "src/Hexalith.Folders.AppHost/Hexalith.Folders.AppHost.csproj",
+      "development": null,
+      "operations": null,
+      "devContainer": null,
+      "ciOwnerTarget": "CiCd",
+      "badges": {
+        "workflow": "ci.yml",
+        "licenseFile": "LICENSE",
+        "sonarKey": null
+      }
+    },
+    {
+      "name": "Hexalith.FrontComposer",
+      "checkout": "direct",
+      "category": "technical",
+      "categoryStatus": "proposed",
+      "description": "FrontComposer combines module interfaces into a shared Blazor application.",
+      "descriptionStatus": "proposed",
+      "quickstarts": [
+        "Use the package",
+        "Run it"
+      ],
+      "packages": {
+        "ids": [
+          "Hexalith.FrontComposer.Cli",
+          "Hexalith.FrontComposer.Contracts",
+          "Hexalith.FrontComposer.Contracts.UI",
+          "Hexalith.FrontComposer.Mcp",
+          "Hexalith.FrontComposer.Schema",
+          "Hexalith.FrontComposer.Shell",
+          "Hexalith.FrontComposer.SourceTools",
+          "Hexalith.FrontComposer.Testing"
+        ],
+        "count": 8,
+        "primary": "Hexalith.FrontComposer.Contracts",
+        "inventorySource": "tools/release-packages.json",
+        "projectReadmes": [
+          "src/Hexalith.FrontComposer.Cli/README.md",
+          "src/Hexalith.FrontComposer.Testing/README.md"
+        ]
+      },
+      "appHost": "src/Hexalith.FrontComposer.AppHost/Hexalith.FrontComposer.AppHost.csproj",
+      "development": null,
+      "operations": null,
+      "devContainer": ".devcontainer/ide-parity/devcontainer.json",
+      "ciOwnerTarget": "CiCd",
+      "badges": {
+        "workflow": "ci.yml",
+        "licenseFile": "LICENSE",
+        "sonarKey": null
+      }
+    },
+    {
+      "name": "Hexalith.McpCli",
+      "checkout": "direct",
+      "category": "technical",
+      "categoryStatus": "confirmed",
+      "description": "McpCli exposes registered Hexalith operations to command-line users and MCP clients.",
+      "descriptionStatus": "proposed",
+      "quickstarts": [
+        "Use the tool"
+      ],
+      "packages": {
+        "ids": [
+          "Hexalith.McpCli",
+          "Hexalith.McpCli.Abstractions"
+        ],
+        "count": 2,
+        "primary": "Hexalith.McpCli",
+        "inventorySource": "tools/release-packages.json",
+        "projectReadmes": []
+      },
+      "appHost": null,
+      "development": null,
+      "operations": null,
+      "devContainer": null,
+      "ciOwnerTarget": "CiCd",
+      "badges": {
+        "workflow": "ci.yml",
+        "licenseFile": "LICENSE",
+        "sonarKey": null
+      }
+    },
+    {
+      "name": "Hexalith.Memories",
+      "checkout": "direct",
+      "category": "technical",
+      "categoryStatus": "confirmed",
+      "description": "Memories stores and retrieves tenant-scoped knowledge for Hexalith applications.",
+      "descriptionStatus": "proposed",
+      "quickstarts": [
+        "Use the package",
+        "Run it"
+      ],
+      "packages": {
+        "ids": [
+          "Hexalith.Memories.Aspire",
+          "Hexalith.Memories.Cli",
+          "Hexalith.Memories.Client.Rest",
+          "Hexalith.Memories.Contracts",
+          "Hexalith.Memories.EventStore",
+          "Hexalith.Memories.EventStoreExtensions",
+          "Hexalith.Memories.Mcp",
+          "Hexalith.Memories.Redis",
+          "Hexalith.Memories.ServiceDefaults",
+          "Hexalith.Memories.Telemetry"
+        ],
+        "count": 10,
+        "primary": "Hexalith.Memories.Contracts",
+        "inventorySource": "tools/release-packages.json",
+        "projectReadmes": [
+          "src/Hexalith.Memories.Aspire/README.md",
+          "src/Hexalith.Memories.Cli/README.md",
+          "src/Hexalith.Memories.Client.Rest/README.md",
+          "src/Hexalith.Memories.Contracts/README.md",
+          "src/Hexalith.Memories.EventStore/README.md",
+          "src/Hexalith.Memories.EventStoreExtensions/README.md",
+          "src/Hexalith.Memories.Mcp/README.md",
+          "src/Hexalith.Memories.Redis/README.md",
+          "src/Hexalith.Memories.ServiceDefaults/README.md",
+          "src/Hexalith.Memories.Telemetry/README.md"
+        ]
+      },
+      "appHost": "src/Hexalith.Memories.AppHost/Hexalith.Memories.AppHost.csproj",
+      "development": null,
+      "operations": null,
+      "devContainer": null,
+      "ciOwnerTarget": "CiCd",
+      "badges": {
+        "workflow": "ci.yml",
+        "licenseFile": "LICENSE",
+        "sonarKey": null
+      }
+    },
+    {
+      "name": "Hexalith.Parties",
+      "checkout": "direct",
+      "category": "business",
+      "categoryStatus": "proposed",
+      "description": "Parties manages the people and organizations represented in a tenant.",
+      "descriptionStatus": "proposed",
+      "quickstarts": [
+        "Use the package",
+        "Run it"
+      ],
+      "packages": {
+        "ids": [
+          "Hexalith.Parties.AdminPortal",
+          "Hexalith.Parties.Aspire",
+          "Hexalith.Parties.Authentication",
+          "Hexalith.Parties.Client",
+          "Hexalith.Parties.ConsumerPortal",
+          "Hexalith.Parties.Contracts",
+          "Hexalith.Parties.EventStoreExtensions",
+          "Hexalith.Parties.Picker",
+          "Hexalith.Parties.Projections",
+          "Hexalith.Parties.Security",
+          "Hexalith.Parties.Testing"
+        ],
+        "count": 11,
+        "primary": "Hexalith.Parties.Contracts",
+        "inventorySource": "tools/release-packages.json",
+        "projectReadmes": []
+      },
+      "appHost": "src/Hexalith.Parties.AppHost/Hexalith.Parties.AppHost.csproj",
+      "development": null,
+      "operations": null,
+      "devContainer": null,
+      "ciOwnerTarget": "CiCd",
+      "badges": {
+        "workflow": "ci.yml",
+        "licenseFile": "LICENSE",
+        "sonarKey": null
+      }
+    },
+    {
+      "name": "Hexalith.Platform",
+      "checkout": "direct",
+      "category": null,
+      "categoryStatus": "unconfirmed",
+      "description": "Platform composes Hexalith modules and their infrastructure into local environments.",
+      "descriptionStatus": "proposed",
+      "quickstarts": [
+        "Run it"
+      ],
+      "packages": {
+        "ids": [],
+        "count": 0,
+        "primary": null,
+        "inventorySource": null,
+        "projectReadmes": []
+      },
+      "appHost": "apphost.cs",
+      "development": null,
+      "operations": null,
+      "devContainer": null,
+      "ciOwnerTarget": "CiCd",
+      "badges": {
+        "workflow": "tuple-ci.yml",
+        "licenseFile": "LICENSE",
+        "sonarKey": null
+      }
+    },
+    {
+      "name": "Hexalith.PolymorphicSerializations",
+      "checkout": "direct",
+      "category": "technical",
+      "categoryStatus": "proposed",
+      "description": "PolymorphicSerializations adds type-aware JSON serialization and source generation to .NET applications.",
+      "descriptionStatus": "proposed",
+      "quickstarts": [
+        "Use the package"
+      ],
+      "packages": {
+        "ids": [
+          "Hexalith.PolymorphicSerializations",
+          "Hexalith.PolymorphicSerializations.CodeGenerators"
+        ],
+        "count": 2,
+        "primary": "Hexalith.PolymorphicSerializations",
+        "inventorySource": "src/libraries",
+        "projectReadmes": []
+      },
+      "appHost": null,
+      "development": null,
+      "operations": null,
+      "devContainer": null,
+      "ciOwnerTarget": "CiCd",
+      "badges": {
+        "workflow": "ci.yml",
+        "licenseFile": "LICENSE",
+        "sonarKey": "Hexalith_Hexalith.PolymorphicSerializations"
+      }
+    },
+    {
+      "name": "Hexalith.Projects",
+      "checkout": "direct",
+      "category": "business",
+      "categoryStatus": "proposed",
+      "description": "Projects provides tenant-scoped project workspaces for Hexalith applications.",
+      "descriptionStatus": "proposed",
+      "quickstarts": [
+        "Use the package",
+        "Run it"
+      ],
+      "packages": {
+        "ids": [
+          "Hexalith.Projects",
+          "Hexalith.Projects.Client",
+          "Hexalith.Projects.Contracts",
+          "Hexalith.Projects.ServiceDefaults",
+          "Hexalith.Projects.Testing"
+        ],
+        "count": 5,
+        "primary": "Hexalith.Projects",
+        "inventorySource": "tools/release-packages.json",
+        "projectReadmes": []
+      },
+      "appHost": "src/Hexalith.Projects.AppHost/Hexalith.Projects.AppHost.csproj",
+      "development": null,
+      "operations": null,
+      "devContainer": null,
+      "ciOwnerTarget": "CiCd",
+      "badges": {
+        "workflow": "ci.yml",
+        "licenseFile": "LICENSE",
+        "sonarKey": null
+      }
+    },
+    {
+      "name": "Hexalith.Tenants",
+      "checkout": "direct",
+      "category": "business",
+      "categoryStatus": "proposed",
+      "description": "Tenants manages tenant identities and tenant lifecycle operations.",
+      "descriptionStatus": "proposed",
+      "quickstarts": [
+        "Use the package",
+        "Run it"
+      ],
+      "packages": {
+        "ids": [
+          "Hexalith.Tenants.Aspire",
+          "Hexalith.Tenants.Client",
+          "Hexalith.Tenants.Contracts",
+          "Hexalith.Tenants.Server",
+          "Hexalith.Tenants.Testing"
+        ],
+        "count": 5,
+        "primary": "Hexalith.Tenants.Contracts",
+        "inventorySource": "tools/release-packages.json",
+        "projectReadmes": []
+      },
+      "appHost": "src/Hexalith.Tenants.AppHost/Hexalith.Tenants.AppHost.csproj",
+      "development": null,
+      "operations": null,
+      "devContainer": null,
+      "ciOwnerTarget": "CiCd",
+      "badges": {
+        "workflow": "ci.yml",
+        "licenseFile": "LICENSE",
+        "sonarKey": null
+      }
+    },
+    {
+      "name": "Hexalith.Timesheets",
+      "checkout": "direct",
+      "category": "business",
+      "categoryStatus": "proposed",
+      "description": "Timesheets records time entries within a tenant.",
+      "descriptionStatus": "proposed",
+      "quickstarts": [
+        "Use the package",
+        "Run it"
+      ],
+      "packages": {
+        "ids": [
+          "Hexalith.Timesheets.Client",
+          "Hexalith.Timesheets.Contracts",
+          "Hexalith.Timesheets.Projections",
+          "Hexalith.Timesheets.ReadModels",
+          "Hexalith.Timesheets.Server",
+          "Hexalith.Timesheets.Testing"
+        ],
+        "count": 6,
+        "primary": "Hexalith.Timesheets.Contracts",
+        "inventorySource": "tools/release-packages.json",
+        "projectReadmes": []
+      },
+      "appHost": "src/Hexalith.Timesheets.AppHost/Hexalith.Timesheets.AppHost.csproj",
+      "development": null,
+      "operations": null,
+      "devContainer": null,
+      "ciOwnerTarget": "CiCd",
+      "badges": {
+        "workflow": "ci.yml",
+        "licenseFile": "LICENSE",
+        "sonarKey": null
+      }
+    },
+    {
+      "name": "Hexalith.Works",
+      "checkout": "direct",
+      "category": "business",
+      "categoryStatus": "proposed",
+      "description": "Works manages work records and their lifecycle within a tenant.",
+      "descriptionStatus": "proposed",
+      "quickstarts": [
+        "Use the package"
+      ],
+      "packages": {
+        "ids": [
+          "Hexalith.Works.Contracts",
+          "Hexalith.Works.Projections",
+          "Hexalith.Works.Reactor",
+          "Hexalith.Works.Server",
+          "Hexalith.Works.Testing"
+        ],
+        "count": 5,
+        "primary": "Hexalith.Works.Contracts",
+        "inventorySource": "tools/release-packages.json",
+        "projectReadmes": []
+      },
+      "appHost": null,
+      "development": null,
+      "operations": null,
+      "devContainer": null,
+      "ciOwnerTarget": "CiCd",
+      "badges": {
+        "workflow": "ci.yml",
+        "licenseFile": "LICENSE",
+        "sonarKey": null
+      }
+    }
+  ]
+}

@@ -31,8 +31,9 @@ Three invariants make it trustworthy:
      resume learns the state by reading the last entries — the same way it learns
      everything else.
 
-Atomicity: every write goes to a temp file, is flushed and fsync'd, then atomically
-renamed over the target, so a crash never leaves a half-written entry.
+Writers lock the sibling .lock file before reading the log. Leave that file in
+place so waiting and new writers use the same lock. Each update is flushed,
+fsynced and atomically replaced before success is reported.
 
 The file shape (.memlog.md):
 
@@ -74,6 +75,7 @@ import os
 import sys
 from datetime import datetime
 from pathlib import Path
+from uuid import uuid4
 
 MEMLOG = ".memlog.md"
 
@@ -119,14 +121,43 @@ def touch(meta: dict) -> None:
     meta["updated"] = now()
 
 
+def lock_writers(lock_file) -> None:
+    """The kernel releases the lock when the descriptor closes or the process exits."""
+    if os.name == "nt":
+        import errno
+        import msvcrt
+        import time
+
+        # Windows permits a one-byte range beyond EOF on an empty lock file.
+        lock_file.seek(0)
+        while True:
+            try:
+                msvcrt.locking(lock_file.fileno(), msvcrt.LK_NBLCK, 1)
+                return
+            except OSError as error:
+                if error.errno != errno.EACCES:
+                    raise
+                time.sleep(0.05)
+    else:
+        import fcntl
+
+        fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
+
+
 def write_atomic(path: Path, text: str) -> None:
-    """Temp + flush + fsync + atomic rename, so a crash never half-writes an entry."""
-    tmp = path.with_suffix(path.suffix + ".tmp")
-    with open(tmp, "w", encoding="utf-8") as f:
-        f.write(text)
-        f.flush()
-        os.fsync(f.fileno())
-    os.replace(tmp, path)
+    """Replace the log only after a complete write on the same filesystem."""
+    tmp = path.with_name(f"{path.name}.{uuid4().hex}.tmp")
+    stream = tmp.open("x", encoding="utf-8")
+    try:
+        with stream:
+            if path.exists():
+                os.chmod(tmp, path.stat().st_mode & 0o777)
+            stream.write(text)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(tmp, path)
+    finally:
+        tmp.unlink(missing_ok=True)
 
 
 def entry_count(body: str) -> int:
@@ -142,12 +173,10 @@ def ack(path: Path, body: str) -> None:
     }))
 
 
-def cmd_init(args) -> int:
-    path = resolve(args)
+def cmd_init(args, path: Path) -> int:
     if path.exists():
         print(f"error: {path} already exists; use append/set to update it", file=sys.stderr)
         return 2
-    path.parent.mkdir(parents=True, exist_ok=True)
     meta: dict[str, str] = {}
     for pair in args.field or []:
         if "=" not in pair:
@@ -157,12 +186,11 @@ def cmd_init(args) -> int:
         meta[k.strip()] = v.strip()
     touch(meta)
     write_atomic(path, render(meta, ""))
-    ack(path, "")
+    ack(resolve(args), "")
     return 0
 
 
-def cmd_append(args) -> int:
-    path = resolve(args)
+def cmd_append(args, path: Path) -> int:
     meta, body = split(path.read_text(encoding="utf-8"))
     text = " ".join(args.text.split())  # collapse newlines/runs → one-line entry, no prose bloat
     label = args.type or ""
@@ -173,17 +201,16 @@ def cmd_append(args) -> int:
     body = (body.rstrip("\n") + "\n" + entry) if body.strip() else entry  # always at the end
     touch(meta)
     write_atomic(path, render(meta, body))
-    ack(path, body)
+    ack(resolve(args), body)
     return 0
 
 
-def cmd_set(args) -> int:
-    path = resolve(args)
+def cmd_set(args, path: Path) -> int:
     meta, body = split(path.read_text(encoding="utf-8"))
     meta[args.key] = args.value
     touch(meta)
     write_atomic(path, render(meta, body))
-    ack(path, body)
+    ack(resolve(args), body)
     return 0
 
 
@@ -217,7 +244,12 @@ def main(argv: list[str] | None = None) -> int:
     pset.set_defaults(func=cmd_set)
 
     args = p.parse_args(argv)
-    return args.func(args)
+    target = resolve(args).resolve()
+    if args.cmd == "init":
+        target.parent.mkdir(parents=True, exist_ok=True)
+    with target.with_name(target.name + ".lock").open("a+b") as lock_file:
+        lock_writers(lock_file)
+        return args.func(args, target)
 
 
 if __name__ == "__main__":

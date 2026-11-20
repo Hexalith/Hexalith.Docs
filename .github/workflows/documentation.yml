@@ -1,0 +1,24 @@
+name: Documentation
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  registry:
+    name: Documentation registry
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out the guide hub
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          submodules: false
+      - name: Validate the module registry
+        run: python3 scripts/validate_registry.py
+      - name: Run registry tests
+        run: python3 -m unittest discover -s scripts/tests

@@ -1,0 +1,90 @@
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created, ready for development
+#   - in-progress: Developer actively working on implementation
+#   - review: Implementation complete, ready for review
+#   - done: Story completed
+
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+
+# Action Item Status:
+#   - open: Committed during a retrospective, not yet addressed
+#   - in-progress: Actively being worked on
+#   - done: Completed
+
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when its first story starts (via build's sprint sync)
+# - Stories can be worked in parallel if team capacity allows
+# - Developer typically creates the next story after the previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+# - Retrospective appends its action items to action_items; the status view surfaces open ones
+generated: 11-20-2026 11:42
+last_updated: 11-20-2026 11:42
+project: Hexalith.Docs
+project_key: NOKEY
+tracking_system: file-system
+story_location: _bmad-output/implementation-artifacts
+development_status:
+  epic-1: in-progress
+  1-1-reconcile-exposure: in-progress
+  1-2-publish-the-standard-and-inventory: in-progress
+  1-3-supply-authoring-materials: review
+  1-4-define-the-clean-environment: backlog
+  epic-1-retrospective: optional
+
+  epic-2: in-progress
+  2-1-run-the-same-rules-locally-and-in-ci: in-progress
+  2-2-verify-package-examples-and-republishing: in-progress
+  2-3-establish-trustworthy-signals-and-agent-rules: backlog
+  epic-2-retrospective: optional
+
+  epic-3: in-progress
+  3-1-pilot-commons: in-progress
+  3-2-pilot-polymorphicserializations: in-progress
+  3-3-migrate-docs: backlog
+  3-4-migrate-ai-tools: backlog
+  3-5-migrate-builds: backlog
+  3-6-migrate-cicd: backlog
+  3-7-migrate-bmadskills: backlog
+  3-8-migrate-agents: backlog
+  3-9-migrate-chatbot: backlog
+  3-10-migrate-conversations: backlog
+  3-11-migrate-eventstore: backlog
+  3-12-migrate-folders: backlog
+  3-13-migrate-frontcomposer: backlog
+  3-14-migrate-mcpcli: backlog
+  3-15-migrate-memories: backlog
+  3-16-migrate-parties: backlog
+  3-17-migrate-platform: backlog
+  3-18-migrate-projects: backlog
+  3-19-migrate-tenants: backlog
+  3-20-migrate-timesheets: backlog
+  3-21-migrate-works: backlog
+  epic-3-retrospective: optional
+
+  epic-4: in-progress
+  4-1-measure-the-first-run: in-progress
+  4-2-verify-first-success: backlog
+  4-3-qualify-chat-after-launch: backlog
+  epic-4-retrospective: optional
+
+  epic-5: backlog
+  5-1-publish-community-and-organization-pages: backlog
+  5-2-decide-launch: backlog
+  epic-5-retrospective: optional
+
+  epic-6: in-progress
+  6-1-preserve-acknowledged-planning-writes: review
+  6-2-reconcile-marketplace-metadata: review
+  6-3-repair-the-conversations-workspace-pin: review
+  epic-6-retrospective: optional
