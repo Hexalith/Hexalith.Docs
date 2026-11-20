@@ -143,11 +143,13 @@ The pilot after-unit-tests hooks pack the current revision, check each archiveâ€
 ## C. Stranger-test notes (FR-53, FR-55, FR-61)
 
 - **What each run records:**
-  - The model ID, the agent tool and its version, and the exact prompt.
+  - The candidate commit, entry URL and exact prompt. Use a README rendered at that commit for prepublication trials; record whether the published content matches the tested path.
+  - The tool, version and model ID designated before the three timed trials. Start each trial with a fresh session and clean environment on that configuration.
   - Start and stop times.
   - Evidence of first success.
   - The friction log.
 - **Friction log columns.** Step, elapsed time, what happened, and severity (red, amber, or green).
+- **Untimed evidence.** For a Level 1 package or tool block, record a successful unaided first result. For the separate Kubernetes gate, record one independent, unaided execution of the how-to and its McpCli result. The 15-minute Platform first call and the 20-minute create/list journey each have their own timed qualification.
 - **Why three runs with a 2-of-3 threshold.** In a 2026 benchmark, agents set up repositories from a bare environment only 39â€“57% of the time (see `research-landscape.md`).
 - **The human stranger test** is a smoke test, not a statistical measurement. It uses the same record template as the agent runs, and the record identifies the tester by role.
 

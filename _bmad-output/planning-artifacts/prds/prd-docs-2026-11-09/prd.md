@@ -10,6 +10,7 @@ inputs:
   - _bmad-output/planning-artifacts/sprint-change-proposal-2026-11-20.md
   - _bmad-output/implementation-artifacts/launch-ledger.md
   - docs/stranger-test.md
+  - _bmad-output/planning-artifacts/prds/prd-docs-2026-11-09/validation-report.md
 ---
 
 # PRD: Hexalith Documentation Standard
@@ -38,9 +39,9 @@ How to read it:
 | Test and gate | FR-23, FR-51 to FR-58 | Test runs and definitions of done |
 | Realized within another FR | FR-44 and FR-46 (within FR-41), FR-49 and FR-50 (within FR-47) | No separate story |
 
-The [Docs backlog](../../epics.md) assigns the work to repository owners. The [20 November course correction](../../sprint-change-proposal-2026-11-20.md) records the pilot changes and their verification gates.
+The [Docs backlog](../../epics.md) assigns the work to repository owners. The [20 November course correction](../../sprint-change-proposal-2026-11-20.md) records the pilot changes and their verification gates. The [validation report](validation-report.md) covers the previous revision. The follow-up review records how this revision addresses those findings. [Review dispositions](review-validation-followup-2026-11-20.md)
 
-Each repository's Level 1 work (FR-57) splits into three parts: the agent's content change, the maintainer's settings and review, and the republish with its verification.
+At Level 1, the agent prepares the content and the maintainer reviews it and applies repository settings. Package publishers also republish and verify their packages (FR-15, FR-57).
 
 **Visibility.** This file lives in Hexalith.Docs under `_bmad-output/`. That folder becomes public with the repository and is never linked from docs (FR-13). FR IDs are internal planning content: they must never appear in a README, CONTRIBUTING file, or `docs/` page.
 
@@ -48,7 +49,7 @@ Each repository's Level 1 work (FR-57) splits into three parts: the agent's cont
 
 Anyone who finds Hexalith can understand what a module does and get it working in minutes, without asking anyone. They might find it on GitHub, on nuget.org, or through their AI coding agent. The front door explains Hexalith on one screen and offers "Try it". One command, or one short prompt to the newcomer's own AI coding agent, deploys Hexalith on Docker on the newcomer's own machine. Within 20 minutes, the newcomer's own AI agent is putting Hexalith to work: it runs a first Hexalith operation through Hexalith.McpCli. The chat interface follows as an upgrade, once ChatBot joins Platform (FR-66).
 
-Every README is simple, clear, and easy to read. It follows one short skeleton and doubles as the NuGet package page. Every badge reads a live source. The community files and a development guide let a contributor open a first pull request without reverse-engineering the build.
+Every README is simple, clear, and easy to read. Each repository README follows one short skeleton. Package pages display the README assigned to that package. Every badge reads a live source. The community files and a development guide let a contributor open a first pull request without reverse-engineering the build.
 
 AI agents write most of Hexalith's documentation. So the standard lives where agents read their instructions, and a docs check in the shared CI catches what they miss. Together, these keep the standard in place after launch.
 
@@ -290,7 +291,7 @@ A maintainer or agent can write an AI prompt from a pattern in the standard, wit
   2. Run `aspire run`.
   3. Wait until services report healthy.
   4. Return the dashboard URL.
-  5. Explain the first call.
+  5. Execute the documented first call, compare its result with the expected value, and report whether it matched.
 - **"Try it":**
   1. Check prerequisites, or open the dev container.
   2. Run `aspire run`.
@@ -309,7 +310,7 @@ An AI agent given the migration prompt and an in-scope repository can prepare a 
 **Consequences (testable):**
 
 - The prompt is modeled on `Hexalith.Builds/.github/prompts/audit-hexalith-ci-cd.prompt.md`.
-- The agent works from the Hexalith.Docs workspace, where every in-scope repository is a root submodule [ASSUMPTION: Hexalith.BmadSkills is added to `.gitmodules`]. It produces one change set per repository.
+- Use the registry to locate the repository that owns each change. Hexalith.Docs is the parent checkout. Its root `.gitmodules` declares 19 direct submodules. For Hexalith.BmadSkills, use the external checkout and revision approved by its owner. If the owner has yet to supply them, mark that migration pending and continue the others. All 21 repositories remain in scope.
 - It produces an audit with a pass or fail result for each Level 1 requirement, with file and line as evidence.
 - It sorts every out-of-place block as contributor content, operator content, planning content, or release history, and moves it:
   - contributor content to the development guide
@@ -338,10 +339,10 @@ A maintainer can check that a README is written for people.
 **Consequences (testable):**
 
 - The standard contains a short readability checklist.
-- The checklist confirms that, from the README alone as nuget.org shows it, a newcomer can say:
+- Review the repository README as rendered on GitHub for every migration. For publishers, also review the rendered NuGet page for each registered package using its assigned README (FR-15, FR-16). When the registry lists zero packages, record NuGet review and republish as inapplicable. From the repository README alone a newcomer can identify:
   - what the module does and who it's for
   - how to start
-  - which packages exist
+  - which packages exist, if the repository publishes any
   - where to get help
   - the license
 - It confirms that the first five lines state the module's purpose.
@@ -351,7 +352,7 @@ A maintainer can check that a README is written for people.
 
 ### 4.2 README and package page
 
-**Description.** The README is the first page on GitHub. Hexalith.Builds also packs it into every package, so it is the package page too. Because one file serves both, it must stay short and NuGet-safe, and be written for readers. Realizes UJ-1, UJ-2, UJ-6.
+**Description.** The README is the first page on GitHub. For package publishers, the registry identifies which packages use that README and which use a package-specific one. Keep each README short, readable and NuGet-safe. Realizes UJ-1, UJ-2, UJ-6.
 
 #### FR-9: README skeleton sections
 
@@ -399,7 +400,7 @@ The same one-sentence description identifies a repository wherever a reader meet
 
 #### FR-12: NuGet-safe README
 
-The README renders correctly on both GitHub and nuget.org.
+Every repository README renders correctly on GitHub and follows the NuGet-safe source rules below. A README packed in a published package must also render correctly on its NuGet page.
 
 **Consequences (testable):**
 
@@ -468,11 +469,11 @@ A reader sees a first action that matches what they came to do.
 
 **Consequences (testable):**
 
-- Every in-scope repository's README has the quickstart blocks the module registry lists, named exactly "Use the package", "Run it", or "Use the tool", in registry order.
+- Publish qualified blocks in registry order under the names “Use the package”, “Run it” and “Use the tool”. A registry entry for “Run it” reserves that block until it qualifies under FR-58.
 - A repository the registry marks as having no quickstart block has a "Start here" list instead [ASSUMPTION: Hexalith.Docs and Hexalith.CiCd].
 - The Hexalith.Docs "Start here" list links to "Try it" only once FR-26 allows it.
 - A "Run it" block appears only once it meets its time target (FR-58).
-- Until "Try it" passes the agent stranger test, the Platform README's Quickstart section links to its development guide.
+- Until the Platform trials pass, the default-branch README links to the development guide. Reviewers use the candidate README specified in FR-53 to qualify the proposed block before publication.
 
 #### FR-18: Prerequisites up front
 
@@ -532,7 +533,7 @@ A newcomer can go from the front door to a first Hexalith operation, run by thei
 
 **Consequences (testable):**
 
-- The front door's "Try it" link opens the Platform README's "Run it" block.
+- After qualification, the front door’s “Try it” link opens the Platform README’s “Run it” block.
 - One setup command (`aspire run` in the Platform dev container) starts all seven MVP modules, with a generated local sign-in realm and a ready-made tenant. This depends on Platform stories 3.2 to 3.8 (§11, D-2).
 - With all seven modules healthy, the newcomer uses Hexalith.McpCli to create a project and retrieve the project list in the same run-scoped tenant. The list must include the project just created.
 - The block lists every prerequisite (FR-18), including a supported agent tool for the AI prompt path (Open Question 1). Hexalith itself needs no LLM provider key. The time spent getting any prerequisite counts toward the 20 minutes.
@@ -556,8 +557,7 @@ An operator can deploy Platform to Kubernetes by following a how-to.
 **Consequences (testable):**
 
 - Platform's `docs/` contains a how-to for deploying Platform to a local Kubernetes cluster [ASSUMPTION: Docker Desktop Kubernetes or kind]. The service images are built locally and loaded into the cluster, so no published images are needed [ASSUMPTION].
-- One agent stranger test run, following only the how-to, reaches the how-to's documented result without help: a first Hexalith operation through Hexalith.McpCli returns its result.
-- There is no time target.
+- One independent agent in a fresh environment follows only the Kubernetes how-to, receives the documented result of a first Hexalith operation through Hexalith.McpCli without help, and records that result in the ledger. This is a single untimed qualification for gate 9.
 - It depends on Platform supporting Kubernetes deployment (§11, D-3).
 
 ### 4.4 Front door and organization
@@ -610,7 +610,7 @@ A visitor browsing the organization page sees accurate metadata on every in-scop
 
 #### FR-29: Non-current repositories removed from view
 
-A visitor sees only current work on the organization page.
+The front door and pinned repositories direct visitors to current work. The maintainer records and applies a decision for each archive candidate.
 
 **Consequences (testable):**
 
@@ -877,7 +877,7 @@ An agent that starts work in any in-scope repository reaches the documentation r
 
 **Consequences (testable):**
 
-- Every in-scope repository has all three agent entry points. Missing ones are created. For example, Hexalith.PolymorphicSerializations has no `.github/copilot-instructions.md`.
+- Inspect all three entry points at the migration revision and follow each one to the documentation rules. Create a missing entry point or repair a broken reference while preserving existing repository guidance.
 - `[HUMAN]` Updating a repository's `references/Hexalith.AI.Tools` pointer is explicitly authorized, as the shared baseline requires.
 - A check script, run during each migration, confirms that the chain from the entry points reaches the documentation rules in a fresh clone with root submodules initialized.
 - The documentation rules (FR-47) are merged before the first migration.
@@ -909,7 +909,7 @@ A newcomer's agent can run a quickstart in a fresh clone.
 **Consequences (testable):**
 
 - In a fresh clone without submodules, the agent entry points don't tell a newcomer's agent to stop while it runs a quickstart AI prompt. The shared baseline's "stop and report a missing baseline" rule applies to contributor work, not to running a quickstart (Open Question 13).
-- The agent stranger test confirms this for every published block.
+- Verify that the entry points allow the quickstart to complete during the run required for that block’s level (FR-54, FR-57).
 
 ### 4.9 Time targets and stranger tests
 
@@ -961,9 +961,9 @@ A maintainer can run a repeatable agent stranger test on any quickstart.
 **Consequences (testable):**
 
 - A fresh session of a supported agent tool gets only the starting page and its AI prompt, in the block's clean environment, using the kit (FR-61).
-- For "Try it", the starting page is the Platform README until the link is live, and the front door after that.
-- The model, the agent tool and its version, and the prompt are recorded.
-- Each test is three runs. It passes when at least two reach first success within the time target without help [ASSUMPTION].
+- Before publishing a new block, give the tester a link to the candidate README rendered at an immutable commit. The tester opens that page and uses the prompt printed there. For Platform rehearsals, start at the candidate Platform README. Once the “Try it” link is live, start at the organization front door.
+- Before the first timed trial, the maintainer records the supported agent tool, tool version and model ID selected for qualification. Use that configuration, candidate revision and prompt for three independent clean runs. At least two must reach the documented first result unaided within the target. A different tool, version or model starts a separate set of three.
+- Record the entry URL, revision, exact prompt and outcome for every run. Before promoting a candidate, compare its prompt, commands, prerequisites and path to first success with the version to be published. Repeat the applicable qualification if any of those changed.
 - Every red friction item becomes an issue.
 
 #### FR-54: When the agent stranger test runs
@@ -972,7 +972,8 @@ The agent stranger test runs whenever a quickstart might have changed.
 
 **Consequences (testable):**
 
-- It runs at the baseline, before any block or the "Try it" link is published, after any change to a published quickstart's command or prerequisites, and before launch.
+- For first publication, apply the Level 1 working check to package and tool blocks (FR-57) and the timed qualification to “Run it” (FR-58). The Platform front-door link also requires the 20-minute “Try it” pass (FR-26).
+- Run the timed test at baseline and qualify every published block by launch. When the prompt, commands, prerequisites or path to first success change, repeat the applicable check before publishing the change. Use the timed test for a block that has already passed timed qualification.
 - The docs check reports changes to Quickstart sections, so the test can be triggered.
 - After launch, it runs at least monthly for "Try it" and for every published "Run it" block [ASSUMPTION].
 - Two failed periodic runs in one quarter count as "quickstarts keep breaking", which triggers a decision on adding the automated CI smoke test (the brief's addendum, decision 10, option C; §8.2).
@@ -1001,7 +1002,7 @@ Maintainers and agents can see each in-scope repository's progress and evidence 
   - readability checklist result (FR-62)
   - hosted docs check mode, accepted revision and run link
   - intended release, number of verified public package pages and expected package count (FR-15). Keep source-built package results in a separate field.
-- For each trial record the revision, date, tester role, clean environment, starting page, elapsed time, outcome and friction. For an agent trial, record the model, tool version and public prompt. Label partial engineering timings by the steps they cover.
+- For each trial record the revision, date, tester role, clean environment, starting page, elapsed time, outcome and friction. For an agent trial, record the model ID, tool version, entry URL and exact prompt used at the tested revision. Label partial engineering timings by the steps they cover.
 - It lives in Hexalith.Docs under `_bmad-output/`. It identifies testers by role. Once the maintainer completes exposure review and opens Docs (FR-31, FR-65), the ledger is visible with the repository. Public guides must omit links to it (FR-13).
 
 ### 4.10 Rollout levels
@@ -1020,15 +1021,14 @@ An in-scope repository reaches Level 1 "Clean" when every item below holds.
   - The documentation rules (FR-47) are merged.
   - SonarQube Cloud (FR-40) is in place, where the module registry lists it.
 - **Rules that hold:** FR-9 to FR-14, FR-16, FR-17, FR-18, FR-22, FR-28, FR-34, FR-36 to FR-39, FR-48, FR-60, and FR-63.
-- **Quickstart blocks work but aren't timed:**
-  - Every displayed “Use the package” sample runs in CI against the same-revision package and returns the documented result (FR-19).
-  - One agent run completes each published block.
-  - For Platform, the Quickstart section links to its development guide until "Try it" passes the agent stranger test.
+- **Quickstart evidence at Level 1**
+  - For “Use the package” and “Use the tool”, one unaided run from the candidate README must reach the documented first result before publication. This check has no time limit. Package samples must also return their documented result in same-revision CI (FR-19).
+  - “Run it” may stay unpublished at Level 1. To publish it, pass the 15-minute test in FR-58. Until both Platform trials pass, the default-branch Platform README links to the development guide (§8.4).
 - **Accuracy:** every checked `docs/` page is accurate: its commands run as written, and every path, package, and type it names exists on the default branch.
 - **Checks:** every external link on checked pages works when the migration lands. The docs check passes in fail mode.
 - **Review and release:**
   - `[HUMAN]` A maintainer has reviewed the migration and completed the readability checklist (FR-62).
-  - The packages are republished and verified (FR-15).
+  - For a publisher, every registered package is republished and verified (FR-15). For a nonpublisher, the ledger records the GitHub review and marks package evidence inapplicable (FR-62).
 
 #### FR-58: Level 2 "Try-able" done
 
@@ -1039,7 +1039,7 @@ Every timed quickstart meets its time target, and "Try it" works.
 - Every published "Use the package" and "Use the tool" block passes the agent stranger test within its time target.
 - Each repository listed with "Run it" in the module registry publishes the block once it passes the agent stranger test within 15 minutes. This can happen before or after launch.
 - Platform's "Try it" passes the agent stranger test and then the human stranger test (FR-23, FR-55).
-- Platform's Kubernetes how-to passes its agent stranger test (FR-24).
+- One fresh agent completes the untimed Kubernetes how-to qualification (FR-24).
 
 ## 5. Human-only steps
 
@@ -1066,7 +1066,7 @@ Agents prepare these steps but don't take them. Each needs admin rights or a hum
 ## 6. Cross-cutting non-functional requirements
 
 - **NFR-1. Written for people.** Docs are simple, clear, and easy to read. They put the most important point first and use second person, active voice, sentence-case headings, and numbered steps. They are short and written for a global audience. Vale is out of scope, so the readability checklist (FR-62), the documentation rules, and stranger test friction logs enforce this.
-- **NFR-2. Rendering parity.** Every README renders on both GitHub and nuget.org without a broken link, a broken image, or raw markup.
+- **NFR-2. Rendering parity.** Every repository README renders on GitHub without a broken link, broken image or raw markup. For every registered package, its assigned README meets the same standard on the published NuGet page (FR-15, FR-62).
 - **NFR-3. Honest claims.** No document claims a capability, a time, or a quality level that isn't measured or backed by a live source.
 - **NFR-4. Commands run as written.** Readers copy and paste quickstart commands. The only values they supply are ones the prerequisites list.
 - **NFR-5. One source per rule.** The standard is authoritative and states each rule once. The documentation rules restate it, using its rule IDs. The docs check keeps copies aligned. Nothing depends on templates staying in sync.
@@ -1126,7 +1126,7 @@ Launch happens only when all of these hold:
 6. The community files are live in the public `Hexalith/.github`, and private vulnerability reporting is on (FR-33 to FR-35, FR-59).
 7. The documentation rules are published in Hexalith.AI.Tools and reachable from every in-scope repository (FR-47, FR-48).
 8. Hexalith.Docs is public with the overview guide (FR-8, FR-31).
-9. The Kubernetes how-to passes its agent stranger test (FR-24).
+9. One independent agent completes the Kubernetes how-to unaided and obtains its documented result. This gate has no time limit (FR-24).
 10. The exposure reviews are complete (FR-32, FR-65), and the archive decisions are applied (FR-29).
 
 ### 8.4 Rollout sequence and decision points
@@ -1146,17 +1146,19 @@ Launch happens only when all of these hold:
 | Now | The Hexalith.BmadSkills check and the planning-folder exposure review start (FR-32, FR-65). |
 | By 2026-11-20 | Foundations (FR-1 to FR-8, FR-61, FR-62). Documentation rules merged (FR-47). The docs check is in the shared CI in warn mode, with its patterns tuned (FR-41, FR-42). The baseline is taken, including Platform's cold build (FR-52). The dev container spike is done (Open Question 15). Platform confirms that stories 3.2 to 3.8 are on track for mid-December (D-2 target). Hexalith.Docs and `Hexalith/.github` are public (FR-31, FR-59). |
 | By 2026-11-27 | Pilot migrations of Hexalith.Commons and Hexalith.PolymorphicSerializations, the first repositories Hexalith.CiCd adopts. Their packages are republished. |
-| **2026-12-01: go/no-go 1** | `[HUMAN]` Are the pilots done? Is the review rate measured (Open Question 6)? Are Platform stories 3.2 to 3.8 and the Projects create/list path through McpCli on track for mid-December (D-2)? If any answer is no, the launch moves to January 2027, with the same "Try it". |
-| December | Level 1 waves, following Hexalith.CiCd's adoption order. Each repository switches to fail mode and republishes. |
+| **2026-12-01: go/no-go 1** | `[HUMAN]` Continue toward December only if both pilots are accepted, the capacity forecast below meets both deadlines, and the Platform, Projects and McpCli owners confirm D-2 is on track for mid-December. If a condition fails or evidence is missing, move launch to January 2027 with the same “Try it” and launch gates. |
+| December | Level 1 waves, following Hexalith.CiCd's adoption order. Each repository switches to fail mode after review. Publishers also republish their packages. |
 | Mid-December | Platform runs all seven MVP modules locally, with agent access through Hexalith.McpCli (D-2). Agent stranger test iterations run on "Try it". |
 | **2026-12-15: go/no-go 2** | `[HUMAN]` Does "Try it" pass the agent stranger test? If not, launch moves to January 2027. |
 | Late December | The "Try it" link goes live, the human stranger test runs, and launch follows once the gate passes. |
 
+**Capacity forecast for 1 December.** The launch maintainer records the remaining Level 1 migrations, remaining publishing repositories and package IDs still awaiting verification from the ledger and registry. Use the pilots’ observed review, release and verification rates and each owner’s available working days, including holidays and shared reviewer time. Record two projected finish dates. All remaining publishers must complete their releases and per-ID verification before Platform’s stabilization window (assumed 10 December, FR-15). All 21 migrations must reach Level 1 by the planned launch date. Record both comparisons and the resulting decision in the ledger (OQ-6).
+
 **"Try it" sequence.**
 
 1. The Platform README's Quickstart section links to its development guide (FR-17).
-2. "Try it" passes the agent stranger test, starting from the Platform README (FR-53).
-3. Publish Platform’s “Run it” block once it also passes its own 15-minute test (FR-58). With both agent tests passed, publish the front door’s “Try it” link and start subsequent “Try it” runs there (FR-17, FR-26, FR-53).
+2. Run the 20-minute “Try it” test from the revision-pinned candidate Platform README and its embedded prompt. Qualify the 15-minute “Run it” first call separately on that revision (FR-51, FR-53).
+3. Once both tests pass, publish the qualified “Run it” block and the front door’s “Try it” link. Subsequent “Try it” runs start at the front door (FR-17, FR-26, FR-53, FR-58).
 4. The human stranger test runs (FR-55). If it fails, the issues are fixed, "Try it" passes the agent stranger test again, and the backup tester runs the test.
 5. Launch follows once every launch gate condition holds (§8.3).
 
@@ -1172,7 +1174,7 @@ Launch happens only when all of these hold:
 ### Primary
 
 - **SM-1. "Try it" time.** The human stranger test reaches first success in 20 minutes or less from `github.com/Hexalith`, on the tester's own machine, with no help. This is launch gate condition 1 (§8.3). Validates FR-23, FR-55.
-- **SM-2. Agent "Try it".** At least two of three agent stranger test runs complete "Try it" within 20 minutes. Validates FR-22, FR-23, FR-53.
+- **SM-2. Agent "Try it".** On the tool version and model designated before the trial, at least two of three independent agent runs complete “Try it” within 20 minutes. Validates FR-22, FR-23, FR-53.
 - **SM-3. Docs check coverage.** All 21 in-scope repositories run the docs check in fail mode, and `main` is green. Validates FR-41 to FR-43, FR-57.
 
 ### Secondary
@@ -1180,7 +1182,7 @@ Launch happens only when all of these hold:
 - **SM-4. Quickstarts on target.** Every published quickstart block passes its latest agent stranger test within its time target. Validates FR-19 to FR-21, FR-51, FR-58.
 - **SM-5. Package pages.** Every registry package ID has a verified README on its latest listed stable NuGet page. Track verified IDs against the registry total, using the approved README for each ID (FR-16). Validates FR-15.
 - **SM-6. Badge honesty.** Every badge reads a live source about its own repository. Validates FR-38 to FR-40.
-- **SM-7. A clean organization page.** The front door and the pinned set show only in-scope repositories. Every other public repository has been archived, made private, or transferred. Every in-scope repository shows the community files. Validates FR-25, FR-29, FR-30, FR-33 to FR-35.
+- **SM-7. A clean organization page.** The front door and pinned set feature only in-scope repositories. Every repository in the reviewed archive-candidate inventory has its approved disposition applied, including an explicit “keep” decision. The public `Hexalith/.github` repository hosts the front door and community files and is excluded from the cleanup count. Every in-scope repository shows the community files. Validates FR-25, FR-29, FR-30, FR-33 to FR-35.
 - **SM-10. "Run it" coverage.** This counts, without a target, how many registry rows listed with "Run it" have a published block at launch. It is informational. Validates FR-58.
 
 ### After launch
@@ -1208,7 +1210,7 @@ Launch happens only when all of these hold:
 | R-1 | **Platform's agent-access stories may not land by mid-December.** At `a74abe17`, story 3.1 is done, 3.2–3.3 are in progress, and 3.4–3.8 are in the backlog. McpCli’s approved Projects inventory contains four queries. Project creation through McpCli is still missing. ChatBot’s UI remains in the Epic 13 backlog. [Platform sprint status](https://github.com/Hexalith/Hexalith.Platform/blob/a74abe17/_bmad-output/implementation-artifacts/sprint-status.yaml) · [Projects operations](https://github.com/Hexalith/Hexalith.McpCli/blob/6993abfe/tools/inventory-coverage/v1/projects-approved.json) | D-2, with its target and hard deadline. If D-2 slips, the launch moves to January 2027 with the same "Try it". The chat ending is a later upgrade (FR-66), not a launch condition. |
 | R-2 | **Only one human stranger test, and its tester's eligibility is uncertain.** Each person can be a newcomer only once, and the tester the brief names is an organization owner. | Define the outside tester by never having run Hexalith, not by their GitHub rights. Confirm eligibility and name a backup before the first run (FR-55). Use agent stranger tests for every iteration. |
 | R-3 | **Build time.** Platform declares 18 direct submodules. The time to start the selected composition from a clean machine may exceed 20 minutes. | Measure the cold build and dev container start in November (FR-52). `[HUMAN]` Make the prebuilt-images decision by 2026-11-30 if needed [ASSUMPTION]. That work isn't in this plan. |
-| R-4 | **Review capacity.** One maintainer reviews 21 migrations and republishes 101 registered package IDs in about 7 weeks that include the holidays. | Run pilots first and measure the review rate. Use go/no-go dates (§8.4). The docs check removes mechanical review, and the migration prompt lists the decisions it leaves open. |
+| R-4 | **Review capacity.** One maintainer reviews 21 migrations and republishes 101 registered package IDs in about 7 weeks that include the holidays. | Use pilot throughput and actual working days to forecast the remaining reviews, publisher releases and per-package verification at go/no-go 1 (§8.4). The docs check removes mechanical review, and the migration prompt lists the decisions it leaves open. |
 | R-5 | **The docs check turns `main` red for the wrong reasons.** | Tune the patterns in warn mode first, keep a fixture per rule, never let external links turn `main` red, and allow the commit-SHA suppression. |
 | R-6 | **Agent results vary.** In one benchmark, agents set up a repository from a bare environment only 39–57% of the time. | Three runs with a 2-of-3 threshold, the stranger-test kit, a recorded model, and prompts of 10 lines or fewer. |
 | R-7 | **Getting prerequisites takes too long.** The AI prompt path needs a supported agent tool. A newcomer who doesn't have one may run out of time. | The command path needs no agent tool, and Hexalith needs no LLM provider key. Prerequisite time counts toward the timer by decision. `[HUMAN]` If it alone breaks the target, make a scope decision (FR-52). |
@@ -1244,11 +1246,11 @@ Launch happens only when all of these hold:
 | # | Question | Owner | Blocks | Needed by |
 | --- | --- | --- | --- | --- |
 | 1 | Does "Try it" need anything besides Docker, VS Code, and, for the AI prompt path, a supported agent tool? | Platform maintainer | FR-18, FR-23, FR-51 | Mid-December |
-| 2 | Which archive candidates are archived, made private, or transferred? This includes the three template repositories. | Maintainer | FR-29 | 2026-11-30 |
+| 2 | Which candidates will the maintainer keep, archive, make private or transfer, including the three template repositories? | Maintainer | FR-29 | 2026-11-30 |
 | 3 | What is each repository's category and one-sentence description? Memories, CiCd, Docs, and McpCli are confirmed as technical modules. | Maintainer | FR-2, FR-25, FR-28 | Before the first migration |
 | 4 | Which repositories are pinned? | Maintainer | FR-30 | Before launch |
 | 5 | Which quickstart blocks do Hexalith.Builds, Hexalith.AI.Tools, and Hexalith.BmadSkills use? | Maintainer | Those three Level 1 migrations | During their migrations |
-| 6 | How many migrations can be reviewed per week? | Maintainer | §8.4 dates | Go/no-go 1 |
+| 6 | Do measured pilot rates and available owner time cover every remaining publisher release and package verification before stabilization and every remaining Level 1 review by launch? | Maintainer | §8.4 dates | Go/no-go 1 |
 | 7 | Is 5 minutes right for "Use the tool"? | Maintainer | FR-21, FR-51 | Calibration |
 | 8 | Does the Hexalith.BmadSkills cleanup require rewriting Git history? | Maintainer | FR-32 | When its review ends |
 | 9 | When does ChatBot's chat join Platform's plan? | Platform and ChatBot maintainer | FR-66 | After launch |
@@ -1257,7 +1259,7 @@ Launch happens only when all of these hold:
 | 12 | Does the named tester qualify as an outside tester, and who is the backup? | Maintainer | FR-55 | Before mid-December |
 | 13 | How do agent entry points let a newcomer's agent run a quickstart in a fresh clone? | Hexalith.AI.Tools maintainer | FR-63 | Before the first block is published |
 | 14 | Which Platform-owned composition and first call should each business module’s “Run it” block use? | Architecture | FR-20, FR-58 | Before the first "Run it" block |
-| 15 | How does a supported agent tool open the dev container from a clean host, and which tools are supported? | Maintainer (spike) | FR-6, FR-23, FR-53 | 2026-11-20 |
+| 15 | Which tools can open the dev container from a clean host, and which tool version and model will the maintainer use for the three launch qualification runs? | Maintainer (spike) | FR-6, FR-23, FR-53 | 2026-11-20 |
 | 16 | Should BMAD's `project_knowledge` setting stop pointing at `docs/`, so planning content isn't written back there? | Maintainer | FR-13 durability | Before the waves |
 | 17 | What is the support channel (GitHub Discussions, issues, other)? | Maintainer | FR-33 | Before `Hexalith/.github` is published |
 | 18 | Are the legacy SonarQube Cloud projects reused or deleted? | Maintainer | FR-40 | Before the pilots |
@@ -1271,9 +1273,7 @@ Launch happens only when all of these hold:
 - FR-2 format decision (20 November 2026). The registry is JSON next to the standard. Category and description confirmation remains a maintainer step.
 - FR-3: templates and prompts live in `templates/` and `.github/prompts/`.
 - FR-5: Hexalith.FrontComposer's dev container is aligned with the template.
-- FR-7:
-  - Hexalith.BmadSkills is added to `.gitmodules`.
-  - Deleting more than 20 lines without a new home triggers escalation.
+- FR-7: deleting more than 20 lines without a new home triggers escalation.
 - FR-8: the minimum launch guide set.
 - FR-9: fixed heading text, and no table of contents section.
 - FR-10: quickstart blocks are 30 lines or fewer.
@@ -1298,10 +1298,8 @@ Launch happens only when all of these hold:
 - FR-47: the documentation rules file is named `hexalith-docs-instructions.md`.
 - FR-49: the documentation rules file has a 100-line budget.
 - FR-50: "business module" means "domain module".
-- FR-53: a 2-of-3 pass threshold.
 - FR-54: monthly agent stranger tests after launch.
 - FR-55: the outside tester's declared path is the setup command.
-- FR-56: the launch ledger lives under `_bmad-output/` and identifies testers by role.
 - NFR-7: a 2-minute budget on Hexalith.EventStore.
 - §8.4: the rollout dates.
 - §8.5: the owner of the standard.
@@ -1318,6 +1316,8 @@ Launch happens only when all of these hold:
 - “Try it” succeeds when the newcomer creates a project through McpCli and finds it in the same tenant’s list. Chat follows after launch (FR-66).
 - the outside tester definition
 - the immediate Hexalith.BmadSkills check
-- Level 1 without timing
+- one untimed Level 1 working run for package and tool blocks, followed by timed qualification for every published block by launch
+- two successes in three independent timed trials on the same designated agent configuration (FR-53)
+- the launch ledger lives under `_bmad-output/` and identifies testers by role (FR-56, FR-65)
 - the scope of checked pages
 - the fixed "Try it" target

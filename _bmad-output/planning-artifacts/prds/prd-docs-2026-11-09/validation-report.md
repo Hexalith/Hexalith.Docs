@@ -1,27 +1,33 @@
 # Validation report — Hexalith Documentation Standard
 
-**Grade** · Fair\
-**Findings** · 0 critical · 5 high · 4 medium · 2 low\
-**Validated** · 2026-11-20T15:21:04+01:00\
+**Grade** · Excellent\
+**Findings** · 0 critical · 0 high · 3 medium · 1 low\
+**Validated** · 2026-11-20T15:56:44+01:00\
 **PRD** · `_bmad-output/planning-artifacts/prds/prd-docs-2026-11-09/prd.md`\
 **Rubric** · `.agents/skills/bmad-prd/assets/prd-validation-checklist.md`
 
 ## Overall verdict
 
 
-The PRD gives the team a clear launch outcome, 66 identifiable requirements and a dated account of what each pilot has proved. Before using it to accept all 21 migrations, maintainers need a workable readability check for five nonpublishers, a single rule for when timed tests become mandatory, and a capacity test that can actually trigger postponement. The missing McpCli write and the unmeasured cold journey are documented delivery dependencies.
+The PRD gives each of the 21 repositories an applicable review path and gives the launch maintainer measurable December decision criteria. The eleven findings from the earlier validation are resolved in the working text. The remaining clarifications concern evidence for pilot promotion, calibrated targets, the order of metadata updates and the calculation of one postlaunch metric.
 
-The current PRD carries forward all ten launch conditions across 21 repositories. It follows the accepted change to a timed McpCli project create/list journey, with chat deferred until after launch. The original reviews’ concerns about CI ownership, clean test environments and tester eligibility have been addressed. FR-41 assigns managed delivery to CiCd, the stranger-test kit defines each starting environment, and FR-55 requires a qualified outside tester and backup. The 20 November ledger still records zero Level 1 acceptances and only a partial Platform timing. [Decision history](.memlog.md) · [Approved course correction](../../sprint-change-proposal-2026-11-20.md) · [Test protocol](../../../../docs/stranger-test.md) · [Launch ledger](../../../implementation-artifacts/launch-ledger.md)
+The previous grade was Fair. The follow-up verified all 11 findings from that revision as resolved. This assessment covers the revised working copy. [Previous validation at b2f7018](https://github.com/Hexalith/Hexalith.Docs/blob/b2f701887b4cc26b9ae8b2dd284ecc36a92bcbdf/_bmad-output/planning-artifacts/prds/prd-docs-2026-11-09/validation-report.md) · [Resolution of the 11 findings](review-validation-followup-2026-11-20.md)
 
 ## Dimension verdicts
 
-- **Decision-readiness — adequate.** The two December decisions name an owner, a date and a consequence. The first still allows a positive answer when the observed throughput would miss the release window.
-- **Substance over theater — strong.** The timed journeys correspond to distinct user tasks. FR-19 tests what a developer copies from the README. Section 8.4 distinguishes a successful hosted example from a published archive match and records that the 10.60-second measurement ended at restore. These distinctions would change a real acceptance decision.
-- **Strategic coherence — adequate.** The primary measures track completed newcomer tasks and enforced documentation quality. Counter-metrics protect complete instructions and cold-start timing from superficial improvements. Keeping chat after launch preserves a useful first outcome while making the dependency on an approved Projects write visible.
-- **Done-ness clarity — thin.** The create/list identity match and per-package README verification have observable completion conditions. Several other acceptance instructions produce different verdicts for the same evidence.
-- **Scope honesty — adequate.** The addendum labels the registry proposal historical and directs readers to the working JSON. The 20 open questions name owners and decision points. FR-7 still makes an impossible checkout assumption about the scope.
-- **Downstream usability — adequate.** Stable identifiers support story extraction. The module and release owners can trace decisions through the backlog and ledger. The first public test still lacks an unambiguous source revision.
-- **Shape fit — strong.** A repository-by-repository capability specification suits a program spanning public Markdown, package releases, shared CI and human administration. The user journeys explain why a green code build alone cannot establish a working first run. The addendum holds source-specific setup details.
+- **Decision-readiness — adequate.** Section 8.4 requires two completion forecasts based on observed pilot throughput and actual owner availability. Missing capacity evidence has a stated consequence. For the first pilot’s transition to fail mode, the owner still has to interpret one prerequisite.
+- **Substance over theater — strong.** FR-19 ties package acceptance to the code shown to readers and the artifact built at that revision. FR-15 checks the actual stable archive and the rendered package page. Section 8.4 identifies the 10.60-second measurement as a restore and gives the full clean-host journey its own qualification. Each evidence type answers a different question.
+- **Strategic coherence — strong.** The primary metrics follow the newcomer to a verified result and the maintainer to sustained documentation checks. Fixed launch criteria, the separate chat upgrade and explicit counter-metrics support that strategy. The 90-day improvement metric needs a scoring convention.
+- **Done-ness clarity — adequate.** The body differentiates the untimed first package or tool run, the timed two-of-three checks, the separate Platform journeys and the single untimed Kubernetes execution. The designated tool, version, model, prompt and candidate are fixed for a timed set. An ambiguity remains if the maintainer exercises the existing calibration authority.
+- **Scope honesty — strong.** FR-7 distinguishes the parent Docs checkout, 19 direct submodules and the externally approved BmadSkills source. FR-62 applies a GitHub review to all 21 and package-page review to the 16 publishers. D-2 assigns the missing authorized write and end-to-end demonstration to the product owners. The PRD keeps the launch decision pending until the corresponding evidence exists.
+- **Downstream usability — adequate.** Stable requirements and the addendum support extraction by repository and owner. A migration agent can now identify the exact candidate to rehearse and determine what changes invalidate the results. The migration handoff still needs a workable order when a maintainer changes a public description.
+- **Shape fit — strong.** The document suits a program involving multiple repositories, publishers, end users and human owners. The PRD carries the outcomes, owners and decision points. The addendum carries CI placement, package verification mechanics, runtime pins and trial-record details. The historical registry proposal points readers to the working inventory.
+
+## Source alignment
+
+The revised PRD and addendum implement the eleven recorded corrections while preserving the agreed 21-repository scope and ten launch conditions. The registry supports GitHub review for every migration and NuGet verification for the 16 publishers. The December forecast uses each outstanding release, package verification and migration to test the available capacity. [Brief decisions](../../briefs/brief-docs-2026-11-09/addendum.md) · [Decision history](.memlog.md) · [Registry](../../../../docs/module-registry.json) · [Finding dispositions](review-validation-followup-2026-11-20.md)
+
+FR-53, SM-2 and addendum §C now bind each timed set to the same designated tool version, model, revision and prompt. The protocol requires independent clean attempts. The PRD preserves the separate 15-minute Platform first call, 20-minute same-tenant project create/list, outside test and untimed Kubernetes execution. Its evidence section accurately identifies zero Level 1 acceptances and a 10.60-second engineering restore. The ledger still awaits an end-to-end newcomer result. [PRD](prd.md) · [Addendum](addendum.md) · [Test protocol](../../../../docs/stranger-test.md) · [Launch ledger](../../../implementation-artifacts/launch-ledger.md)
 
 ## Findings by severity
 
@@ -29,85 +35,45 @@ The current PRD carries forward all ten launch conditions across 21 repositories
 
 None.
 
-### High (5)
+### High (0)
 
-**Any measured review rate can pass** · Decision-readiness · §8.4, OQ-6, R-4
+None.
 
-“Is the review rate measured?” can be answered yes even when one accepted migration per week would leave most repositories unfinished. The 1 December decision also precedes the proposed 10 December republish cutoff.
+### Medium (3)
 
-**Suggested change** · At the decision, use the outstanding repository and package-publisher counts, measured review and release capacity, and available working days to forecast both deadlines. Specify the maintainer’s response when the forecast misses either date.
+**Evidence for cross-repository rule tuning is unspecified** · Decision-readiness · FR-13, FR-42, FR-43, §8.4, addendum §B.2
 
-**The cleanup metric counts a required public repository as a failure** · Strategic coherence · §3, FR-29, FR-59, SM-7
+FR-13 requires planning-content patterns to be tuned “against all 21 in-scope repositories in warn mode, before any repository switches to fail mode.” FR-43 rolls hosted checks out as CiCd adopts each module, and §8.4 schedules pilot acceptance ahead of later waves. One reviewer could accept a warning-mode checker run over 21 recorded source revisions while another could require a hosted run from every repository before either pilot advances.
 
-The glossary explicitly excludes the organization’s community repository from the 21. SM-7 requires every other public repository to be archived, made private or transferred, while gate 6 requires that same community repository to be public and live. FR-29 also permits the maintainer to record “keep.”
+**Suggested change** · Specify which evidence satisfies the all-21 tuning prerequisite, who records it, and where the pilot reviewer can find it alongside that pilot’s own hosted checks.
 
-**Suggested change** · Define SM-7 against the reviewed archive-candidate inventory. Exclude the required organization repository explicitly and specify how approved keep decisions count.
+**A calibrated “Run it” target can conflict with its publication gate** · Done-ness clarity · FR-20, FR-51, FR-52, FR-57, FR-58, §8.4
 
-**Five repositories have no NuGet page for their required review** · Done-ness clarity · FR-62, FR-57, NFR-2
+FR-51 permits calibration of the 15-minute “Run it” target, and FR-52 records a change in the standard. FR-57 and FR-58 still require publication “within 15 minutes.” If the approved target changes to 12 minutes, a 14-minute result would pass one instruction and fail the other.
 
-Every migration requires the readability checklist “from the README alone as nuget.org shows it.” The registry lists zero packages for AI.Tools, BmadSkills, CiCd, Docs and Platform. No reviewer can inspect those repositories on NuGet.
+**Suggested change** · Mark 15 minutes as the initial value and have the publication gate use the approved target for the recorded revision. If Platform has a fixed exception, state it explicitly. Preserve the fixed 20-minute “Try it” requirement.
 
-**Suggested change** · Designate the rendered GitHub README as acceptance evidence for nonpublishers, mark package-only checks inapplicable, and retain the NuGet rendering check for each publisher.
+**The agent’s clean-check handoff can depend on a later human action** · Downstream usability · UJ-5 steps 3–4, FR-2, FR-7, FR-11, FR-28, FR-64
 
-**Two different test counts govern initial block publication** · Done-ness clarity · FR-53, FR-54, FR-57, FR-58
+The local check must be clean before the agent hands over the migration. The check compares the candidate description with the live About field and front door, while the next step assigns GitHub settings to the maintainer. When a new description differs from the live one, the agent cannot complete the stated handoff in that order.
 
-FR-54 requires the timed stranger test “before any block … is published.” FR-57 says Level 1 blocks “work but aren’t timed” and requires one completed agent run. A new package block passing one untimed run can therefore satisfy the Level 1 checklist yet fail its publication rule.
+**Suggested change** · Identify how a candidate with pending metadata differences is handed to the maintainer, when the authorized owner applies the public changes, and when exact equality is verified before acceptance.
 
-**Suggested change** · Specify where the one-run Level 1 check suffices and where the timed two-of-three Level 2 test is required before publication. Retain the explicit Platform and launch gates.
+### Low (1)
 
-**The first agent rehearsal has no defined candidate page** · Downstream usability · FR-17, FR-22, FR-53, FR-54, §8.4
+**The 90-day automation metric lacks a counting rule** · Strategic coherence · §9, SM-9
 
-The test starts at the Platform README and consumes its prompt. Until qualification, the README links to a development guide and the block containing the prompt is withheld. The protocol does not say how observers supply the exact proposed README and prompt before publication.
+“80% of docs check failures were fixed without a human edit” leaves retries, multiple findings in one failed run, human-reviewed agent fixes and the zero-failure case open to different counts.
 
-**Suggested change** · Define a pinned candidate page or preview and its entry link for the first trials, record the revision and prompt, and identify which changes require retesting before promotion.
-
-### Medium (4)
-
-**The standard “Run it” prompt ends before first success** · Done-ness clarity · FR-6, FR-20, FR-51
-
-An agent following the five prescribed steps can return the dashboard and “Explain the first call” without ever receiving its documented result. That prompt can complete while the 15-minute timer still runs.
-
-**Suggested change** · Require execution of the first call and comparison of the returned result with the expected value.
-
-**Gate 9 has two possible Kubernetes pass rules** · Done-ness clarity · FR-24, FR-53, §8.3
-
-FR-24 requires “one agent stranger test run” and gives no time target. FR-53 defines each test as three runs and a pass as two successes within target. Two reviewers can demand different evidence for the same Kubernetes guide.
-
-**Suggested change** · Define the Kubernetes qualification as one untimed, independent execution if that is the intended exception, and reference it in gate 9.
-
-**Migration instructions omit the parent checkout and exceptional module** · Scope honesty · FR-7, §3, §13
-
-“Every in-scope repository is a root submodule” includes the Docs workspace itself. Docs is the parent, 19 other repositories are declared as direct submodules, and BmadSkills has no gitlink. Adding BmadSkills alone would still leave the statement false.
-
-**Suggested change** · Identify the Docs checkout, its declared direct submodules, and the owner-approved source location for BmadSkills. Keep its inclusion in the registry independent of a checkout decision.
-
-**The three-run threshold has no designated tool and model** · Source alignment · FR-53, SM-2, OQ-15
-
-FR-53 records each run’s configuration, and OQ-15 asks which tools to support. Neither says whether all three attempts must use the same configuration. Two successes with one tool and a failure with another could qualify a combination that neither tool passed independently.
-
-**Suggested change** · Have the maintainer name the launch configuration before the first trial and apply the two-of-three threshold to three independent runs on that configuration. [PRD](prd.md)
-
-### Low (2)
-
-**A named missing file already exists** · Downstream usability · FR-48
-
-The example says PolymorphicSerializations has no Copilot entry point. Its refreshed main at `c6d0dfce` tracks `.github/copilot-instructions.md`. A migration agent could replace a file that carries existing instructions.
-
-**Suggested change** · Remove the stale example and direct the agent to verify reachability in the checked revision before proposing changes.
-
-**The assumptions index still includes a settled ledger rule** · Mechanical notes · §13, FR-56
-
-Section 13 lists the ledger’s location and role-only identity as assumptions while FR-56 states both directly and FR-65 requires role-only identification.
-
-**Suggested change** · Move confirmed ledger facts into the decisions list or retain an assumption only on the specific point still awaiting confirmation.
+**Suggested change** · Define one unit of failure and its resolution evidence, count repeated observations consistently, distinguish human review from human edits, and report the numerator and denominator with an explicit zero-denominator convention.
 
 ## Mechanical notes
 
-- The PRD contains FR-1 through FR-66, UJ-1 through UJ-6 and SM-1 through SM-10 exactly once as definitions. All ten launch conditions are enumerated. The relative Markdown links in the PRD resolve in the checkout. Four newcomer or contributor journeys name illustrative people. The two operational journeys identify their actors by role.
-- The source validator passed for all 21 registry rows, which cover 101 package IDs. All six frontmatter input paths resolve.
-- The three findings in the earlier 20 November update review were resolved. The finding counts apply to the documents validated in this run.
+- The PRD defines FR-1 through FR-66, UJ-1 through UJ-6 and SM-1 through SM-10 once each. All ten launch conditions are present. The PRD and addendum’s relative Markdown file links resolve in the checkout. Section 13 records the trial threshold and the ledger’s role-only identity convention as decisions. Zero Level 1 acceptances, outstanding public republishing and pending clean-host qualification remain delivery evidence in the ledger.
+- The source validator passed for all 21 registry rows, which cover 101 package IDs. All seven frontmatter input paths resolve. The PRD defines 66 functional requirements, nine non-functional requirements, six journeys, ten success metrics, five counter-metrics and ten launch conditions.
+- Validated working-copy SHA-256 digests: PRD `b471b657f5e0930f3c44e491eef35df31a0935cd325161cef7e5433e5b47f0b7`, addendum `d2e5f1eb98838f2a419511d2d59321741e9fee52bba21895060dd99dd0e2d8ae`.
 
 ## Reviewer files
 
-- [Rubric review](review-validation-rubric.md)
-- [Source alignment](review-validation-source-alignment.md)
+- [Rubric review](review-revalidation-rubric.md)
+- [Source alignment](review-revalidation-source-alignment.md)
