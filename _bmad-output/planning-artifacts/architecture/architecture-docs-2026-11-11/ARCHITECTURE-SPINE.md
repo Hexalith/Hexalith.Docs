@@ -47,7 +47,7 @@ companions: [.memlog.md]
 | CiCd AD-12 | Hexalith.CiCd spine | The docs check runs in the prepare step after the stage-1 guard. The README-sample step joins stage 3 (amendment pending). |
 | CiCd AD-14 | Hexalith.CiCd spine | No hook action calls Builds. The CI job holds only the pull-only registry pair. |
 | CiCd AD-15 | Hexalith.CiCd spine | `check.py` runs the same docs check locally. There is no pre-push hook. |
-| CiCd AD-18 | Hexalith.CiCd spine | The nightly run dispatches every adopted module's release, so a releasable commit on `main` reaches nuget.org that night. |
+| CiCd AD-18 | Hexalith.CiCd spine | The nightly run dispatches every adopted module's release, subject to release eligibility, CI and dispatch results. Publication requires per-package evidence (AD-11). |
 | CiCd AD-20 | Hexalith.CiCd spine | Documentation adds no Builds workflow. Standalone callers reuse the checker script. |
 | CiCd AD-21 | Hexalith.CiCd spine | `SONAR_TOKEN` is a legacy secret that adoption removes. |
 | Platform AD-1 | Hexalith.Platform spine | Only Platform's Aspire model composes multi-module environments. No quickstart starts a module-owned AppHost. |
@@ -60,31 +60,34 @@ companions: [.memlog.md]
 
 - **Binds** the guide hub, agent rules, organization profile and migration tooling.
 - **Prevents** an unconfirmed module description or package count from becoming a public claim.
-- **Rule** Record rule IDs in the standard and module facts in one JSON registry. JSON can be read with the Python standard library. Distinguish unknown, proposed and human-confirmed values. Verify all 21 repositories are represented. A workspace checkout may omit BmadSkills while its inventory and ownership review are pending.
+- **Rule** Record rule IDs in the standard and module facts in one JSON registry. JSON can be read with the Python standard library. Distinguish unknown, proposed and human-confirmed values. Verify all 21 repositories are represented. BmadSkills remains one of the 21 while its owner supplies an immutable external revision. Treat its existing empty package list as pending until the owner verifies the inventory at that revision (AD-16).
 
 ### AD-2 — CI validates the checked-out revision [ADOPTED]
 
 - **Binds** local runs, hosted checks and management of shared CI config.
 - **Prevents** an edit on another repository's default branch from changing yesterday's result.
-- **Rule** Enroll modules through CiCd against a released Builds contract. Resolve files and same-repository badge workflow paths against the checked revision. Use the same rules and findings locally. Enroll in warning mode first. Promote each pilot to fail mode after the maintainer reviews the outstanding findings. Put external network checks in a separate scheduled run.
+- **Rule** Use the same released checker, mode and checkout locally and in hosted CI. CiCd agents configure the 17 managed modules through CiCd setup and maintain Builds and CiCd in their own CI. Docs, BmadSkills and the additional organization repository `Hexalith/.github` set their mode in their caller workflows. Begin in warning mode. AD-6 defines the inputs, AD-7 the link checks and AD-8 the evidence for promotion.
 
 ### AD-3 — Test the material a reader receives [ADOPTED]
 
 - **Binds** the package example, packing, release selection and verification.
 - **Prevents** green library tests from concealing an unusable README or an old package page.
-- **Rule** A fresh consumer must run the displayed code against packages built from that revision. For every pilot package, verify the nuspec README entry against its intended source, including project-specific documentation. Module documentation migrations use the narrowly scoped README release rule. Record the released version, package count and verified public README before claiming a successful republish.
+- **Rule** A fresh consumer must run the displayed code against packages built from that revision. For every pilot package, verify the nuspec README entry against its intended source, including project-specific documentation. Eligible module migrations use the README release rule. AD-11 specifies the Builds and paired McpCli release routes. Record the released version, package count and verified public README before claiming a successful republish.
 
 ### AD-4 — Platform owns the timed local journey [ADOPTED]
 
 - **Binds** the cold-host kit, Platform setup and the user-facing Try it link.
 - **Prevents** a warm developer checkout or partial topology from certifying the 20-minute target.
-- **Rule** Obtain SDK and Aspire pins from Platform's own configuration. Use one Dapr home for install and run. Measure from the prescribed entry page through readiness and an observed create/list operation with the same tenant. Record the actual prerequisites, tester role, duration, tool version and friction, keeping tokens out of the log.
+- **Rule** Qualify both routes on the same immutable candidate Platform README before publishing its “Run it” block or the organization’s “Try it” link.
+  - For each route, the maintainer predeclares the supported agent tool, version and model. Start three independent unaided clean sessions with the route’s exact printed prompt. Record entry URL, candidate SHA, effective toolchain (AD-13), role, elapsed times, first result and friction. Keep secrets and personal identifiers out of the record. Each route requires two passes within its own target.
+  - “Run it” ends at the documented first successful call within 15 minutes. “Try it” includes readiness of all seven MVP modules and a McpCli create/list that returns the same project in the same tenant within 20 minutes. A restore or a read-only query cannot establish that result.
+  - Before promotion, compare the candidate with the instructions proposed for publication. A change to the prompt, commands, prerequisites or path requires repeating the affected qualification. A changed agent configuration starts a new set. After both passes, publish the link. The maintainer confirms an eligible outside tester and backup and declares the command or prompt path in advance. The tester starts at the public organization page on their own clean machine and, unaided, reaches the same create/list result within 20 minutes including prerequisites. Both the documented command and the prompt must demonstrate that result (FR-23). A failed human trial requires fixes, agent requalification and the backup tester. The separate Kubernetes how-to requires one fresh agent’s successful untimed run (FR-24).
 
 ### AD-5 — Publication requires human evidence [ADOPTED]
 
 - **Binds** the launch ledger, repository visibility and exposure review.
 - **Prevents** private findings, credentials or unsupported readiness claims appearing in public guides.
-- **Rule** The maintainer keeps item-level findings and remediation in a private review record. The ledger records reviewed revisions, counts, role and status. Changing visibility, enabling safeguards, starting a package release, accepting an outside test and deciding launch require the corresponding owner.
+- **Rule** The security maintainer reviews already-public planning content immediately, including the BmadSkills originals and backups identified in FR-32. Cover both planning trees at the reviewed revision and reconcile intervening changes before closure. Review Docs before a visibility change. Verify secret scanning and push protection for all 21 repositories and the organization community repository. Keep item-level findings and remediation in the private review record. The ledger records reviewed revisions, counts, role and status. Changing visibility, enabling safeguards, starting a package release, accepting an outside test and deciding launch require the corresponding owner.
 
 ### AD-6 — Each check judges only what its own commit pins
 
@@ -93,9 +96,9 @@ companions: [.memlog.md]
 - **Rule**
   - Builds' `docs_check.py` is the only per-repository checker. It runs in the CI prepare step after the stage-1 guard and before restore, in the mode the `docs` knob sets, and `check.py` calls the same function [ADOPTED]. It adds at most 2 minutes to an EventStore CI run.
   - Its checked pages come from the checkout alone: the root README, every `README.md` beside a `.csproj` under `src/`, and the docs pages the root README links to directly. It never reads the registry.
-  - A standalone caller (Docs, BmadSkills, CiCd, `Hexalith/.github`) runs the same script from a Builds checkout pinned to a release tag, with a committed page profile of `module`, `hub` or `org` that selects the applicable rules [ASSUMPTION].
-  - Docs CI owns every rule that needs the registry: verbatim description, quickstart order, package IDs, the package-README set, badge sources and Sonar key. It judges them against the root-declared submodule revisions its own commit pins, initialized without recursion. A registry finding fails Docs CI only for a row whose pinned checkout renders `docs: fail`. Other rows report. The same Docs script runs locally for one module.
-  - A repository's Level 1 evidence is a Docs commit whose gitlink equals the accepted revision and whose registry check passed.
+  - The own-CI and caller routes in AD-2 run the same script from a Builds checkout pinned to a release tag, with a committed page profile of `module`, `hub` or `org` that selects the applicable rules [ASSUMPTION].
+  - Docs CI owns every rule that needs the registry: verbatim description, quickstart order, package IDs, the package-README set, badge sources and Sonar key. The Docs acceptance commit fixes the rules, registry and source identities. Use its 19 direct gitlinks, its own tree for Docs, and a BmadSkills commit approved by its owner and recorded in the Docs evidence. Run the same Docs check locally on those inputs. Determine each candidate’s mode from its committed configuration under AD-2. In fail mode an unresolved required input or a failing registry rule prevents acceptance. Other rows report.
+  - For Level 1, record the Docs acceptance commit and passing Docs check, plus the candidate’s hosted fail-mode result at the same source revision. For Docs itself the workflow run identifies that Docs commit. Record its SHA in subsequent evidence to avoid a self-referential commit.
 
 ### AD-7 — Links are checked offline per commit and online on schedule [ADOPTED]
 
@@ -103,7 +106,8 @@ companions: [.memlog.md]
 - **Prevents** a rate limit or flaky host turning a module red, and a broken self-link passing.
 - **Rule**
   - Per commit, the checker resolves relative paths, in-page fragments and self-links against the checkout, without network access. Self-links are `https://github.com/Hexalith/<self>/{blob,tree,raw}/main/…` and `https://raw.githubusercontent.com/Hexalith/<self>/{main,refs/heads/main}/…`. A self-link to any other ref is a finding.
-  - One Docs link script checks links to other Hexalith repositories, external destinations and badge images. It uses lychee, deduplicates by URL, and also runs in single-repository mode as each migration's online check [ASSUMPTION].
+  - On every Docs registry check, resolve cross-repository source-file links and fragments offline at the source revisions recorded by AD-6. For the organization repository, record its immutable revision alongside the external inputs. Report missing target revisions or paths and keep the affected migration open. Resolve default-branch file URLs against those pinned trees. An explicitly immutable target is checked at its stated revision. Live-only resources such as badges and release pages go to the online check. A module check alone covers only its own tree.
+  - One Docs link script checks live links to other Hexalith repositories, external destinations and badge images. It uses lychee, deduplicates by URL, and also runs in single-repository mode as each migration's online check [ASSUMPTION].
   - The scheduled run goes every Monday at 06:00 UTC with Docs' own `GITHUB_TOKEN` and `issues: write`. It updates one pinned report issue in Docs and the job summary, and fails only on its own errors. It also reads live default branches and reports drift from the pinned revisions.
 
 ### AD-8 — One rule catalog and one finding contract
@@ -114,9 +118,10 @@ companions: [.memlog.md]
   - Rule IDs take the form `D-<NAME>` and exist only in the table in `docs/documentation-standard.md`. An ID enters the table before any Builds release emits it. Planning content gets its own ID, `D-PLANNING`, split from D-LOCATION [ASSUMPTION]. Builds findings and AI.Tools rules cite only catalog IDs. A Docs test checks the pinned Builds and AI.Tools submodules against the table.
   - A finding is one JSON line `{file, line, rule, level, hint}` with `level` set to `report` or `fail` [ASSUMPTION]. Docs CI findings add `repository`.
   - A finding fails a run only when the repository's mode is `fail`, its level is `fail`, it sits on a checked page and no suppression matches.
-  - Managed modules get suppressions only from CiCd setup, rendered into `hexalith-ci.json`. Standalone callers commit theirs in `.github/hexalith-docs.json` [ASSUMPTION]. An entry is `{file, rule, match, reason}`, where `match` is the exact suppressed text. Only a `D-PLANNING` match on a 40-character SHA of a pinned action or submodule commit can be suppressed. D-BADGE can't. The job summary prints the suppression count, and the weekly report totals them across repositories.
+  - Managed modules get suppressions only from CiCd setup, rendered into `hexalith-ci.json`. Own-CI and caller repositories commit theirs in `.github/hexalith-docs.json` [ASSUMPTION]. An entry is `{file, rule, match, reason}`, where `match` is the exact suppressed text. Only a `D-PLANNING` match on a 40-character SHA of a pinned action or submodule commit can be suppressed. D-BADGE can't. The job summary prints the suppression count, and the weekly report totals them across repositories.
   - A new or widened rule ships at `report` level. Builds raises it to `fail` in a later release, and only after the weekly report shows zero findings for it in every fail-mode repository.
-  - A repository moves to `docs: fail` through a CiCd setup change that the maintainer approves after reviewing its findings. Its ledger row records the revision and the hosted run.
+  - Before the first promotion, the Docs maintainer records one warning-mode calibration of the candidate planning-content patterns against all 21 source revisions (FR-13). Record the checker and rule revision, source SHA, findings and disposition for each repository, including an owner-approved BmadSkills checkout. A missing source or missing rule coverage leaves calibration open. Changed patterns require a fresh calibration.
+  - Each repository runs in hosted warning mode before migration. After its maintainer reviews the findings, the configuration owner in AD-2 enables fail mode. The ledger links the shared calibration and the successful hosted fail-mode run at the accepted revision. For Level 1, also record the disposition of every applicable mandatory rule. A report-only or manual rule needs affirmative review evidence. An unresolved mandatory finding blocks acceptance even if the hosted job passed.
 
 ### AD-9 — README samples run as one Builds step
 
@@ -126,18 +131,18 @@ companions: [.memlog.md]
   - Builds' reusable `ci.yml` runs one native README-sample step in stage 3, after unit tests and before the `after-unit-tests` hook. The step runs when the `readmeSamples` knob CiCd renders is `true` [ASSUMPTION].
   - The step packs the stage-2 Release outputs into a temporary feed at a version no public feed carries. Each consumer's `NuGet.Config` clears every other source. Consumers target the framework of the repository's SDK major.
   - A sample is one or more consecutive `csharp` blocks, followed directly by exactly one `text` block holding the expected output. Samples sit in the root README's "Use the package" block or under a package README's `## Usage` heading [ASSUMPTION]. Earlier blocks become type files, and the last block holds the top-level statements. Each sample prints its documented result, and output must match line by line. A prompt block never directly follows a `csharp` block.
-  - The pilots' hook scripts stay until the Builds release ships. Then each hook drops its sample step. A publisher reaches Level 1 only after a hosted run in which the step ran.
+  - The pilots' hook scripts stay until the Builds release ships. Then each hook drops its sample step. Level 1 requires same-revision hosted execution of each displayed package sample. Package and tool quickstarts each require one successful unaided candidate run before first publication (FR-57). A tool-only publisher verifies its documented first command and every package ID under AD-11.
 
 ### AD-10 — "Run it" runs through Platform and ends with a McpCli call
 
 - **Binds** every module's "Run it" block, its prompt and the registry's quickstart field (FR-20, FR-58, Open Question 14).
 - **Prevents** a README starting a frozen module AppHost, a second composition path, an unpinned module tool, or a first call through a legacy surface.
 - **Rule**
-  - A block is eligible only when the repository has `module/hexalith.module-manifest.v2.json`, a direct `references/Hexalith.Platform` gitlink and `Hexalith.Builds.Module.Cli` pinned in `.config/dotnet-tools.json` at the version that Platform revision pins.
-  - The block opens the repository dev container, runs `dotnet tool restore`, then `dotnet tool run hexalith-module -- run --manifest module/hexalith.module-manifest.v2.json` from the module workspace. EventStore, Memories and McpCli start from a Platform checkout, with the manifest path under `references/`.
+  - For a module run from its own workspace, eligibility requires `module/hexalith.module-manifest.v2.json`, a direct `references/Hexalith.Platform` gitlink and `Hexalith.Builds.Module.Cli` pinned in `.config/dotnet-tools.json` at the version that Platform revision pins.
+  - The block opens the repository dev container, runs `dotnet tool restore`, then `dotnet tool run hexalith-module -- run --manifest module/hexalith.module-manifest.v2.json` from the module workspace. EventStore, Memories and McpCli instead use the Platform checkout, its pinned tool and the target manifest under its direct `references/` gitlink.
   - The block ends with one call through the McpCli build that the Platform tool produces for that run, and shows its expected output.
-  - Only the Platform README starts Platform's own AppHost. No module quickstart or prompt uses `aspire run`.
-  - The registry lists planned blocks, and the ledger records each block's qualification. A README shows only qualified blocks, so an ineligible or unqualified "Run it" stays reserved.
+  - Platform’s own route starts its AppHost with `aspire run` in the Platform dev container. Its candidate checkout supplies the toolchain and direct dependency pins. No module quickstart or prompt uses `aspire run`.
+  - The registry lists planned blocks, and the ledger records each block's qualification. Rehearse a proposed block on an immutable candidate commit. The default-branch README links to the development guide until its block qualifies. Platform publishes after both AD-4 qualifications.
 
 ### AD-11 — Documentation commits and the release start
 
@@ -145,10 +150,10 @@ companions: [.memlog.md]
 - **Prevents** agents relabeling documentation as `fix:`, an unreviewed README reaching nuget.org through the nightly release, and planning IDs reaching release notes.
 - **Rule**
   - Migration work lands as `docs:` commits, which never release.
-  - After Level 1 review, the module owner makes or explicitly approves the single `docs(readme): …` commit. Because the nightly run dispatches releases, that commit starts the release (AD-5). Make it only after the delivered Builds tag contains the `docs(readme)` rule. The release record lists any non-docs commits the patch carries, and the owner accepts them.
-  - Builds' own README ships with its next release, since Builds releases on any non-docs commit. The Hexalith.McpCli README ships with the next Platform publication (Platform AD-11).
+  - After the maintainer reviews the candidate migration and before final Level 1 acceptance, the module owner makes or explicitly approves the single `docs(readme): …` commit. That commit authorizes the module patch for the next eligible nightly dispatch (AD-5). Verify the actual release result. Make it only after the delivered Builds tag contains the `docs(readme)` rule. The release record lists any non-docs commits the patch carries, and the owner accepts them.
+  - The Builds maintainer includes the migrated READMEs for `Hexalith.Builds.Evidence.Cli` and `Hexalith.Builds.Module.Cli` in the next qualifying Builds release. Its selector excludes docs, test and style changes. If that release would miss the FR-15 stabilization deadline, record the gap in the launch forecast for owner disposition. For the paired McpCli release, Platform owns the stable tool and McpCli owns Abstractions (Platform AD-11). McpCli currently stages and publishes both IDs together. Hold a documentation-triggered republish until the owners reconcile that workflow with Platform AD-11 and identify one authorized publisher and one release receipt per ID.
   - No commit subject or scope carries a story, epic, FR or other planning ID. CiCd's commit lint gains this rule by amendment (Open Question 11). Until then, migration review enforces it.
-  - Republish verification takes the expected IDs from the release's `hexalith-release-packages` trailer. It compares nuget.org with the README blobs at the `v<version>` tag commit [ASSUMPTION].
+  - Reconcile the release’s package IDs with the confirmed inventory at the Docs acceptance revision. For each expected ID verify the intended latest listed stable version, its nuspec README against the mapped source at the release tag, and the rendered page and links. Record version and verified/expected count. Missing IDs keep the publisher’s Level 1 acceptance open.
 
 ### AD-12 — Quickstart runs never stop on the contributor baseline
 
@@ -170,7 +175,7 @@ companions: [.memlog.md]
   - The base image is `mcr.microsoft.com/devcontainers/dotnet` at an exact tag whose .NET major equals the SDK major in `global.json`. The checker compares the two from the checkout.
   - Dev container files never state Aspire or Dapr versions. `postCreateCommand` runs `dotnet tool restore` and Platform's setup with the pinned module tool. Setup installs the Dapr CLI and runtime that the tool's catalog requires into the single home named by `HEXALITH_DAPR_HOME`, which install and run share. It installs the Aspire CLI that matches the Aspire version pinned by the AppHost that runs the block [ASSUMPTION].
   - Setup also installs any extra runtime the Platform README lists.
-  - Prerequisite lists restate the installed versions. Each clean-environment run compares them with what setup installed, and records both.
+  - Prerequisite lists restate the installed versions. Record the Platform and effective Builds catalog SHAs, module-tool version, and declared and observed SDK, Aspire, Dapr CLI and Dapr runtime versions. The catalog must match the Builds gitlink of the Platform candidate. A sibling checkout with another SHA or a different installed version disqualifies the trial. Install and run use the same Dapr home.
 
 ### AD-14 — Pages derived from the registry are generated
 
@@ -187,7 +192,7 @@ companions: [.memlog.md]
 - **Prevents** an agent editing one checkout while checking another, nested submodule initialization, and migrations following different template revisions.
 - **Rule**
   - A migration edits and commits in the owning repository's checkout. It validates messages with that repository's pinned commit lint.
-  - From the Docs workspace, the local check runs `python3 references/Hexalith.Builds/Github/lib/docs_check.py --root references/<Repo> --repository Hexalith/<Repo> --mode fail` and initializes no nested submodule. The hosted run at the module's `buildsTag` is the evidence.
+  - Run the local per-repository check from the same Builds commit as the candidate’s hosted release tag using its committed mode, configuration and source checkout. If the Docs sibling differs, use a separate checkout of that released checker. Record its SHA and hosted run URL. If the pinned release lacks the checker, the configuration owner must deliver a compatible release before the check can qualify. The Docs registry check runs separately on the AD-6 inputs.
   - Each migration records, in its ledger row, the Docs commit whose templates and registry it followed and the AI.Tools revision its entry points came from.
 
 ### AD-16 — Shared state has one write path
@@ -196,6 +201,7 @@ companions: [.memlog.md]
 - **Prevents** parallel agents overwriting each other's rows, agents confirming their own descriptions, and a registry row disagreeing with its pinned checkout.
 - **Rule**
   - A registry row changes only in the Docs commit that advances that module's gitlink, or in a maintainer commit. Only a maintainer commit sets a status to `confirmed`. Agents write `proposed` values or `null`.
+  - The registry distinguishes pending inventory from an owner-confirmed empty list. Record confirmation status and the owner-approved source revision with the inventory. A changed inventory requires renewed confirmation. Legacy rows without that evidence remain pending even where schema v1 stores zero. Until confirmed, show the repository as pending in the ledger and capacity forecast. Only a confirmed empty inventory makes package evidence inapplicable. An unresolved inventory prevents closing the migration or declaring the forecast complete.
   - The ledger has one row per registry repository. Only that repository's migration or the maintainer edits it.
   - Each trial writes its own record under `_bmad-output/implementation-artifacts/trials/`, and the row links to it [ASSUMPTION].
 
@@ -268,11 +274,11 @@ flowchart LR
 | --- | --- |
 | Python for the checker and Docs tooling | 3.12 or later, standard library only |
 | .NET SDK | 11.0.100 in every module `global.json`, with `rollForward` set per repository |
-| Aspire | 17.0.0 at Platform `b0159ad4`; older Platform pins in module workspaces use 13.6.5 |
-| Hexalith.Builds.Module.Cli (`hexalith-module`) | 6.3.0 pinned by Platform `b0159ad4` |
-| Hexalith.McpCli | 3.0.0, built per run by the Platform tool |
-| Dapr CLI and runtime | As required by the pinned module tool's catalog: 1.19.1 for tool 6.3.0; runtime 1.19.2 is current |
-| Builds release with the checker and `docs(readme)` rule | First tag after v6.4.4 that contains `aaf27a2c` |
+| Aspire | 17.0.0 at Platform `abb62da8`; older Platform pins in module workspaces use 13.6.5 |
+| Hexalith.Builds.Module.Cli (`hexalith-module`) | 6.4.4 pinned by Platform `abb62da8` |
+| Hexalith.McpCli | Stable Abstractions 3.0.0. For trials the Platform tool builds McpCli from the candidate source pin (currently `e79b7f8b` at `abb62da8`). Record the source and loaded artifact identity. |
+| Dapr CLI and runtime | Platform `abb62da8` pins Builds `fe68718b`: CLI 1.19.1, runtime 1.19.1. Docs sibling `e1380b81`: CLI 1.19.1, runtime 1.19.2. Use AD-13 for trials |
+| Builds release with the checker and `docs(readme)` rule | Pilots pin v6.4.4. Use a release containing both the checker and the module README selector |
 | Dev container base image | `mcr.microsoft.com/devcontainers/dotnet:3.0.1-11.0-resolute` |
 | Dev container features | docker-in-docker 4.1.3, python 1.8.1 |
 | lychee, for the Docs link script only | v0.24.2 |
@@ -340,10 +346,11 @@ flowchart LR
 | Result | Required evidence | Responsible owner |
 | --- | --- | --- |
 | Guide ready for public access | Confirmed registry values, exposure disposition, links work signed out | Docs and security maintainers |
-| Pilot ready for adoption | Displayed sample runs, badge resolves, package contents match, warning baseline reviewed | Module owners |
-| Hosted checks enabled | Versioned shared contract delivered and hosted run recorded | Builds and CiCd |
+| Pilot ready for adoption | AD-8 calibration and hosted fail evidence, sample output, badge and package checks, maintainer review | Module owners |
+| Hosted checks enabled | Released checker, committed mode and successful hosted result at the candidate revision | Configuration owner under AD-2 |
 | Package page current | Latest stable version and rendered README verified per package ID | Release maintainer |
-| First operation ready | Two of three agent runs within 20 minutes, followed by outside-tester evidence | Platform and launch maintainer |
+| First operation ready | Two of three for each route at the same candidate (15 and 20 minutes). Both precede the public link | Platform and launch maintainer |
+| Launch decision | Outside tester passes from the live link and all ten PRD §8.3 conditions are evidenced | Launch maintainer |
 
 ## Capability → architecture map
 
@@ -371,10 +378,12 @@ flowchart LR
 | Hexalith.CiCd | Commit-type convention: ban planning IDs in subjects and scopes (Open Question 11) | Before the waves |
 | Hexalith.CiCd | AD-7, AD-12, AD-14, AD-21: admit a Sonar analysis path, or descope FR-40 | Sonar badges |
 | Hexalith.CiCd | Guard protection for entry points and dev container files (Open Question 19) | First published block |
+| Platform and McpCli | Reconcile the current paired publisher with inherited Platform AD-11 and record the responsible workflow and release receipt per stable ID | Before authorizing the McpCli README republish |
 | Hexalith.Builds | Finding `level`, page profiles, self-link resolver, README-sample step, `D-PLANNING`, a release that contains `aaf27a2c` | Pilot fail mode |
-| PRD | FR-5, FR-6, FR-20, UJ-3 and the glossary: module `aspire run` replaced by AD-10. FR-33: Contributor Covenant 3.0. FR-41: no markdownlint-cli2, registry rules in Docs CI. FR-45: per-commit checks cover self-links only. FR-46: managed suppressions live in CiCd setup | Next PRD update |
+| PRD | FR-5, FR-6, FR-20, UJ-3 and the glossary: module `aspire run` replaced by AD-10. FR-33: Contributor Covenant 3.0. FR-41: no markdownlint-cli2, registry rules in Docs CI. FR-45: ratify checkout-only module runs plus the paired offline Docs check for pinned sibling targets (AD-7). Migration and weekly runs cover live targets. The literal every-run requirement remains open until the PRD owner agrees. FR-46: managed suppressions live in CiCd setup | Next PRD update |
+| Hexalith.Docs | Extend registry validation, ledger and forecast consumers for inventory confirmation and source revision (AD-16). Deliver the pinned-source link check and 21-repository calibration evidence | Before inventory exclusions or first pilot promotion |
 | Hexalith.Docs | `templates/quickstart-prompts.md` still uses `aspire run` and lacks the fixed first line. `docs/development.md` says Python 3.11 | Story 1.3 acceptance |
-| Hexalith.Platform | Is the ASP.NET Core 10 runtime still required at `b0159ad4`, and does setup install the Aspire CLI from the AppHost pin? | Story 1.4 |
+| Hexalith.Platform | The Platform README at `abb62da8` lists ASP.NET Core runtime 10 alongside SDK 11.0.100. Retain that documented prerequisite until Platform verifies cold setup and Aspire CLI provisioning. | Story 1.4 |
 
 ## Deferred
 
