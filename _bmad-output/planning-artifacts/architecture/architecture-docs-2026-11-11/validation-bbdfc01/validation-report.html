@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Hexalith documentation architecture · Validation</title><style>:root{color-scheme:light;font-family:Inter,system-ui,sans-serif;color:#253e42;background:#f7f9f6;line-height:1.65}
+*{box-sizing:border-box}body{margin:0;border-top:6px solid #226559}nav{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;max-width:60rem;margin:auto;padding:1.15rem 2rem;border-bottom:1px solid #c7d4cf;font-size:.91rem}nav a{font-weight:650}main{max-width:60rem;margin:auto;padding:2rem 2rem 5rem}h1,h2,h3{line-height:1.19;text-wrap:balance;color:#173c36;margin:0}h1{font:normal clamp(2.35rem,5vw,4.25rem)/1.07 Georgia,serif;max-width:17ch;margin:1rem 0 1.5rem}h1+p{font-size:1.17rem;max-width:73ch}h1+p+p{font-size:.88rem;font-weight:600;color:#4e6861}h2{font:normal 2.05rem/1.18 Georgia,serif;margin:3rem 0 1.2rem;border-top:2px solid #3e6e62;padding-top:1.2rem}h3{margin:2rem 0 .55rem;font-size:1.24rem;max-width:62ch}p{margin:.65rem 0 1rem}a{color:#0a665c;text-underline-offset:.18em}li{margin:.8rem 0}ul{padding-left:1.3rem}code{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.9em;overflow-wrap:anywhere}pre{background:#e7eee9;padding:1rem 1.1rem;overflow:auto;border-left:3px solid #468676;line-height:1.6}pre code{overflow-wrap:normal}table{border-collapse:collapse;margin:1rem 0 1.35rem;width:100%;font-size:.94rem}th,td{text-align:left;vertical-align:top;border-bottom:1px solid #d0dad3;padding:.58rem .7rem;overflow-wrap:anywhere}th{background:#e5eee8;color:#264b40}td:first-child{width:33%;font-weight:550}tr:nth-child(even){background:#eff4ef}a:focus-visible{outline:3px solid #b95d1a;outline-offset:3px}@media(max-width:580px){nav,main{padding-left:1rem;padding-right:1rem}nav{gap:.4rem 1rem}td,th{padding:.45rem}h2{font-size:1.65rem}}@media print{nav{display:none}body{border:0}main{max-width:none;padding:0}h2,h3{break-after:avoid}tr{break-inside:avoid}a{color:inherit}}
+</style></head><body><nav aria-label="Report sections"><a href="#high-priority-findings">High priority</a><a href="#medium-priority-findings">Medium priority</a><a href="#what-the-refreshed-checkout-demonstrates">Verification</a><a href="#review-scope-and-revisions">Revisions</a><a href="validation-report.md" download>Download Markdown</a></nav><main><h1 id="hexalith-documentation-architecture">Hexalith documentation architecture</h1>
+<p><strong>Validation verdict — revise before using the spine to accept migrations or publish “Try it.”</strong> The five architecture decisions pass structural lint. Across repositories, teams can still follow them and disagree about which registry revision governs a check, who can enable enforcement, and what evidence qualifies a release or a first run.</p>
+<p>21 November 2026 · Initiative architecture · Docs <code>bbdfc01</code> · Six high and two medium findings</p>
+<h2 id="high-priority-findings">High-priority findings</h2>
+<h3 id="a-single-registry-still-permits-different-inputs-for-the-same-build">A single registry still permits different inputs for the same build</h3>
+<p><strong>AD-1 and AD-2.</strong> Docs can migrate a README using one approved registry revision while the module’s checker uses another. Either revision can be immutable and still give a different result for the same description or package list. The checker’s current pilot rules cover readability, length and same-repository workflow badge paths. Registry-dependent rules make this choice consequential as coverage expands. <a href="https://github.com/Hexalith/Hexalith.Docs/blob/bbdfc010a9d4c112b6ddf71e88864fa4e6a24e21/_bmad-output/planning-artifacts/architecture/architecture-docs-2026-11-11/ARCHITECTURE-SPINE.md#L23-L33">Spine, lines 23–33</a> · <a href="https://github.com/Hexalith/Hexalith.Docs/blob/bbdfc010a9d4c112b6ddf71e88864fa4e6a24e21/_bmad-output/planning-artifacts/prds/prd-docs-2026-11-09/prd.md#L230-L244">Registry requirements</a> · <a href="https://github.com/Hexalith/Hexalith.Builds/blob/e1380b813b230022db0b8656ac3a0480e57c07e8/Github/lib/docs_check.py#L36-L65">Checker implementation</a></p>
+<p><strong>Decision for Docs, Builds and CiCd.</strong> Bind each module revision to one retrievable Docs registry and rule-set revision. Local checks, hosted checks and migration evidence should identify the same input. Accept the handoff when rerunning an older module commit after a registry change produces its original findings.</p>
+<h3 id="ci-enrollment-and-promotion-need-a-rule-for-each-owner">CI enrollment and promotion need a rule for each owner</h3>
+<p><strong>AD-2.</strong> “Enroll modules through CiCd” covers 17 managed modules. Builds and CiCd use their own CI. Docs and BmadSkills use caller workflows, as does the organization’s separate <code>.github</code> repository. A pilot owner could also promote after reviewing only that pilot’s warnings. FR-13 requires tuning the planning-content patterns across all 21 repositories first. <a href="https://github.com/Hexalith/Hexalith.Docs/blob/bbdfc010a9d4c112b6ddf71e88864fa4e6a24e21/_bmad-output/planning-artifacts/architecture/architecture-docs-2026-11-11/ARCHITECTURE-SPINE.md#L29-L33">Spine, lines 29–33</a> · <a href="https://github.com/Hexalith/Hexalith.Docs/blob/bbdfc010a9d4c112b6ddf71e88864fa4e6a24e21/_bmad-output/planning-artifacts/prds/prd-docs-2026-11-09/prd.md#L793-L813">CI ownership and accepted-revision evidence</a> · <a href="https://github.com/Hexalith/Hexalith.Docs/blob/bbdfc010a9d4c112b6ddf71e88864fa4e6a24e21/_bmad-output/planning-artifacts/prds/prd-docs-2026-11-09/prd.md#L412-L421">All-repository tuning</a></p>
+<p><strong>Decision for Builds, CiCd and the Docs maintainer.</strong> Name who sets the mode for each route. Define whether a central warning run against 21 recorded revisions satisfies calibration or whether hosted runs are required. Require the pilot’s own successful hosted fail-mode run at the migration revision before recording acceptance.</p>
+<h3 id="checks-on-links-between-hexalith-repositories-have-conflicting-schedules">Checks on links between Hexalith repositories have conflicting schedules</h3>
+<p><strong>AD-2.</strong> The PRD requires checking links within the organization on every run. The standard sends other Hexalith targets to migration checks. After a target file moves, one checker can pass a README that another rejects. Looking up a moving default branch on each run also breaks reproducibility. <a href="https://github.com/Hexalith/Hexalith.Docs/blob/bbdfc010a9d4c112b6ddf71e88864fa4e6a24e21/_bmad-output/planning-artifacts/prds/prd-docs-2026-11-09/prd.md#L824-L832">FR-45</a> · <a href="https://github.com/Hexalith/Hexalith.Docs/blob/bbdfc010a9d4c112b6ddf71e88864fa4e6a24e21/docs/documentation-standard.md#L22">D-LINK in the standard</a></p>
+<p><strong>Decision for Docs and Builds.</strong> Reconcile the two schedules. Define how a PR check resolves its own files and sibling-repository targets at known revisions, and which live destinations the central weekly job checks. Use a cross-repository link whose target changes as the acceptance fixture.</p>
+<h3 id="builds-has-two-packages-and-no-documented-readme-only-release-route">Builds has two packages and no documented README-only release route</h3>
+<p><strong>AD-3.</strong> The module release selector awards a patch for <code>docs(readme)</code>. The selector for Builds itself excludes documentation changes. Builds publishes two registered CLI packages. If their migration changes only README files, the ordinary Builds release selector can decline a version increment, leaving both pages awaiting the release required by FR-15. <a href="https://github.com/Hexalith/Hexalith.Docs/blob/bbdfc010a9d4c112b6ddf71e88864fa4e6a24e21/_bmad-output/planning-artifacts/architecture/architecture-docs-2026-11-11/ARCHITECTURE-SPINE.md#L35-L39">Spine, lines 35–39</a> · <a href="https://github.com/Hexalith/Hexalith.Builds/blob/e1380b813b230022db0b8656ac3a0480e57c07e8/Github/lib/release_version.py#L29-L49">Release selector</a> · <a href="https://github.com/Hexalith/Hexalith.Docs/blob/bbdfc010a9d4c112b6ddf71e88864fa4e6a24e21/docs/module-registry.json#L96-L113">Builds package inventory</a> · <a href="https://github.com/Hexalith/Hexalith.Docs/blob/bbdfc010a9d4c112b6ddf71e88864fa4e6a24e21/_bmad-output/planning-artifacts/prds/prd-docs-2026-11-09/prd.md#L433-L441">Republish criteria</a></p>
+<p><strong>Decision for the Builds release maintainer.</strong> Record an approved route for those two IDs, such as including their docs in a qualifying Builds release before the deadline. Require the intended stable version, assigned README and rendered-page review for each ID.</p>
+<h3 id="the-public-try-it-link-can-advance-after-only-one-qualification">The public “Try it” link can advance after only one qualification</h3>
+<p><strong>AD-4 and the delivery table.</strong> A first call at minute 16 and successful project creation and listing at minute 18 can satisfy the 20-minute “Try it” test while failing the separate 15-minute “Run it” test. The spine names only the 20-minute gate. The PRD requires both on the same candidate before publishing the link. Independent trials also need a consistent tool, version, model and prompt. <a href="https://github.com/Hexalith/Hexalith.Docs/blob/bbdfc010a9d4c112b6ddf71e88864fa4e6a24e21/_bmad-output/planning-artifacts/architecture/architecture-docs-2026-11-11/ARCHITECTURE-SPINE.md#L68-L76">Spine delivery table</a> · <a href="https://github.com/Hexalith/Hexalith.Docs/blob/bbdfc010a9d4c112b6ddf71e88864fa4e6a24e21/_bmad-output/planning-artifacts/prds/prd-docs-2026-11-09/prd.md#L957-L967">Agent trial identity</a> · <a href="https://github.com/Hexalith/Hexalith.Docs/blob/bbdfc010a9d4c112b6ddf71e88864fa4e6a24e21/_bmad-output/planning-artifacts/prds/prd-docs-2026-11-09/prd.md#L1157-L1163">Publication sequence</a></p>
+<p><strong>Decision for Platform and the launch maintainer.</strong> Link both qualification records to the candidate revision, on clean environments, with at least two of three unaided passes for each route. For “Try it,” require all seven modules ready and creation and retrieval of the same project in the same tenant through McpCli. Publish the link after both agent gates. Run the outside test from the public front door before launch. Requalify when the tested path changes.</p>
+<h3 id="public-repositories-need-immediate-exposure-review">Public repositories need immediate exposure review</h3>
+<p><strong>AD-5.</strong> A team waiting for a visibility change can miss a repository that is already public. Bind review to the current public revision, reconcile intervening changes before closure, and keep item-level evidence with the security maintainer. The exposure record still lists owner review as pending. <a href="https://github.com/Hexalith/Hexalith.Docs/blob/bbdfc010a9d4c112b6ddf71e88864fa4e6a24e21/_bmad-output/planning-artifacts/prds/prd-docs-2026-11-09/prd.md#L639-L657">FR-32 and FR-65</a> · <a href="https://github.com/Hexalith/Hexalith.Docs/blob/bbdfc010a9d4c112b6ddf71e88864fa4e6a24e21/_bmad-output/implementation-artifacts/exposure-review.md#L3-L20">Recorded review scope</a></p>
+<h2 id="medium-priority-findings">Medium-priority findings</h2>
+<ul>
+<li><strong>AD-1 · Unknown inventory can look like a confirmed zero.</strong> BmadSkills has an external checkout and a recorded package count of zero, and its ledger row marks republishing inapplicable. AD-1 explicitly leaves the inventory pending. Give consumers a way to distinguish a verified nonpublisher from an inventory awaiting owner review before excluding packages from the rollout count. <a href="https://github.com/Hexalith/Hexalith.Docs/blob/bbdfc010a9d4c112b6ddf71e88864fa4e6a24e21/docs/module-registry.json#L68-L83">Registry row</a> · <a href="https://github.com/Hexalith/Hexalith.Docs/blob/bbdfc010a9d4c112b6ddf71e88864fa4e6a24e21/_bmad-output/implementation-artifacts/launch-ledger.md#L3-L10">Ledger row</a> · <a href="https://github.com/Hexalith/Hexalith.Docs/blob/bbdfc010a9d4c112b6ddf71e88864fa4e6a24e21/scripts/validate_registry.py#L95-L110">Source-check scope</a></li>
+<li><strong>AD-4 · A common Dapr home can contain different runtimes.</strong> Platform at <code>abb62da8</code> selects .NET SDK 11.0.100 and Aspire 17.0.0. Its pinned Builds catalog selects Dapr runtime 1.19.1. The refreshed sibling catalog selects runtime 1.19.2, and Platform’s build configuration prefers that sibling when available. Record the effective Builds SHA, CLI and runtime with every trial and qualify the dependency set readers receive. <a href="https://github.com/Hexalith/Hexalith.Platform/blob/abb62da83045058903b479f78a6bd6c7bb90f792/Directory.Build.props#L11-L13">Platform lookup order</a> · <a href="https://github.com/Hexalith/Hexalith.Builds/blob/fe68718b6c074a6b500a7191e3554a1d39e17688/Props/Directory.Packages.props#L42-L44">Pinned catalog</a> · <a href="https://github.com/Hexalith/Hexalith.Builds/blob/e1380b813b230022db0b8656ac3a0480e57c07e8/Props/Directory.Packages.props#L42-L44">Sibling catalog</a> · <a href="https://github.com/Hexalith/Hexalith.Docs/blob/bbdfc010a9d4c112b6ddf71e88864fa4e6a24e21/_bmad-output/planning-artifacts/prds/prd-docs-2026-11-09/addendum.md#L130-L136">Trial setup</a></li>
+</ul>
+<h2 id="what-the-refreshed-checkout-demonstrates">What the refreshed checkout demonstrates</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Check</th>
+<th>Result on 21 November</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Spine lint</td>
+<td>Zero findings across five decisions.</td>
+</tr>
+<tr class="even">
+<td>Module registry</td>
+<td>Offline and source validation passed for 21 rows covering 101 package IDs. The population is Docs, 19 direct submodules and external BmadSkills. The source check skips external rows.</td>
+</tr>
+<tr class="odd">
+<td>Docs test suite</td>
+<td>All 12 tests passed.</td>
+</tr>
+<tr class="even">
+<td>Pilot README checker, warning mode</td>
+<td>Six length findings for Commons and one for PolymorphicSerializations. Both pilot workflows reference Builds v6.4.4. The shared checker exists on Builds main and is absent from that tag. These local runs establish the warning baseline.</td>
+</tr>
+<tr class="odd">
+<td>Public package archives</td>
+<td>Commons 3.0.2 matched 12 of 12 mapped READMEs. PolymorphicSerializations 2.0.1 matched 2 of 2. The 20 November ledger reported 2 of 12 and 0 of 2 on the prior versions. Rendered gallery pages, their links and maintainer acceptance are separate evidence.</td>
+</tr>
+<tr class="even">
+<td>Platform and McpCli</td>
+<td>The approved Projects inventory contains four queries. The create operation required for the timed journey is still outstanding. The ledger records a 10.60-second restore and no qualifying end-to-end measurement.</td>
+</tr>
+<tr class="odd">
+<td>Publication</td>
+<td>The ledger records zero Level 1 acceptances. The private exposure disposition and the outside-tester run remain with their owners.</td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://github.com/Hexalith/Hexalith.Docs/blob/bbdfc010a9d4c112b6ddf71e88864fa4e6a24e21/.github/workflows/documentation.yml#L14-L23">Docs CI</a> · <a href="https://github.com/Hexalith/Hexalith.Docs/blob/bbdfc010a9d4c112b6ddf71e88864fa4e6a24e21/scripts/verify_published_readmes.py#L120-L143">Public archive verifier</a> · <a href="https://github.com/Hexalith/Hexalith.Commons/blob/258f9d20e33bd0ae411cf8b3836a26a131f5b9ae/.github/workflows/ci.yml#L13-L17">Commons CI pin</a> · <a href="https://github.com/Hexalith/Hexalith.PolymorphicSerializations/blob/c6d0dfce6dc4f9a0699a51f80baf021ba5ef5d60/.github/workflows/ci.yml#L13-L17">Serialization CI pin</a> · <a href="https://github.com/Hexalith/Hexalith.McpCli/blob/e79b7f8b64303397ce9dfd856ed2111b513ade88/tools/inventory-coverage/v1/projects-approved.json#L5-L26">Approved Projects operations</a> · <a href="https://github.com/Hexalith/Hexalith.Docs/blob/bbdfc010a9d4c112b6ddf71e88864fa4e6a24e21/_bmad-output/implementation-artifacts/launch-ledger.md#L29-L59">Recorded pilot and first-run evidence</a></p>
+<h2 id="reproduce-the-checks">Reproduce the checks</h2>
+<p>Run these commands from the Hexalith.Docs root with the direct submodules at the reviewed revisions.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run .agents/skills/bmad-architecture/scripts/lint_spine.py <span class="at">--workspace</span> _bmad-output/planning-artifacts/architecture/architecture-docs-2026-11-11</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/validate_registry.py</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/validate_registry.py <span class="at">--check-sources</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> unittest discover <span class="at">-s</span> scripts/tests</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> references/Hexalith.Builds/Github/lib/docs_check.py <span class="at">--root</span> references/Hexalith.Commons <span class="at">--mode</span> warn</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> references/Hexalith.Builds/Github/lib/docs_check.py <span class="at">--root</span> references/Hexalith.PolymorphicSerializations <span class="at">--mode</span> warn</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/verify_published_readmes.py</span></code></pre></div>
+<p>The final command reads the live NuGet feed. To verify the releases seen here, run the same script separately with <code>--module Hexalith.Commons --version 3.0.2</code> and <code>--module Hexalith.PolymorphicSerializations --version 2.0.1</code>. A newer stable release will require a new comparison.</p>
+<h2 id="review-scope-and-revisions">Review scope and revisions</h2>
+<p>The superproject was already current with <code>origin/main</code>. All 19 direct submodules fast-forwarded beyond its recorded pins. Each checkout’s SHA was compared with the default-branch SHA reported by GitHub. The parent’s 19 gitlink changes are unstaged. All 208 nested submodule declarations remain uninitialized. Validation produced this report and reviewer notes. The spine, decision log and launch ledger retain their reviewed contents.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Repository</th>
+<th>Reviewed main commit</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hexalith.Docs</td>
+<td><a href="https://github.com/Hexalith/Hexalith.Docs/commit/bbdfc010a9d4c112b6ddf71e88864fa4e6a24e21"><code>bbdfc010a9d4</code></a></td>
+</tr>
+<tr class="even">
+<td>Hexalith.CiCd</td>
+<td><a href="https://github.com/Hexalith/Hexalith.CiCd/commit/62dc50b18888be88d9ce27415d22f612c55c50af"><code>62dc50b18888</code></a></td>
+</tr>
+<tr class="odd">
+<td>Hexalith.AI.Tools</td>
+<td><a href="https://github.com/Hexalith/Hexalith.AI.Tools/commit/87a738ceeba8975c0b087bc5ecee7dfbc14bf73c"><code>87a738ceeba8</code></a></td>
+</tr>
+<tr class="even">
+<td>Hexalith.Agents</td>
+<td><a href="https://github.com/Hexalith/Hexalith.Agents/commit/6865c6e6e4aad374683a9461eac2ae5c112e471a"><code>6865c6e6e4aa</code></a></td>
+</tr>
+<tr class="odd">
+<td>Hexalith.Builds</td>
+<td><a href="https://github.com/Hexalith/Hexalith.Builds/commit/e1380b813b230022db0b8656ac3a0480e57c07e8"><code>e1380b813b23</code></a></td>
+</tr>
+<tr class="even">
+<td>Hexalith.ChatBot</td>
+<td><a href="https://github.com/Hexalith/Hexalith.ChatBot/commit/cdc4e344882162db556e9f9ca9e71c8762446664"><code>cdc4e3448821</code></a></td>
+</tr>
+<tr class="odd">
+<td>Hexalith.Commons</td>
+<td><a href="https://github.com/Hexalith/Hexalith.Commons/commit/258f9d20e33bd0ae411cf8b3836a26a131f5b9ae"><code>258f9d20e33b</code></a></td>
+</tr>
+<tr class="even">
+<td>Hexalith.Conversations</td>
+<td><a href="https://github.com/Hexalith/Hexalith.Conversations/commit/08953f5eed404228a2b8bd41c7d2bf5eaaab543a"><code>08953f5eed40</code></a></td>
+</tr>
+<tr class="odd">
+<td>Hexalith.EventStore</td>
+<td><a href="https://github.com/Hexalith/Hexalith.EventStore/commit/7435254cc1a148031224eebe1aafd53a8659b2cd"><code>7435254cc1a1</code></a></td>
+</tr>
+<tr class="even">
+<td>Hexalith.Folders</td>
+<td><a href="https://github.com/Hexalith/Hexalith.Folders/commit/73ca79b4fbc09d233cbab5f836507c88894f0420"><code>73ca79b4fbc0</code></a></td>
+</tr>
+<tr class="odd">
+<td>Hexalith.FrontComposer</td>
+<td><a href="https://github.com/Hexalith/Hexalith.FrontComposer/commit/61dcd07fb412acf2feb66d8ee61513c16ef6ec4d"><code>61dcd07fb412</code></a></td>
+</tr>
+<tr class="even">
+<td>Hexalith.McpCli</td>
+<td><a href="https://github.com/Hexalith/Hexalith.McpCli/commit/e79b7f8b64303397ce9dfd856ed2111b513ade88"><code>e79b7f8b6430</code></a></td>
+</tr>
+<tr class="odd">
+<td>Hexalith.Memories</td>
+<td><a href="https://github.com/Hexalith/Hexalith.Memories/commit/e413124b3cafe437c3e512d4b65114c09b0df0f3"><code>e413124b3caf</code></a></td>
+</tr>
+<tr class="even">
+<td>Hexalith.Parties</td>
+<td><a href="https://github.com/Hexalith/Hexalith.Parties/commit/42b27f2e9375c6d8db270524029c3e875d830a8e"><code>42b27f2e9375</code></a></td>
+</tr>
+<tr class="odd">
+<td>Hexalith.PolymorphicSerializations</td>
+<td><a href="https://github.com/Hexalith/Hexalith.PolymorphicSerializations/commit/c6d0dfce6dc4f9a0699a51f80baf021ba5ef5d60"><code>c6d0dfce6dc4</code></a></td>
+</tr>
+<tr class="even">
+<td>Hexalith.Projects</td>
+<td><a href="https://github.com/Hexalith/Hexalith.Projects/commit/2c1d7363e23add596d289184d68242bd0f752056"><code>2c1d7363e23a</code></a></td>
+</tr>
+<tr class="odd">
+<td>Hexalith.Tenants</td>
+<td><a href="https://github.com/Hexalith/Hexalith.Tenants/commit/f15f61706a9ddc3c6fa2b0d63ab4bda6c0e7c299"><code>f15f61706a9d</code></a></td>
+</tr>
+<tr class="even">
+<td>Hexalith.Timesheets</td>
+<td><a href="https://github.com/Hexalith/Hexalith.Timesheets/commit/271442d0cad21a66be9aacb7fb0b36e28b670181"><code>271442d0cad2</code></a></td>
+</tr>
+<tr class="odd">
+<td>Hexalith.Works</td>
+<td><a href="https://github.com/Hexalith/Hexalith.Works/commit/07020c84223937d3a3326e3ed45633eaf9ea73db"><code>07020c842239</code></a></td>
+</tr>
+<tr class="even">
+<td>Hexalith.Platform</td>
+<td><a href="https://github.com/Hexalith/Hexalith.Platform/commit/abb62da83045058903b479f78a6bd6c7bb90f792"><code>abb62da83045</code></a></td>
+</tr>
+</tbody>
+</table>
+<p><a href="reviews/review-rubric.md">Good-spine rubric</a> · <a href="reviews/review-reality.md">Technology and implementation review</a> · <a href="reviews/review-adversarial.md">Adversarial review</a></p>
+</main></body></html>
