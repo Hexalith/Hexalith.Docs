@@ -4,20 +4,20 @@
 
 ## BmadSkills state files
 
-At `c0b2171aa205ba2743413a7e61732a16762d4b8b`, the complete Git tree under `skills/reports/` contains **53 originals and 53 backups**. Each of the 53 original-file directories also contains one backup in its subtree. All 106 entries require private dispositions. The public `main` ref still pointed to that revision on 22 November. The two planning folders in the table below are a separate inventory.
+At `c0b2171aa205ba2743413a7e61732a16762d4b8b`, the complete Git tree under `skills/reports/` contains **53 originals and 53 backups**. Each of the 53 original-file directories also contains one backup in its subtree. All 106 entries require private dispositions. The public `main` ref still pointed to that revision on 22 November. The engineering inventory is complete. FR-32 awaits the security maintainer’s private disposition of the 106 files and confirmation of any necessary credential-owner follow-up. The published Docs sign-off covers Docs and its gitlinks. BmadSkills is an external repository.
 
 In the approved private review workspace, enumerate the tree with `git ls-tree -rz --full-tree REVISION -- skills/reports`. Select blobs whose basename is exactly `.claude.json` or starts with `.claude.json.backup`. Match each path and blob identifier to its private disposition and reviewer role. If the branch advances, account for intervening versions, additions and removals before closing FR-32. The security maintainer decides remediation and any history action, and confirms credential-owner follow-up privately.
 
 ## Planning folders
 
-The table reconciles the 20 November baseline against the candidate SHAs in the launch ledger. It counts tracked leaf entries recursively at each revision. A zero means the tree was enumerated and contained no entries for that folder. The two folder columns describe the candidate.
+The table compares the 20 November baseline with Docs `6e184b5ef360dfebb242ecb66e4fd36d62897261`, its 19 recorded gitlinks and the FR-32 BmadSkills revision. The two folder columns count tracked leaf entries at those revisions. A zero means the folder was enumerated and contained no entries. The launch ledger gives the full revision and the separate public `main` count for each repository. [Revision inventory](launch-ledger.md#exposure-review-on-22-november-2026)
 
-“Added”, “changed” and “removed” compare paths and Git object IDs or modes at the two endpoints. A rename counts as a removal and an addition. “History only” counts distinct additional paths touched between those revisions that appear identical or absent at both endpoints. A path can have several intermediate versions. The security maintainer must review intermediate versions even when the path also appears in an endpoint column. The ledger records the public commits that followed four of the current Docs pins. [Public branch check](launch-ledger.md#public-branches-beyond-the-docs-pins)
+“Added”, “changed” and “removed” compare paths and Git object IDs or modes at the two endpoints. A rename counts as a removal and an addition. “History only” counts distinct additional paths touched between those revisions that appear identical or absent at both endpoints. A path can have several intermediate versions. The security maintainer must review intermediate versions even when the path also appears in an endpoint column. The ledger also reconciles the 17 public branches ahead of these pins. [Post-publication reconciliation](launch-ledger.md#post-publication-reconciliation)
 
 | Repository | Baseline revision | Baseline entries | `_bmad/` | `_bmad-output/` | Added | Changed | Removed | History only |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | Hexalith.AI.Tools | `2a1784bec7d249d815cbd166e01b29fd9ad1f451` | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| Hexalith.Agents | `887ae0f4e85415b9e4bb2db4dc23bd80797b84df` | 11288 | 28 | 11290 | 30 | 13 | 0 | 0 |
+| Hexalith.Agents | `887ae0f4e85415b9e4bb2db4dc23bd80797b84df` | 11288 | 28 | 11292 | 32 | 16 | 0 | 0 |
 | Hexalith.BmadSkills | `c0b2171aa205ba2743413a7e61732a16762d4b8b` | 28 | 24 | 4 | 0 | 0 | 0 | 0 |
 | Hexalith.Builds | `6b6eb4eec1b9c718e4d3581fdcbe77f8b09907f1` | 574 | 0 | 574 | 0 | 0 | 0 | 0 |
 | Hexalith.ChatBot | `ddd385ec6b37a7bb6362cdc66cb3a1a0def935d3` | 609 | 37 | 573 | 2 | 16 | 1 | 0 |
@@ -26,7 +26,7 @@ The table reconciles the 20 November baseline against the candidate SHAs in the 
 | Hexalith.Conversations | `58b8aa365efef02deb53b941f901a6f4c83cb1ed` | 935 | 252 | 692 | 9 | 10 | 0 | 0 |
 | Hexalith.EventStore | `c426b454a44a0167d400693997b7cda36028dfbb` | 818 | 43 | 804 | 29 | 13 | 0 | 0 |
 | Hexalith.Folders | `97e04cafb4c2e11bbe4cfbd6d50856b940cd7376` | 11439 | 40 | 11410 | 11 | 11 | 0 | 0 |
-| Hexalith.FrontComposer | `93171f26494a69b57572e76cbd866cdd5ef51447` | 693 | 41 | 689 | 37 | 26 | 0 | 0 |
+| Hexalith.FrontComposer | `93171f26494a69b57572e76cbd866cdd5ef51447` | 693 | 41 | 689 | 37 | 28 | 0 | 0 |
 | Hexalith.McpCli | `ac34ea908d2817738a174d4b47c6fbdcac898efa` | 17930 | 27 | 17928 | 25 | 11 | 0 | 0 |
 | Hexalith.Memories | `4aa7f59bea22281672a916c6043e10e61eaa69f2` | 1059 | 52 | 1032 | 25 | 8 | 0 | 0 |
 | Hexalith.Parties | `39ecdc0fafe3797503333a3657284aeabedd0821` | 10004 | 44 | 9984 | 24 | 12 | 0 | 0 |
@@ -37,7 +37,7 @@ The table reconciles the 20 November baseline against the candidate SHAs in the 
 | Hexalith.Timesheets | `91bac81ca05fbb328f6d8a5563152f1377e468ca` | 5293 | 31 | 5272 | 10 | 8 | 0 | 0 |
 | Hexalith.Works | `e4511b19482e0be618b0a41fc0a3aa1f1b67ba4a` | 9436 | 28 | 9416 | 8 | 13 | 0 | 0 |
 | Hexalith.Docs | `820c821e2d67ea84c7b18f820100b068722662e6` | 45 | 29 | 48 | 32 | 6 | 0 | 0 |
-| **Total** | | **123234** | **816** | **122865** | **465** | **213** | **18** | **2606** |
+| **Total** | | **123234** | **816** | **122867** | **467** | **218** | **18** | **2606** |
 
 ### Recheck and close
 
@@ -46,3 +46,5 @@ The table reconciles the 20 November baseline against the candidate SHAs in the 
 3. For each of the 22 targets, verify **secret scanning** and **push protection** independently in admin-visible GitHub settings. Record the date and effective status of each control. An omitted field, denied request or inaccessible repository leaves that control unknown.
 4. Freeze the exact Docs commit proposed for publication. Resolve its 19 gitlinks with `git ls-tree -r --full-tree CANDIDATE -- references`. Reconcile each changed pin and the story’s committed planning changes against the ledger using steps 1 and 2. The security maintainer confirms privately that sensitive planning material has moved to a private repository, any confirmed sensitive state data has been removed, and credential owners have revoked any exposed credentials, as applicable. All 22 repositories must have both protections confirmed enabled.
 5. Record the security maintainer’s dated disposition and exact Docs SHA in the private review record outside the candidate commit. Immediately before changing visibility, the Docs maintainer compares the proposed commit to that signed-off SHA. A different SHA requires a new reconciliation and disposition. The ledger can reference the accepted revision afterward.
+
+For this post-publication review, reconcile the commit containing this update and its gitlinks before recording a new disposition. The security maintainer records the accepted SHA, date and role privately. The Docs maintainer then adds that decision and its exact scope to the ledger.

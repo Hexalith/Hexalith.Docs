@@ -20,9 +20,8 @@ Record aggregate scope, observed control states, role and review status in the e
 
 ## Implementation Notes
 
-- Reconciled the 21 committed inventories at Docs `e56c1a9e082d8b97f715811f655d50c420fa2795`, its 19 gitlinks and the FR-32 BmadSkills revision. The two planning trees contain 123,681 entries. The BmadSkills state-file inventory has 53 originals, each paired with a backup.
-- Compared all 20 public main branches. Agents, CiCd, FrontComposer and Tenants advanced beyond the current Docs pins. Their public changes add two planning paths and modify 20. The exposure review and launch ledger record the pinned and public revisions and the changes since baseline.
-- The project owner signed off as security maintainer on 22 November for published Docs commit `98f268b5dc331766a39ac25e8c980c45a858a23a`. The ledger records the 11:35 UTC public revisions. The GitHub integration returned unknown effective settings for both protections on all 22 targets.
+- Reconciled both planning folders at Docs `6e184b5ef360dfebb242ecb66e4fd36d62897261`, its 19 gitlinks and external BmadSkills. The exposure review records the 123,683 pinned entries and changes since baseline. The launch ledger records the 123,709 entries on the 21 fetched public branches and the changes since the signed-off revision. Recounted 53 BmadSkills originals, each paired with one backup at the FR-32 revision.
+- The project owner signed off as security maintainer on published Docs `98f268b5dc331766a39ac25e8c980c45a858a23a`. Later revisions require their own private disposition. At 11:56 UTC on 22 November, the GitHub integration could verify neither secret scanning nor push protection on any of the 22 targets. FR-65 and story 1.1 remain in progress pending dated effective settings and the security maintainer’s follow-up.
 
 ## Review Triage Log
 
@@ -37,3 +36,9 @@ Record aggregate scope, observed control states, role and review status in the e
 - Low, corrected. The ledger restores the preceding Docs SHA so maintainers can reproduce the two additions and two modifications.
 - Medium, corrected. The review and ledger identify immediate review of public content and intermediate versions as outstanding maintainer work.
 - Medium, corrected. The closure procedure now resolves all 19 gitlinks from the final Docs commit and reconciles any changed pins against the inventory.
+
+- Medium, corrected. The ledger identifies the separate private disposition still required for the external BmadSkills inventory (FR-32).
+- Low, corrected. The public-tip check and the GitHub settings check each have a UTC time.
+- Low, corrected. The latest public changes show both planning-folder counts for each advancing repository.
+- Medium, corrected. The exposure procedure explains how to bind the post-publication disposition to a commit and record the result.
+- Medium, corrected. The ledger identifies its own pending changes as outside the inventory until committed and reconciled.

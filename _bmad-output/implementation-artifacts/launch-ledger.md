@@ -51,40 +51,40 @@ An engineering run on 20 November restored seven projects in **10.60 seconds** o
 
 **Docs is public.** On 22 November the project owner, acting as security maintainer, signed off on published Docs commit `98f268b5dc331766a39ac25e8c980c45a858a23a`. Its tree matches the head of PR #1, including all 19 gitlinks and 77 Docs planning entries. The overview, documentation standard and registry were accessible signed out. [Published revision](https://github.com/Hexalith/Hexalith.Docs/commit/98f268b5dc331766a39ac25e8c980c45a858a23a)
 
-The engineering inventory earlier that day recorded the following committed trees. The security maintainer owns the private review and sign-off. The 19 direct references come from Docs `e56c1a9e082d8b97f715811f655d50c420fa2795`. External BmadSkills was checked at its FR-32 revision, which matched its public `main`. Its separate state-file inventory contains 53 originals and 53 backups. The two planning folders contain **123,681 entries** across the 21 revisions. The inventory predates the owner’s sign-off on the published Docs revision. [Baseline, changes and private review procedure](exposure-review.md)
+Engineering verified the public tips during the **12:08–12:09 UTC** check on 22 November. The inventory uses Docs at `6e184b5ef360dfebb242ecb66e4fd36d62897261`, all 19 gitlinks in that commit and the external FR-32 BmadSkills revision. These 21 trees contain **123,683 planning entries**. The fetched public `main` revisions contain **123,709**. At the BmadSkills revision, 53 original state files each have one backup. Those 106 files are counted separately. FR-32 is open pending a private BmadSkills disposition from the security maintainer. [Folder counts, changes since baseline and review procedure](exposure-review.md)
 
-GitHub reported 20 public project repositories and private Docs. The engineering recheck completed at 08:53 UTC on 22 November and found no effective value for either protection in the metadata of any of the 21 repositories. Each code-security configuration request returned HTTP 403. Both requests for `Hexalith/.github` returned HTTP 404 for this integration. The table records the API observations at 08:53 UTC. A later API check after publication again returned unknown effective settings for all 22 targets. Reproduce the metadata checks with `gh api repos/Hexalith/REPOSITORY` and `gh api repos/Hexalith/REPOSITORY/code-security-configuration`.
+At 11:56 UTC on 22 November, GitHub returned public metadata for all 21 project repositories. The metadata omitted both effective settings and every code-security configuration request returned HTTP 403. Both requests for `Hexalith/.github` returned HTTP 404. The two control columns record these observations. Repeat with `gh api repos/Hexalith/REPOSITORY` and `gh api repos/Hexalith/REPOSITORY/code-security-configuration`.
 
 The GitHub repository settings snapshot in Hexalith.Platform at `0f6468edbb8efd4e47fb272286cb1bfd5baa3255` recorded **both controls disabled** for **Hexalith.Platform and Hexalith.Memories** at **2026-11-05 22:26 UTC**. The source record is `parent-platform-and-memories-actual-merge-method-discovery-20261105-2220.json`. The snapshot supplies historical control evidence. That snapshot predates the Docs publication decision. FR-65 remains open until both controls are verified enabled for every target.
 
-| Repository | Inventoried revision | Planning entries | Secret scanning | Push protection |
-| --- | --- | ---: | --- | --- |
-| Hexalith.AI.Tools | `87a738ceeba8975c0b087bc5ecee7dfbc14bf73c` | 0 | Unknown | Unknown |
-| Hexalith.Agents | `412528ed47dfa9bd33453784e70aaedc6dc2214d` | 11318 | Unknown | Unknown |
-| Hexalith.BmadSkills | `c0b2171aa205ba2743413a7e61732a16762d4b8b` | 28 | Unknown | Unknown |
-| Hexalith.Builds | `27fe4d62ca1f3cce07a9f19e1e30b02cbaa51357` | 574 | Unknown | Unknown |
-| Hexalith.ChatBot | `cbff0bba2d9736f1a68b999c045a86b04013f30c` | 610 | Unknown | Unknown |
-| Hexalith.CiCd | `b7102103ebbe2d3644f9c080834306d890ccbc3d` | 4757 | Unknown | Unknown |
-| Hexalith.Commons | `258f9d20e33bd0ae411cf8b3836a26a131f5b9ae` | 0 | Unknown | Unknown |
-| Hexalith.Conversations | `a252b7f6cc7f758a7d10bdc745caade0c77cabe1` | 944 | Unknown | Unknown |
-| Hexalith.EventStore | `2ca76828bf1b9e666b1ed309da4a96f7252290b2` | 847 | Unknown | Unknown |
-| Hexalith.Folders | `d58d5d7a54f63f7223b972f22f11c58510a94119` | 11450 | Unknown | Unknown |
-| Hexalith.FrontComposer | `f73a8f25d5e7b6ddd5f2cfd9f76f08ef0b75d290` | 730 | Unknown | Unknown |
-| Hexalith.McpCli | `fac167e6cf1703badf17d2f66780ffa0677d91f9` | 17955 | Unknown | Unknown |
-| Hexalith.Memories | `0eb509e87958f2bd27791351a4d262c604677076` | 1084 | Unknown | Unknown |
-| Hexalith.Parties | `1783bb2360b08c53276780987b1467c72fb6ba07` | 10028 | Unknown | Unknown |
-| Hexalith.Platform | `0f6468edbb8efd4e47fb272286cb1bfd5baa3255` | 23165 | Unknown | Unknown |
-| Hexalith.PolymorphicSerializations | `c6d0dfce6dc4f9a0699a51f80baf021ba5ef5d60` | 0 | Unknown | Unknown |
-| Hexalith.Projects | `60747ce2183d5bf4e8df3f76b6a7ac8d179369eb` | 21536 | Unknown | Unknown |
-| Hexalith.Tenants | `4cf66b848b4627aabfcd74035c84fe08b7e39728` | 3831 | Unknown | Unknown |
-| Hexalith.Timesheets | `151fd37308eb08f942040c283209e7886ad954a6` | 5303 | Unknown | Unknown |
-| Hexalith.Works | `cd617eb1edc6c51a1459eaa8967e8a5acde4745a` | 9444 | Unknown | Unknown |
-| Hexalith.Docs | `e56c1a9e082d8b97f715811f655d50c420fa2795` | 77 | Unknown | Unknown |
-| Hexalith/.github | Controls only | — | Unknown | Unknown |
+| Repository | Docs inventory revision | Planning entries | Fetched public `main` | Planning entries on `main` | Secret scanning | Push protection |
+| --- | --- | ---: | --- | ---: | --- | --- |
+| Hexalith.AI.Tools | `87a738ceeba8975c0b087bc5ecee7dfbc14bf73c` | 0 | `06e486be2ced925b4494760254ac05af76cbb1f2` | 0 | Unknown | Unknown |
+| Hexalith.Agents | `0d98305f91899a088ddad0b0a23a596453913274` | 11320 | `c586d2d43ed981797b249a73581fd97294073d74` | 11320 | Unknown | Unknown |
+| Hexalith.BmadSkills | `c0b2171aa205ba2743413a7e61732a16762d4b8b` | 28 | Same revision | 28 | Unknown | Unknown |
+| Hexalith.Builds | `27fe4d62ca1f3cce07a9f19e1e30b02cbaa51357` | 574 | Same revision | 574 | Unknown | Unknown |
+| Hexalith.ChatBot | `cbff0bba2d9736f1a68b999c045a86b04013f30c` | 610 | `555183e984db2adca2175aa214f43d8cab53692e` | 610 | Unknown | Unknown |
+| Hexalith.CiCd | `e3a5af309b5006ad30621e3a713ecb2d0033ea20` | 4757 | `9f7a56fd1e0de05f6b8a8789fba983c072ce3db6` | 4758 | Unknown | Unknown |
+| Hexalith.Commons | `258f9d20e33bd0ae411cf8b3836a26a131f5b9ae` | 0 | `5f646d4e49279cca0d31ab577e91719c3ed7e434` | 0 | Unknown | Unknown |
+| Hexalith.Conversations | `a252b7f6cc7f758a7d10bdc745caade0c77cabe1` | 944 | `6f446d536d621c45d13f0057a65e5f8ad6dea471` | 944 | Unknown | Unknown |
+| Hexalith.EventStore | `2ca76828bf1b9e666b1ed309da4a96f7252290b2` | 847 | `8319318850530d756db5b8b7555d0b9f804361e9` | 850 | Unknown | Unknown |
+| Hexalith.Folders | `d58d5d7a54f63f7223b972f22f11c58510a94119` | 11450 | `1c8da626f05b25b36dbc5813d68bc44da09a27f4` | 11450 | Unknown | Unknown |
+| Hexalith.FrontComposer | `4cecae4e44a98ccd379c0327f258217c010046da` | 730 | `8199bcf7def7d9ddb39b1704429ba611d59fc08e` | 730 | Unknown | Unknown |
+| Hexalith.McpCli | `fac167e6cf1703badf17d2f66780ffa0677d91f9` | 17955 | `91abf6df53a9f415e0c8be06e17aaf7c42ec55ac` | 17966 | Unknown | Unknown |
+| Hexalith.Memories | `0eb509e87958f2bd27791351a4d262c604677076` | 1084 | `7f8da6e31fa23d1302972ea98f5c283eb3edc9c0` | 1085 | Unknown | Unknown |
+| Hexalith.Parties | `1783bb2360b08c53276780987b1467c72fb6ba07` | 10028 | `cc691319b8ee622198f7d8d93a87f85a86b9fd8a` | 10029 | Unknown | Unknown |
+| Hexalith.Platform | `0f6468edbb8efd4e47fb272286cb1bfd5baa3255` | 23165 | `b0124db4976acf354e164148859b59e9d6863e3c` | 23165 | Unknown | Unknown |
+| Hexalith.PolymorphicSerializations | `c6d0dfce6dc4f9a0699a51f80baf021ba5ef5d60` | 0 | `99c2344f08d3e3560a891f79ab63f8722fa14e60` | 0 | Unknown | Unknown |
+| Hexalith.Projects | `60747ce2183d5bf4e8df3f76b6a7ac8d179369eb` | 21536 | `8d6b11b12e60762f9bf2c1e7acd8d2d997a94e6d` | 21539 | Unknown | Unknown |
+| Hexalith.Tenants | `1e6d2aa2be64771a96b0dbe84289e0bf88611311` | 3831 | `1161d9f356f62c9f7044d4c536a4653a37898212` | 3831 | Unknown | Unknown |
+| Hexalith.Timesheets | `151fd37308eb08f942040c283209e7886ad954a6` | 5303 | Same revision | 5303 | Unknown | Unknown |
+| Hexalith.Works | `cd617eb1edc6c51a1459eaa8967e8a5acde4745a` | 9444 | `f72c7832bafd5b8d502eafb140248b557a4e6714` | 9450 | Unknown | Unknown |
+| Hexalith.Docs | `6e184b5ef360dfebb242ecb66e4fd36d62897261` | 77 | Same revision | 77 | Unknown | Unknown |
+| Hexalith/.github | Controls only | — | — | — | Unknown | Unknown |
 
 ### Public branches beyond the Docs pins
 
-At 08:59 UTC on 22 November, 16 of the 20 public `main` revisions matched the inventory above, including BmadSkills. The other four tips together added two planning paths and modified 20. The security maintainer must review those public changes and their intermediate versions immediately. Across the observed public tips and private Docs, the two trees contain 123,683 entries.
+At 08:59 UTC on 22 November, 16 of the 20 public `main` revisions matched the inventory at Docs `e56c1a9e082d8b97f715811f655d50c420fa2795`, including BmadSkills. The other four tips together added two planning paths and modified 20. The security maintainer must review those public changes and their intermediate versions immediately. Across the observed public tips and private Docs, the two trees contain 123,683 entries.
 
 | Repository | Observed public main | `_bmad/` | `_bmad-output/` | Added | Changed | Removed | History only |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -116,11 +116,32 @@ At 11:35 UTC on 22 November, the published Docs tree and its 19 gitlinks matched
 | Hexalith.Projects | `baf6fa066d973eb50bfbb2d53168146da01968d6` | 42 | 21494 | 0 | 0 |
 | Hexalith.Works | `c7008797038c0967fde81fe3c190a25e9d712241` | 28 | 9416 | 0 | 0 |
 
+### Post-publication reconciliation
+
+Since the signed-off Docs revision, Docs changed three planning files and advanced the Agents, CiCd, FrontComposer and Tenants pins to the four revisions in the 08:59 UTC table. Across those four pin ranges, two planning entries were added and 20 changed. The five ranges had zero removals and zero history-only paths. The security maintainer’s recorded sign-off applies to `98f268b5dc331766a39ac25e8c980c45a858a23a`. Private disposition of subsequent changes remains pending. These counts end at the committed revisions above. The next review must include the commit that records this ledger update.
+
+At the fetched public tips, 17 repositories were ahead of the current Docs pins. Across those ranges, 26 planning entries were added and 89 changed, with zero removals and zero history-only paths. The following public tips advanced since the 11:35 UTC observation. Their new revisions and counts appear in the inventory above.
+
+| Repository | Public revision in the preceding observation | `_bmad/` on main | `_bmad-output/` on main | Added | Changed | Removed | History only |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Hexalith.ChatBot | `523dae0f44fded0738d68f019cc5ddedfb8f0456` | 37 | 573 | 0 | 4 | 0 | 0 |
+| Hexalith.Docs | `98f268b5dc331766a39ac25e8c980c45a858a23a` | 29 | 48 | 0 | 3 | 0 | 0 |
+| Hexalith.EventStore | `10c716a4fa885a0c2a30574373e44944788560c8` | 43 | 807 | 1 | 5 | 0 | 0 |
+| Hexalith.Folders | `d58d5d7a54f63f7223b972f22f11c58510a94119` | 40 | 11410 | 0 | 2 | 0 | 0 |
+| Hexalith.FrontComposer | `a79cc810fafbebcb392a413d24b99ffa70326d58` | 41 | 689 | 0 | 4 | 0 | 0 |
+| Hexalith.McpCli | `4863f413803b8b789e360900f9fcfa6aca9fb024` | 27 | 17939 | 7 | 45 | 0 | 0 |
+| Hexalith.Memories | `719820dbca5fb95e2f16f796b8a1124b2194d210` | 52 | 1033 | 0 | 4 | 0 | 0 |
+| Hexalith.Parties | `382407df93d1b7da40cd624f9fe6c46e53f7ec06` | 44 | 9985 | 0 | 0 | 0 | 0 |
+| Hexalith.Platform | `0f6468edbb8efd4e47fb272286cb1bfd5baa3255` | 26 | 23139 | 0 | 2 | 0 | 0 |
+| Hexalith.Projects | `baf6fa066d973eb50bfbb2d53168146da01968d6` | 42 | 21497 | 3 | 4 | 0 | 0 |
+| Hexalith.Tenants | `1e6d2aa2be64771a96b0dbe84289e0bf88611311` | 44 | 3787 | 0 | 1 | 0 | 0 |
+| Hexalith.Works | `c7008797038c0967fde81fe3c190a25e9d712241` | 28 | 9422 | 6 | 6 | 0 | 0 |
+
 ## Publication and release decisions
 
 | Gate | Evidence required | Owner | State |
 | --- | --- | --- | --- |
-| Exposure review | [Revision inventory and control checks](#exposure-review-on-22-november-2026) | Security maintainer | Project owner signed off on the published Docs revision on 22 November. Verification of the two effective settings is pending. |
+| Exposure review | [Revision inventory and control checks](#exposure-review-on-22-november-2026) | Security maintainer | Project owner signed off on the published Docs revision on 22 November. Private disposition of later changes and verification of both protections across all 22 targets remain pending. |
 | Registry and public hub | Confirmed module descriptions and categories, signed-out link check | Docs maintainer | Overview, standard and registry verified signed out. Maintainer confirmation of registry content remains pending. |
 | Hosted pilot checks | Compatible Builds release delivered by CiCd with pilot warning settings, then accepted fail-mode run | CiCd maintainer | Pending release and delivery |
 | Public packages | Approved mapping and release version, archive content and rendered page checked for each ID | Pilot release maintainers | Awaiting republish |
