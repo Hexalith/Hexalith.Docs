@@ -22,7 +22,7 @@ Record aggregate scope, observed control states, role and review status in the e
 
 - Reconciled the 21 committed inventories at Docs `e56c1a9e082d8b97f715811f655d50c420fa2795`, its 19 gitlinks and the FR-32 BmadSkills revision. The two planning trees contain 123,681 entries. The BmadSkills state-file inventory has 53 originals, each paired with a backup.
 - Compared all 20 public main branches. Agents, CiCd, FrontComposer and Tenants advanced beyond the current Docs pins. Their public changes add two planning paths and modify 20. The exposure review and launch ledger record the pinned and public revisions and the changes since baseline.
-- Rechecked both GitHub protections on all 22 targets. The integration could verify neither setting. The security maintainer’s private review, current settings evidence and disposition for the exact publication commit remain pending.
+- The project owner signed off as security maintainer on 22 November for published Docs commit `98f268b5dc331766a39ac25e8c980c45a858a23a`. The ledger records the 11:35 UTC public revisions. The GitHub integration returned unknown effective settings for both protections on all 22 targets.
 
 ## Review Triage Log
 

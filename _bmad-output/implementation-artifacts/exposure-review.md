@@ -1,6 +1,6 @@
 # Publication exposure review
 
-**22 November 2026 · Awaiting security maintainer disposition.** The inventory starts with the 20 public repositories and then covers private Docs. The security maintainer must review the already-public content and its history immediately, then review the private Docs candidate before publication. Each disposition, remediation decision and credential-owner follow-up belongs in the private review record. The launch ledger identifies the revision inventoried for each repository, both GitHub protection checks and the publication gate. [Launch ledger](launch-ledger.md#exposure-review-on-22-november-2026)
+**22 November 2026.** The project owner, acting as security maintainer, signed off on published Docs commit `98f268b5dc331766a39ac25e8c980c45a858a23a`. Docs was private during the original inventory of 20 public repositories and Docs. Each disposition, remediation decision and credential-owner follow-up belongs in the private review record. The launch ledger identifies the revision inventoried for each repository, both GitHub protection checks and the publication decision. [Launch ledger](launch-ledger.md#exposure-review-on-22-november-2026)
 
 ## BmadSkills state files
 
