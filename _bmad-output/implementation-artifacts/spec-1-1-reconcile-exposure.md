@@ -21,7 +21,8 @@ Record aggregate scope, observed control states, role and review status in the e
 ## Implementation Notes
 
 - Reconciled both planning folders at Docs `6e184b5ef360dfebb242ecb66e4fd36d62897261`, its 19 gitlinks and external BmadSkills. The exposure review records the 123,683 pinned entries and changes since baseline. The launch ledger records the 123,709 entries on the 21 fetched public branches and the changes since the signed-off revision. Recounted 53 BmadSkills originals, each paired with one backup at the FR-32 revision.
-- The project owner signed off as security maintainer on published Docs `98f268b5dc331766a39ac25e8c980c45a858a23a`. Later revisions require their own private disposition. At 11:56 UTC on 22 November, the GitHub integration could verify neither secret scanning nor push protection on any of the 22 targets. FR-65 and story 1.1 remain in progress pending dated effective settings and the security maintainer’s follow-up.
+- The project owner signed off as security maintainer on published Docs `98f268b5dc331766a39ac25e8c980c45a858a23a`. The owner subsequently approved continued public visibility for the 106 BmadSkills files and the planning changes inventoried in Docs `6bf073afae5fb321414922a435bc5d57c852d303`.
+- The 22 November request to enable secret scanning and push protection returned HTTP 403 on all 21 project repositories and HTTP 404 on `Hexalith/.github`. The subsequent reads left both settings unknown. FR-65 and story 1.1 remain in progress pending verification that both protections are enabled on all 22 targets.
 
 ## Review Triage Log
 
