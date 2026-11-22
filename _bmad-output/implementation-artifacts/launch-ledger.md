@@ -49,9 +49,9 @@ An engineering run on 20 November restored seven projects in **10.60 seconds** o
 
 ## Exposure review on 22 November 2026
 
-**Docs publication awaits security sign-off.** An automated engineering inventory on 22 November recorded the following committed trees. The security maintainer owns the private review and sign-off. The 19 direct references come from Docs `f2061a2585601bebcd92dd5e69d5000c46717f01`. External BmadSkills was checked at its FR-32 revision, which matched its public `main`. Its separate state-file inventory contains 53 originals and 53 backups. The two planning folders contain **123,676 entries** across the 21 revisions. The security maintainer’s private content disposition is pending for every row. [Baseline, changes and private review procedure](exposure-review.md)
+**Docs publication awaits security sign-off.** An automated engineering inventory on 22 November recorded the following committed trees. The security maintainer owns the private review and sign-off. The 19 direct references come from Docs `e56c1a9e082d8b97f715811f655d50c420fa2795`. External BmadSkills was checked at its FR-32 revision, which matched its public `main`. Its separate state-file inventory contains 53 originals and 53 backups. The two planning folders contain **123,681 entries** across the 21 revisions. The security maintainer’s private content disposition is pending for every row. [Baseline, changes and private review procedure](exposure-review.md)
 
-GitHub reported 20 public project repositories and private Docs. On each of the 21, the repository API omitted both protection fields and the code-security configuration request returned HTTP 403. Both requests for `Hexalith/.github` returned HTTP 404 for this integration. The table records the current status on 22 November. A security maintainer with access must verify both effective settings for each target. Reproduce the metadata checks with `gh api repos/Hexalith/REPOSITORY` and `gh api repos/Hexalith/REPOSITORY/code-security-configuration`.
+GitHub reported 20 public project repositories and private Docs. The engineering recheck completed at 08:53 UTC on 22 November and found no effective value for either protection in the metadata of any of the 21 repositories. Each code-security configuration request returned HTTP 403. Both requests for `Hexalith/.github` returned HTTP 404 for this integration. The table records the current status on 22 November. A security maintainer with access must verify both effective settings for each target. Reproduce the metadata checks with `gh api repos/Hexalith/REPOSITORY` and `gh api repos/Hexalith/REPOSITORY/code-security-configuration`.
 
 The GitHub repository settings snapshot in Hexalith.Platform at `0f6468edbb8efd4e47fb272286cb1bfd5baa3255` recorded **both controls disabled** for **Hexalith.Platform and Hexalith.Memories** at **2026-11-05 22:26 UTC**. The source record is `parent-platform-and-memories-actual-merge-method-discovery-20261105-2220.json`. The snapshot supplies historical control evidence. The Platform review found no security-maintainer disposition for this Docs revision. FR-65 remains open until both controls are verified enabled for every target.
 
@@ -65,9 +65,9 @@ The GitHub repository settings snapshot in Hexalith.Platform at `0f6468edbb8efd4
 | Hexalith.CiCd | `b7102103ebbe2d3644f9c080834306d890ccbc3d` | 4757 | Unknown | Unknown |
 | Hexalith.Commons | `258f9d20e33bd0ae411cf8b3836a26a131f5b9ae` | 0 | Unknown | Unknown |
 | Hexalith.Conversations | `a252b7f6cc7f758a7d10bdc745caade0c77cabe1` | 944 | Unknown | Unknown |
-| Hexalith.EventStore | `ad93eae92d9468245914fe90168310e0b650d9e1` | 847 | Unknown | Unknown |
-| Hexalith.Folders | `73ca79b4fbc09d233cbab5f836507c88894f0420` | 11448 | Unknown | Unknown |
-| Hexalith.FrontComposer | `a9e755da2c060f4bf49e0cc2df094bd8a4940df6` | 729 | Unknown | Unknown |
+| Hexalith.EventStore | `2ca76828bf1b9e666b1ed309da4a96f7252290b2` | 847 | Unknown | Unknown |
+| Hexalith.Folders | `d58d5d7a54f63f7223b972f22f11c58510a94119` | 11450 | Unknown | Unknown |
+| Hexalith.FrontComposer | `f73a8f25d5e7b6ddd5f2cfd9f76f08ef0b75d290` | 730 | Unknown | Unknown |
 | Hexalith.McpCli | `fac167e6cf1703badf17d2f66780ffa0677d91f9` | 17955 | Unknown | Unknown |
 | Hexalith.Memories | `0eb509e87958f2bd27791351a4d262c604677076` | 1084 | Unknown | Unknown |
 | Hexalith.Parties | `1783bb2360b08c53276780987b1467c72fb6ba07` | 10028 | Unknown | Unknown |
@@ -77,20 +77,21 @@ The GitHub repository settings snapshot in Hexalith.Platform at `0f6468edbb8efd4
 | Hexalith.Tenants | `4cf66b848b4627aabfcd74035c84fe08b7e39728` | 3831 | Unknown | Unknown |
 | Hexalith.Timesheets | `151fd37308eb08f942040c283209e7886ad954a6` | 5303 | Unknown | Unknown |
 | Hexalith.Works | `cd617eb1edc6c51a1459eaa8967e8a5acde4745a` | 9444 | Unknown | Unknown |
-| Hexalith.Docs | `f2061a2585601bebcd92dd5e69d5000c46717f01` | 75 | Unknown | Unknown |
+| Hexalith.Docs | `e56c1a9e082d8b97f715811f655d50c420fa2795` | 77 | Unknown | Unknown |
 | Hexalith/.github | Controls only | — | Unknown | Unknown |
 
 ### Public branches beyond the Docs pins
 
-On 22 November the engineering inventory checked all 20 public `main` references against the revisions above. Seventeen matched, including BmadSkills. Three advanced during the inventory. The counts below compare each Docs pin with the observed public tip and cover intervening commits. The private review includes both sets of revisions.
+At 08:59 UTC on 22 November, 16 of the 20 public `main` revisions matched the inventory above, including BmadSkills. The other four tips together added two planning paths and modified 20. The security maintainer must review those public changes and their intermediate versions immediately. Across the observed public tips and private Docs, the two trees contain 123,683 entries.
 
 | Repository | Observed public main | `_bmad/` | `_bmad-output/` | Added | Changed | Removed | History only |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Hexalith.EventStore | `2ca76828bf1b9e666b1ed309da4a96f7252290b2` | 43 | 804 | 0 | 0 | 0 | 0 |
-| Hexalith.Folders | `d58d5d7a54f63f7223b972f22f11c58510a94119` | 40 | 11410 | 2 | 6 | 0 | 0 |
-| Hexalith.FrontComposer | `f73a8f25d5e7b6ddd5f2cfd9f76f08ef0b75d290` | 41 | 689 | 1 | 11 | 0 | 0 |
+| Hexalith.Agents | `0d98305f91899a088ddad0b0a23a596453913274` | 28 | 11292 | 2 | 8 | 0 | 0 |
+| Hexalith.CiCd | `e3a5af309b5006ad30621e3a713ecb2d0033ea20` | 28 | 4729 | 0 | 3 | 0 | 0 |
+| Hexalith.FrontComposer | `4cecae4e44a98ccd379c0327f258217c010046da` | 41 | 689 | 0 | 4 | 0 | 0 |
+| Hexalith.Tenants | `1e6d2aa2be64771a96b0dbe84289e0bf88611311` | 44 | 3787 | 0 | 5 | 0 | 0 |
 
-The Docs count of 75 covers the committed input. This story adds two planning files and edits two others. The security maintainer must reconcile all four and any later changes at the final publication SHA. The Docs maintainer awaits the security maintainer’s disposition for that exact revision.
+The current Docs revision incorporates the EventStore, Folders and FrontComposer tips from the preceding inventory. Docs itself now contains 77 planning entries. Since Docs `f2061a2585601bebcd92dd5e69d5000c46717f01`, two planning files were added and two were modified. This inventory update edits the exposure review, launch ledger and story record. At closure the security maintainer must include their committed versions, resolve the final Docs commit’s 19 gitlinks, and reconcile any changed pins and subsequent public changes. The private disposition must identify that exact Docs SHA.
 
 ## Publication and release decisions
 
