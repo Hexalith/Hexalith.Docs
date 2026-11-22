@@ -20,15 +20,20 @@ Record aggregate scope, observed control states, role and review status in the e
 
 ## Implementation Notes
 
-- Updated the exposure review and launch ledger against Docs `f2061a2585601bebcd92dd5e69d5000c46717f01`, its 19 direct references and the specified BmadSkills SHA. The inventory includes endpoint changes and paths touched only in intermediate commits.
-- Checked the repository metadata and code-security configuration endpoints for all 22 targets. The dated Platform snapshot provides historical settings for Platform and Memories. The current settings and private review still require security-maintainer evidence.
-- The final publication SHA must include reconciliation of this story’s working-tree changes. The story and the publication decision remain pending.
+- Reconciled the 21 committed inventories at Docs `e56c1a9e082d8b97f715811f655d50c420fa2795`, its 19 gitlinks and the FR-32 BmadSkills revision. The two planning trees contain 123,681 entries. The BmadSkills state-file inventory has 53 originals, each paired with a backup.
+- Compared all 20 public main branches. Agents, CiCd, FrontComposer and Tenants advanced beyond the current Docs pins. Their public changes add two planning paths and modify 20. The exposure review and launch ledger record the pinned and public revisions and the changes since baseline.
+- Rechecked both GitHub protections on all 22 targets. The integration could verify neither setting. The security maintainer’s private review, current settings evidence and disposition for the exact publication commit remain pending.
 
 ## Review Triage Log
 
 - Medium, corrected. FR-65 requires both settings enabled on all 22 targets. A verified disabled setting keeps the gate open.
 - Medium, corrected. The private closure procedure now covers removal or relocation of sensitive material and credential-owner revocation where applicable.
-- Medium, corrected. The ledger records a live check across all 20 public repositories and separately reconciles three branches that advanced beyond their Docs pins.
+- Medium, corrected. The ledger records a live check across all 20 public repositories and separately reconciles the branches that advanced beyond their Docs pins.
 - Medium, corrected. The private review retains each commit, parent and affected blob identity so a path changed several times receives version-level review.
 - Medium, corrected. The security maintainer binds the disposition to the final SHA outside the candidate commit. The Docs maintainer compares that SHA immediately before changing visibility.
 - Low, corrected. The ledger identifies the automated engineering inventory and its date separately from the security maintainer’s pending disposition.
+
+- Medium, corrected. The history-only calculation now removes endpoint paths after deduplicating paths across commits and merge parents.
+- Low, corrected. The ledger restores the preceding Docs SHA so maintainers can reproduce the two additions and two modifications.
+- Medium, corrected. The review and ledger identify immediate review of public content and intermediate versions as outstanding maintainer work.
+- Medium, corrected. The closure procedure now resolves all 19 gitlinks from the final Docs commit and reconciles any changed pins against the inventory.
